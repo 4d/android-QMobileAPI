@@ -1,0 +1,12 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply from: "$rootDir/ktlint.gradle"
+apply from: "$rootDir/testlog.gradle"
+apply from: "$rootDir/detekt.gradle"
+apply from: "https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle"
+
+dependencies {
+    implementation Libs.kotlin_stdlib
+}
