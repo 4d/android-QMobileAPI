@@ -1,0 +1,9 @@
+{
+  "dataClasses": [
+    {
+      "name": "Event",
+      "uri": "/mobileapp/$catalog/Event",
+      "dataURI": "/mobileapp/Event"
+    }
+  ]
+}

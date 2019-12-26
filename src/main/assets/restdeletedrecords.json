@@ -1,0 +1,18 @@
+{
+  "__entityModel": "__DeletedRecords",
+  "__GlobalStamp": 10,
+  "__COUNT": 1,
+  "__SENT": 1,
+  "__FIRST": 0,
+  "__ENTITIES": [
+    {
+      "__KEY": "9",
+      "__TIMESTAMP": "2017-06-14T07:38:09.130Z",
+      "__STAMP": 1,
+      "__Stamp": 9,
+      "__PrimaryKey": "24",
+      "__TableNumber": 1,
+      "__TableName": "Entity"
+    }
+  ]
+}

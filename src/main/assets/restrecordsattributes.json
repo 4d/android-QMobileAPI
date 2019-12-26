@@ -1,0 +1,29 @@
+{
+  "__entityModel": "Event",
+  "__COUNT": 3,
+  "__SENT": 3,
+  "__FIRST": 0,
+  "__ENTITIES": [
+    {
+      "__KEY": "12",
+      "__TIMESTAMP": "\"2017-03-06T14:47:38.001Z\"",
+      "__STAMP": 16,
+      "id": 12,
+      "title": "Twelfth Event"
+    },
+    {
+      "__KEY": "14",
+      "__TIMESTAMP": "\"2017-03-06T14:48:26.526Z\"",
+      "__STAMP": 14,
+      "id": 14,
+      "title": "Fourteenth Event"
+    },
+    {
+      "__KEY": "15",
+      "__TIMESTAMP": "\"2017-03-06T15:03:47.314Z\"",
+      "__STAMP": 7,
+      "id": 15,
+      "title": "Fifteenth Event"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "sessionInfo": [
+    {
+      "sessionID": "616CE786D2884C21BFFA916E3CE712CC",
+      "lifeTime": 60,
+      "expiration": "2017-07-03T14:57:48.721Z",
+      "userName": ""
+    },
+    {
+      "sessionID": "884C21BFFA916E3CE712CC616CE786D2",
+      "lifeTime": 60,
+      "expiration": "2017-06-03T14:57:48.721Z",
+      "userName": "test"
+    }
+  ],
+  "HTTPConnections": []
+}

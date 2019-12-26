@@ -1,0 +1,45 @@
+{
+  "dataClasses": [
+    {
+      "name": "Event",
+      "className": "Event",
+      "collectionName": "EventCollection",
+      "scope": "public",
+      "dataURI": "/rest/Event",
+      "attributes": [
+        {
+          "name": "id",
+          "kind": "storage",
+          "scope": "public",
+          "indexed": true,
+          "type": "long",
+          "identifying": true
+        },
+        {
+          "name": "count",
+          "kind": "storage",
+          "scope": "public",
+          "type": "long"
+        },
+        {
+          "name": "timeStamp",
+          "kind": "storage",
+          "scope": "public",
+          "type": "date",
+          "simpleDate": true
+        },
+        {
+          "name": "title",
+          "kind": "storage",
+          "scope": "public",
+          "type": "string"
+        }
+      ],
+      "key": [
+        {
+          "name": "id"
+        }
+      ]
+    }
+  ]
+}

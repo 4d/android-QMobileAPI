@@ -8,5 +8,29 @@ apply from: "$rootDir/detekt.gradle"
 apply from: "https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle"
 
 dependencies {
+
+    // Kotlin
     implementation Libs.kotlin_stdlib
+
+    // RX
+    implementation Libs.rxjava
+    implementation Libs.rxandroid
+
+    // OkHttp
+    implementation Libs.okhttp
+    implementation Libs.okhttp_logging_intercepter
+
+    // Retrofit
+    implementation Libs.retrofit
+    implementation Libs.retrofit_converter_gson
+    implementation Libs.retrofit_adapter_rxjava2
+
+    // Utils
+    implementation Libs.timber
+    implementation Libs.androidx_preference_ktx
+
+    // Unit tests
+    testImplementation Libs.androidx_junit
+    testImplementation Libs.okhttp_mockwebserver
+    testImplementation Libs.robolectric
 }

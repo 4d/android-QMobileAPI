@@ -1,0 +1,63 @@
+{
+  "dataClasses": [
+    {
+      "name": "Event",
+      "className": "Event",
+      "collectionName": "EventCollection",
+      "scope": "public",
+      "dataURI": "/mobileapp/Event",
+      "attributes": [
+        {
+          "name": "id",
+          "kind": "storage",
+          "scope": "public",
+          "indexed": true,
+          "type": "long",
+          "identifying": true
+        },
+        {
+          "name": "count",
+          "kind": "storage",
+          "scope": "public",
+          "type": "long"
+        },
+        {
+          "name": "timeStamp",
+          "kind": "storage",
+          "scope": "public",
+          "type": "date",
+          "simpleDate": true
+        },
+        {
+          "name": "title",
+          "kind": "storage",
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "cancellable",
+          "kind": "storage",
+          "scope": "public",
+          "type": "bool"
+        },
+        {
+          "name": "picture",
+          "kind": "storage",
+          "scope": "public",
+          "type": "image"
+        },
+        {
+          "name": "json",
+          "kind": "storage",
+          "scope": "public",
+          "type": "object"
+        }
+      ],
+      "key": [
+        {
+          "name": "id"
+        }
+      ]
+    }
+  ]
+}

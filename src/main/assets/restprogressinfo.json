@@ -1,0 +1,16 @@
+{
+  "ProgressInfo": [
+    {
+      "UserInfo": "indexProgressIndicator",
+      "SessionCount": 0,
+      "Title": "",
+      "CanInterrupt": true
+    },
+    {
+      "UserInfo": "flushProgressIndicator",
+      "SessionCount": 0,
+      "Title": "",
+      "CanInterrupt": false
+    }
+  ]
+}
