@@ -17,6 +17,7 @@ import com.qmarciset.androidmobileapi.utils.readContentFromFilePath
 import java.net.HttpURLConnection
 import junit.framework.TestCase
 import okhttp3.ResponseBody
+import okhttp3.internal.toHeaderList
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -317,7 +318,7 @@ class APIServiceTestMockedServer {
 
     private fun assertResponseSuccessful(response: Response<*>) {
         assertNotNull(response.body())
-        assertEquals(9, response.headers().size)
+        assertEquals(9, response.headers().toHeaderList().size)
         assertEquals(HttpURLConnection.HTTP_OK, response.code())
         assertEquals(true, response.isSuccessful)
         assertEquals(null, response.errorBody())
