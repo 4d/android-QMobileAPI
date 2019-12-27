@@ -14,6 +14,7 @@ import com.qmarciset.androidmobileapi.network.ApiService
 import com.qmarciset.androidmobileapi.utils.getTestHeaders
 import com.qmarciset.androidmobileapi.utils.parseJsonToType
 import com.qmarciset.androidmobileapi.utils.readContentFromFilePath
+import java.net.HttpURLConnection
 import junit.framework.TestCase
 import okhttp3.ResponseBody
 import okhttp3.mockwebserver.Dispatcher
@@ -30,7 +31,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import retrofit2.Response
-import java.net.HttpURLConnection
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])
