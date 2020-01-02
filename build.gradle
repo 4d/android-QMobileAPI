@@ -27,8 +27,10 @@ dependencies {
     implementation Libs.retrofit_converter_gson
     implementation Libs.retrofit_adapter_rxjava2
 
-    // Utils
+    // Log
     implementation Libs.timber
+
+    // SharedPreferences utils
     implementation Libs.androidx_preference_ktx
 
     // Unit tests

@@ -49,11 +49,10 @@ class APIServiceTestMockedServer {
         mockWebServer.dispatcher = dispatcher
         mockWebServer.start()
 
-        apiServiceMocked = ApiClient.getClient(
+        apiServiceMocked = ApiClient.getApiService(
             mockWebServer.url("/").toString(),
             ApplicationProvider.getApplicationContext()
         )
-            .create(ApiService::class.java)
     }
 
     private fun initDispatcher() {

@@ -19,7 +19,19 @@ object ApiClient {
     private var retrofit: Retrofit? = null
     private var okHttpClient: OkHttpClient? = null
 
-    fun getClient(baseUrl: String = BASE_URL, context: Context): Retrofit {
+    // For Singleton instantiation
+    @Volatile
+    var INSTANCE: ApiService? = null
+
+    fun getApiService(baseUrl: String = BASE_URL, context: Context): ApiService {
+        INSTANCE?.let {
+            return it
+        } ?: kotlin.run {
+            return getClient(baseUrl, context).create(ApiService::class.java)
+        }
+    }
+
+    private fun getClient(baseUrl: String = BASE_URL, context: Context): Retrofit {
         Timber.d("getClient: ")
 
         retrofit?.let {
