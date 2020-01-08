@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
 import com.qmarciset.androidmobileapi.model.entity.Entities
-import com.qmarciset.androidmobileapi.model.entity.custom.Event
+import com.qmarciset.androidmobileapi.utils.model.Event
 import com.qmarciset.androidmobileapi.utils.parseJsonToType
 import org.junit.Assert
 import org.junit.Test

@@ -7,14 +7,13 @@ import com.qmarciset.androidmobileapi.model.catalog.Catalog
 import com.qmarciset.androidmobileapi.model.catalog.Kind
 import com.qmarciset.androidmobileapi.model.catalog.Scope
 import com.qmarciset.androidmobileapi.model.entity.Entities
-import com.qmarciset.androidmobileapi.model.entity.custom.Event
 import com.qmarciset.androidmobileapi.model.info.Info
 import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.ApiService
 import com.qmarciset.androidmobileapi.utils.getTestHeaders
+import com.qmarciset.androidmobileapi.utils.model.Event
 import com.qmarciset.androidmobileapi.utils.parseJsonToType
 import com.qmarciset.androidmobileapi.utils.readContentFromFilePath
-import java.net.HttpURLConnection
 import junit.framework.TestCase
 import okhttp3.ResponseBody
 import okhttp3.internal.toHeaderList
@@ -32,6 +31,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import retrofit2.Response
+import java.net.HttpURLConnection
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])
