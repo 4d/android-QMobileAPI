@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply from: "$rootDir/buildscripts/ktlint.gradle"
+apply from: "$rootDir/buildscripts/testlog.gradle"
+apply from: "$rootDir/buildscripts/detekt.gradle"
+apply from: "$rootDir/buildscripts/jacoco.gradle"
+apply from: "https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle"
+
+dependencies {
+
+    // Kotlin
+    implementation Libs.kotlin_stdlib
+
+    // RX
+    implementation Libs.rxjava
+    implementation Libs.rxandroid
+
+    // OkHttp
+    implementation Libs.okhttp
+    implementation Libs.okhttp_logging_intercepter
+
+    // Retrofit
+    implementation Libs.retrofit
+    implementation Libs.retrofit_converter_gson
+    implementation Libs.retrofit_adapter_rxjava2
+
+    // Log
+    implementation Libs.timber
+
+    // SharedPreferences utils
+    implementation Libs.androidx_preference_ktx
+
+    // Unit tests
+    testImplementation Libs.androidx_junit
+    testImplementation Libs.okhttp_mockwebserver
+    testImplementation Libs.junit
+    testImplementation Libs.robolectric
+    testImplementation Libs.androidx_core_testing
+    androidTestImplementation Libs.androidx_core_testing
+    androidTestImplementation Libs.androidx_junit
+}

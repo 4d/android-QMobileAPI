@@ -1,0 +1,2 @@
+include ':androidmobileapi'
+rootProject.name='AndroidMobileAPI'
