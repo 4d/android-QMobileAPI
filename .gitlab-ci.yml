@@ -31,7 +31,7 @@ build:
     - ./gradlew clean assemble --console=rich
   artifacts:
     paths:
-     - androidmobileapi/build/outputs/
+     - androidmobileapi/build/outputs/aar/
 
 unitTests:
   stage: test
