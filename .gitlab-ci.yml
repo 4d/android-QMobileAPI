@@ -28,7 +28,9 @@ lint:
 build:
   stage: build
   script:
-    - ./gradlew clean assemble --console=rich
+    - ./gradlew clean --console=rich
+    - ./gradlew assembleRelease --console=rich
+    - ./gradlew artifactoryPublish --console=rich
   artifacts:
     paths:
      - androidmobileapi/build/outputs/aar/
