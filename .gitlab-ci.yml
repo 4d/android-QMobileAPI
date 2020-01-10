@@ -30,6 +30,12 @@ lint:
     paths:
     - androidmobileapi/build/reports/
 
+# OSX PLATFORM
+
+.download_sdk_osx: &download_sdk_osx |
+  echo "Starting download_sdk_osx"
+  curl -o android-sdk.zip https://dl.google.com/android/repository/sdk-tools-darwin-${ANDROID_SDK_TOOLS}.zip
+
 # LINUX PLATFORM
 
 .download_sdk_linux: &download_sdk_linux |
@@ -66,9 +72,21 @@ buildLinux:
     paths:
      - androidmobileapi/build/outputs/aar/
 
+buildOsx:
+  stage: build
+  script:
+    - *download_sdk_osx
+    - *build_sdk
+    - ./gradlew clean --console=rich
+    - ./gradlew assemble --console=rich
+    - ./gradlew artifactoryPublish --console=rich
+  tags:
+    - osx
+  artifacts:
+    paths:
+     - androidmobileapi/build/outputs/aar/
+
 unitTests:
   stage: test
   script:
     - ./gradlew -x lint check --console=rich
-
-
