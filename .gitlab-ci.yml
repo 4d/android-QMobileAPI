@@ -30,26 +30,6 @@ lint:
     paths:
     - androidmobileapi/build/reports/
 
-buildLinux:
-  stage: build
-  script:
-    - *download_sdk_linux
-    - *build_sdk
-    - ./gradlew clean --console=rich
-    - ./gradlew assemble --console=rich
-    - ./gradlew artifactoryPublish --console=rich
-  tags:
-    - linux
-  artifacts:
-    paths:
-     - androidmobileapi/build/outputs/aar/
-
-unitTests:
-  stage: test
-  script:
-    - ./gradlew -x lint check --console=rich
-
-
 # LINUX PLATFORM
 
 .download_sdk_linux: &download_sdk_linux |
@@ -71,3 +51,24 @@ unitTests:
   export PATH=$PATH:$ANDROID_HOME/tools/
   export PATH=$PATH:$ANDROID_HOME/tools/bin/
   export PATH=$PATH:$ANDROID_AVD_HOME
+
+buildLinux:
+  stage: build
+  script:
+    - *download_sdk_linux
+    - *build_sdk
+    - ./gradlew clean --console=rich
+    - ./gradlew assemble --console=rich
+    - ./gradlew artifactoryPublish --console=rich
+  tags:
+    - linux
+  artifacts:
+    paths:
+     - androidmobileapi/build/outputs/aar/
+
+unitTests:
+  stage: test
+  script:
+    - ./gradlew -x lint check --console=rich
+
+
