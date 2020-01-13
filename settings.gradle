@@ -1,2 +1,2 @@
 include ':androidmobileapi'
-rootProject.name='AndroidMobileAPI'
+rootProject.name = 'AndroidMobileAPI'
