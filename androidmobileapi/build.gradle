@@ -71,12 +71,13 @@ publishing {
 }
 
 artifactory {
-    contextUrl = "${artifactory_contextUrl}"
+    def machineIP = System.getenv('ARTIFACTORY_MACHINE_IP')
+    contextUrl = "http://${machineIP}:8081/artifactory"
     publish {
         repository {
-            repoKey = artifactory_repoKey
-            username = artifactory_user
-            password = artifactory_password
+            repoKey = "libs-release-local"
+            username = System.getenv('ARTIFACTORY_USERNAME')
+            password = System.getenv('ARTIFACTORY_PASSWORD')
         }
         defaults {
             publications('aar')
