@@ -15,8 +15,8 @@ dependencies {
     implementation Libs.kotlin_stdlib
 
     // Rx
-    implementation Libs.rxjava
     implementation Libs.rxandroid
+    implementation Libs.rxjava
 
     // OkHttp
     implementation Libs.okhttp
@@ -24,16 +24,16 @@ dependencies {
 
     // Retrofit
     implementation Libs.retrofit
-    implementation Libs.retrofit_converter_gson
     implementation Libs.retrofit_adapter_rxjava2
+    implementation Libs.retrofit_converter_gson
 
     // Utils
     implementation Libs.androidx_preference_ktx
     implementation Libs.timber
 
     // Testing
-    testImplementation Libs.junit
     testImplementation Libs.androidx_junit
+    testImplementation Libs.junit
     testImplementation Libs.okhttp_mockwebserver
     testImplementation Libs.robolectric
 }
