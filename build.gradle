@@ -3,7 +3,6 @@ buildscript {
     dependencies {
         classpath Tools.gradle
         classpath Tools.kotlin_gradle_plugin
-        classpath Tools.navigation_safe_args_gradle_plugin
         classpath Tools.artifactory
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -39,7 +38,6 @@ subprojects {
                 buildToolsVersion Config.buildTools
 
                 defaultConfig {
-//                    applicationId "com.qmarciset.sample4dapp"
                     minSdkVersion Config.minSdk
                     targetSdkVersion Config.targetSdk
                     multiDexEnabled true

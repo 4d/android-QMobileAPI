@@ -11,10 +11,10 @@ apply from: "https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/grad
 
 dependencies {
 
-    // Kotlin
+    // Common
     implementation Libs.kotlin_stdlib
 
-    // RX
+    // Rx
     implementation Libs.rxjava
     implementation Libs.rxandroid
 
@@ -27,20 +27,15 @@ dependencies {
     implementation Libs.retrofit_converter_gson
     implementation Libs.retrofit_adapter_rxjava2
 
-    // Log
+    // Utils
+    implementation Libs.androidx_preference_ktx
     implementation Libs.timber
 
-    // SharedPreferences utils
-    implementation Libs.androidx_preference_ktx
-
-    // Unit tests
+    // Testing
+    testImplementation Libs.junit
     testImplementation Libs.androidx_junit
     testImplementation Libs.okhttp_mockwebserver
-    testImplementation Libs.junit
     testImplementation Libs.robolectric
-    testImplementation Libs.androidx_core_testing
-    androidTestImplementation Libs.androidx_core_testing
-    androidTestImplementation Libs.androidx_junit
 }
 
 def libraryGroupId = 'com.qmarciset.androidmobileapi'
