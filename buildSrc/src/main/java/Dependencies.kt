@@ -41,7 +41,7 @@ object Libs {
 
     // OkHttp
     val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
-    val okhttp_logging_intercepter =
+    val okhttp_logging_interceptor =
         "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
 
     // Retrofit

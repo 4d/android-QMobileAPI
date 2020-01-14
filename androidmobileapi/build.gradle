@@ -20,7 +20,7 @@ dependencies {
 
     // OkHttp
     implementation Libs.okhttp
-    implementation Libs.okhttp_logging_intercepter
+    implementation Libs.okhttp_logging_interceptor
 
     // Retrofit
     implementation Libs.retrofit
