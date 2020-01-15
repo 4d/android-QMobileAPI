@@ -11,16 +11,19 @@ import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
 
-open class RestRepository(private val tableName: String, private val apiService: ApiService) {
+class AuthRepository(private val apiService: ApiService) {
 
     var disposable: CompositeDisposable = CompositeDisposable()
 
-
-    /*override fun login(
+    fun authenticate(
+        jsonRequest: JSONObject,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
+        val body = jsonRequest.toString()
+            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+
         disposable.add(
-            apiService.getInfo()
+            apiService.authenticate(body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
@@ -38,29 +41,6 @@ open class RestRepository(private val tableName: String, private val apiService:
                     }
                 })
         )
-    }*/
-
-    fun getAllFromApi(
-        onResult: (isSuccess: Boolean, response: ResponseBody?, error: Any?) -> Unit
-    ) {
-        disposable.add(
-            apiService.getEntities(tableName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
-                    override fun onSuccess(response: Response<ResponseBody>) {
-
-                        if (response.isSuccessful) {
-                            onResult(true, response.body(), null)
-                        } else {
-                            onResult(false, response.errorBody(), null)
-                        }
-                    }
-
-                    override fun onError(e: Throwable) {
-                        onResult(false, null, e)
-                    }
-                })
-        )
     }
+
 }
