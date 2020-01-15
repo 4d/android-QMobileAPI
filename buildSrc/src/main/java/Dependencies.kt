@@ -4,14 +4,14 @@ object Versions {
     val android_gradle_plugin = "3.5.2"
     val artifactory = "4.13.0"
     val atsl_junit = "1.1.1"
-    val junit = "4.12"
+    val junit = "4.13"
     val kotlin = "1.3.61"
-    val okhttp = "4.2.2"
+    val okhttp = "4.3.0"
     val preference = "1.1.0"
-    val retrofit = "2.6.2"
+    val retrofit = "2.7.1"
     val robolectric = "4.3.1"
     val rx_android = "2.1.1"
-    val rxjava2 = "2.1.3"
+    val rxjava2 = "2.2.17"
     val timber = "4.7.1"
 }
 
