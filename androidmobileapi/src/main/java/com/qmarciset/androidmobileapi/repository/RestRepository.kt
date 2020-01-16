@@ -5,16 +5,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Response
 
 open class RestRepository(private val tableName: String, private val apiService: ApiService) {
 
     var disposable: CompositeDisposable = CompositeDisposable()
-
 
     /*override fun login(
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit

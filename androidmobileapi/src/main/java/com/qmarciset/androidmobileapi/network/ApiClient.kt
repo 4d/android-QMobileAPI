@@ -1,9 +1,8 @@
 package com.qmarciset.androidmobileapi.network
 
 import android.content.Context
+import com.qmarciset.androidmobileapi.auth.AuthInfoHelper
 import com.qmarciset.androidmobileapi.utils.BASE_URL
-import com.qmarciset.androidmobileapi.utils.COOKIE
-import com.qmarciset.androidmobileapi.utils.CookieHelper
 import com.qmarciset.androidmobileapi.utils.REQUEST_TIMEOUT
 import java.net.HttpURLConnection
 import java.util.concurrent.TimeUnit
@@ -16,10 +15,17 @@ import timber.log.Timber
 
 object ApiClient {
 
+    private const val AUTHORIZATION_HEADER_KEY = "Authorization"
+    private const val AUTHORIZATION_HEADER_VALUE_PREFIX = "Bearer"
+    private const val CONTENT_TYPE_HEADER_KEY = "Content-Type"
+    private const val CONTENT_TYPE_HEADER_VALUE = "application/json"
+    private const val X_QMOBILE_HEADER_KEY = "X-QMobile"
+    private const val X_QMOBILE_HEADER_VALUE = "1"
+
     private var retrofit: Retrofit? = null
     private var okHttpClient: OkHttpClient? = null
 
-    // For Singleton instantiation
+    //     For Singleton instantiation
     @Volatile
     var INSTANCE: ApiService? = null
 
@@ -66,13 +72,25 @@ object ApiClient {
             val original = chain.request()
 
             val requestBuilder = original.newBuilder()
-                .addHeader("Content-Type", "application/json")
+                .addHeader(CONTENT_TYPE_HEADER_KEY, CONTENT_TYPE_HEADER_VALUE)
+                .addHeader(X_QMOBILE_HEADER_KEY, X_QMOBILE_HEADER_VALUE)
 
-            CookieHelper.getCookieFromPref(context)
+            val sessionToken = AuthInfoHelper.getInstance(context).sessionToken
+            if (sessionToken.isNotEmpty()) {
+                Timber.d("Setting retrieved token in header : $sessionToken")
+                requestBuilder.addHeader(
+                    AUTHORIZATION_HEADER_KEY,
+                    "$AUTHORIZATION_HEADER_VALUE_PREFIX $sessionToken"
+                )
+            } else {
+                Timber.d("No token was retrieved")
+            }
+
+            /*CookieHelper.getCookieFromPref(context)
                 ?.let {
                     Timber.d("Cookie found")
                     requestBuilder.addHeader(COOKIE, it)
-                }
+                }*/
 
             val request = requestBuilder.build()
 
@@ -82,14 +100,14 @@ object ApiClient {
 
             when (response.code) {
                 HttpURLConnection.HTTP_OK -> {
-                    val cookieString = CookieHelper.buildCookieString(response.headers)
-                    cookieString?.let {
-                        CookieHelper.saveLastOkRequestCookieInPref(context, cookieString)
-                    }
+                    /* val cookieString = CookieHelper.buildCookieString(response.headers)
+                     cookieString?.let {
+                         CookieHelper.saveLastOkRequestCookieInPref(context, cookieString)
+                     }*/
                 }
                 HttpURLConnection.HTTP_PAYMENT_REQUIRED -> {
-                    val lastCookie = CookieHelper.getLastOkRequestCookieFromPref(context)
-                    CookieHelper.saveCookieInPref(context, lastCookie)
+                    /*  val lastCookie = CookieHelper.getLastOkRequestCookieFromPref(context)
+                      CookieHelper.saveCookieInPref(context, lastCookie)*/
                 }
             }
             response

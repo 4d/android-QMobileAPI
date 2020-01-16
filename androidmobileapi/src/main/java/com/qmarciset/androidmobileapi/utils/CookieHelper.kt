@@ -6,6 +6,9 @@ import okhttp3.Headers
 
 object CookieHelper {
 
+    private const val COOKIE = "Cookie"
+    private const val LAST_COOKIE = "Last_Cookie"
+
     fun writeCookie(cookieValue: String) {
         val file = File(COOKIE)
         file.writeText(cookieValue)

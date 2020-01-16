@@ -42,5 +42,4 @@ class AuthRepository(private val apiService: ApiService) {
                 })
         )
     }
-
 }

@@ -3,6 +3,7 @@ package com.qmarciset.androidmobileapi.utils
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import org.json.JSONObject
 
 fun defaultPrefs(context: Context): SharedPreferences =
     PreferenceManager.getDefaultSharedPreferences(context)
@@ -26,6 +27,7 @@ operator fun SharedPreferences.set(key: String, value: Any?) {
         is Boolean -> edit { it.putBoolean(key, value) }
         is Float -> edit { it.putFloat(key, value) }
         is Long -> edit { it.putLong(key, value) }
+        is JSONObject -> edit { it.putString(key, value.toString()) }
         else -> throw UnsupportedOperationException("Not yet implemented")
     }
 }
