@@ -4,5 +4,6 @@ import org.json.JSONObject
 
 data class Manifest(
     val team: JSONObject?,
-    val guestLogin: Boolean
+    val guestLogin: Boolean,
+    val remoteUrl: String?
 )

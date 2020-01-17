@@ -34,7 +34,7 @@ class AuthenticationHelper(
         }
     }
 
-    private fun buildAuthRequestBody(email: String = "", password: String = ""): JSONObject {
+    private fun buildAuthRequestBody(email: String, password: String): JSONObject {
         return JSONObject().apply {
             put(AUTH_EMAIL, email)
             put(AUTH_PASSWORD, password)
@@ -46,14 +46,16 @@ class AuthenticationHelper(
         }
     }
 
-    private fun login() {
+    fun login(email: String = "", password: String = "") {
         val authRepository = AuthRepository(apiService)
-        val authRequest = buildAuthRequestBody()
+        val authRequest = buildAuthRequestBody(email, password)
         authRepository.authenticate(authRequest) { isSuccess, response, error ->
             Timber.d("authenticate returned : isSuccess = $isSuccess, response = $response, error = $error")
             if (isSuccess) {
                 response?.let {
-                    treatLoginInfo(it)
+                    if (treatLoginInfo(it)) {
+
+                    }
                 }
             } else {
                 // TODO : check error from response or from error
