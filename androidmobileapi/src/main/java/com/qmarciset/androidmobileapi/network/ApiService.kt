@@ -17,7 +17,7 @@ interface ApiService {
      */
 
     /*
-    * TODO: add description
+    * Authenticates the user with given credentials. Returns a JSON with session id and token
     * */
     @POST("\$authenticate")
     fun authenticate(@Body body: RequestBody): Single<Response<ResponseBody>>

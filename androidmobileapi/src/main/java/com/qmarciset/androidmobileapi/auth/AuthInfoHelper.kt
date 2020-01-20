@@ -21,9 +21,12 @@ class AuthInfoHelper(context: Context) {
         const val AUTH_PARAMETERS = "parameters"
 
         const val GUEST_LOGIN = "guest_login"
+        const val REMOTE_URL = "remote_url"
         const val SESSION_ID = "session_id"
         const val SESSION_TOKEN = "session_token"
         const val DEVICE_UUID = "device_uuid"
+
+        const val COOKIE = "Cookie"
 
         const val PRIVATE_PREF_NAME = "4D_QMOBILE_PRIVATE"
     }
@@ -68,12 +71,18 @@ class AuthInfoHelper(context: Context) {
             prefs[GUEST_LOGIN] = value
         }
 
+    var remoteUrl: String
+        get() = prefs[REMOTE_URL] ?: ""
+        set(value) {
+            prefs[REMOTE_URL] = value
+        }
+
     val deviceUUID: String
-    get() = privatePrefs[DEVICE_UUID] ?: kotlin.run {
-        val uuid = UUID.randomUUID().toString()
-        privatePrefs[DEVICE_UUID] = uuid
-        return@run uuid
-    }
+        get() = privatePrefs[DEVICE_UUID] ?: kotlin.run {
+            val uuid = UUID.randomUUID().toString()
+            privatePrefs[DEVICE_UUID] = uuid
+            return@run uuid
+        }
 
     var sessionId: String
         get() = privatePrefs[SESSION_ID] ?: ""
@@ -85,5 +94,11 @@ class AuthInfoHelper(context: Context) {
         get() = privatePrefs[SESSION_TOKEN] ?: ""
         set(value) {
             privatePrefs[SESSION_TOKEN] = value
+        }
+
+    var cookie: String
+        get() = prefs[COOKIE] ?: ""
+        set(value) {
+            prefs[COOKIE] = value
         }
 }

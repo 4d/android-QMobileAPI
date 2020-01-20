@@ -12,30 +12,6 @@ open class RestRepository(private val tableName: String, private val apiService:
 
     var disposable: CompositeDisposable = CompositeDisposable()
 
-    /*override fun login(
-        onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
-    ) {
-        disposable.add(
-            apiService.getInfo()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
-                    override fun onSuccess(response: Response<ResponseBody>) {
-
-                        if (response.isSuccessful) {
-                            onResult(true, response, null)
-                        } else {
-                            onResult(false, response, null)
-                        }
-                    }
-
-                    override fun onError(e: Throwable) {
-                        onResult(false, null, e)
-                    }
-                })
-        )
-    }*/
-
     fun getAllFromApi(
         onResult: (isSuccess: Boolean, response: ResponseBody?, error: Any?) -> Unit
     ) {

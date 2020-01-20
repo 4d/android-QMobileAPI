@@ -50,8 +50,8 @@ class APIServiceTestMockedServer {
         mockWebServer.start()
 
         apiServiceMocked = ApiClient.getApiService(
-            mockWebServer.url("/").toString(),
-            ApplicationProvider.getApplicationContext()
+            ApplicationProvider.getApplicationContext(),
+            mockWebServer.url("/").toString()
         )
     }
 

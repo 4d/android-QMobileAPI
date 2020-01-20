@@ -2,8 +2,8 @@ package com.qmarciset.androidmobileapi.network
 
 import android.content.Context
 import com.qmarciset.androidmobileapi.auth.AuthInfoHelper
-import com.qmarciset.androidmobileapi.utils.BASE_URL
-import com.qmarciset.androidmobileapi.utils.REQUEST_TIMEOUT
+import com.qmarciset.androidmobileapi.auth.AuthInfoHelper.Companion.COOKIE
+import com.qmarciset.androidmobileapi.utils.COOKIES_ARE_HANDLED
 import java.net.HttpURLConnection
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
@@ -21,6 +21,8 @@ object ApiClient {
     private const val CONTENT_TYPE_HEADER_VALUE = "application/json"
     private const val X_QMOBILE_HEADER_KEY = "X-QMobile"
     private const val X_QMOBILE_HEADER_VALUE = "1"
+    private const val SERVER_ENDPOINT = "/mobileapp/"
+    private const val REQUEST_TIMEOUT = 30
 
     private var retrofit: Retrofit? = null
     private var okHttpClient: OkHttpClient? = null
@@ -29,26 +31,32 @@ object ApiClient {
     @Volatile
     var INSTANCE: ApiService? = null
 
-    fun getApiService(baseUrl: String = BASE_URL, context: Context): ApiService {
+    fun getApiService(context: Context, baseUrl: String = ""): ApiService {
         INSTANCE?.let {
             return it
         } ?: kotlin.run {
-            return getClient(baseUrl, context).create(ApiService::class.java)
+            return getClient(context, baseUrl).create(ApiService::class.java)
         }
     }
 
-    private fun getClient(baseUrl: String = BASE_URL, context: Context): Retrofit {
+    private fun getClient(context: Context, baseUrl: String): Retrofit {
         Timber.d("getClient: ")
+        val authInfoHelper = AuthInfoHelper.getInstance(context)
 
         retrofit?.let {
             return it
         } ?: kotlin.run {
             return Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(
+                    if (baseUrl.isEmpty())
+                        buildUrl(authInfoHelper.remoteUrl)
+                    else
+                        baseUrl
+                )
                 .client(
                     okHttpClient
                         ?: initOkHttp(
-                            context
+                            authInfoHelper.sessionToken
                         )
                 )
                 .addConverterFactory(GsonConverterFactory.create())
@@ -57,7 +65,7 @@ object ApiClient {
         }
     }
 
-    private fun initOkHttp(context: Context): OkHttpClient {
+    private fun initOkHttp(sessionToken: String, cookie: String = ""): OkHttpClient {
         val httpClient = OkHttpClient().newBuilder()
             .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .readTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
@@ -75,7 +83,6 @@ object ApiClient {
                 .addHeader(CONTENT_TYPE_HEADER_KEY, CONTENT_TYPE_HEADER_VALUE)
                 .addHeader(X_QMOBILE_HEADER_KEY, X_QMOBILE_HEADER_VALUE)
 
-            val sessionToken = AuthInfoHelper.getInstance(context).sessionToken
             if (sessionToken.isNotEmpty()) {
                 Timber.d("Setting retrieved token in header : $sessionToken")
                 requestBuilder.addHeader(
@@ -86,11 +93,9 @@ object ApiClient {
                 Timber.d("No token was retrieved")
             }
 
-            /*CookieHelper.getCookieFromPref(context)
-                ?.let {
-                    Timber.d("Cookie found")
-                    requestBuilder.addHeader(COOKIE, it)
-                }*/
+            if (COOKIES_ARE_HANDLED) {
+                requestBuilder.addHeader(COOKIE, cookie)
+            }
 
             val request = requestBuilder.build()
 
@@ -99,19 +104,13 @@ object ApiClient {
             val response = chain.proceed(request)
 
             when (response.code) {
-                HttpURLConnection.HTTP_OK -> {
-                    /* val cookieString = CookieHelper.buildCookieString(response.headers)
-                     cookieString?.let {
-                         CookieHelper.saveLastOkRequestCookieInPref(context, cookieString)
-                     }*/
-                }
-                HttpURLConnection.HTTP_PAYMENT_REQUIRED -> {
-                    /*  val lastCookie = CookieHelper.getLastOkRequestCookieFromPref(context)
-                      CookieHelper.saveCookieInPref(context, lastCookie)*/
-                }
+                HttpURLConnection.HTTP_OK -> { }
+                HttpURLConnection.HTTP_PAYMENT_REQUIRED -> { }
             }
             response
         }
         return httpClient.build()
     }
+
+    private fun buildUrl(remoteUrl: String): String = remoteUrl.removeSuffix("/") + SERVER_ENDPOINT
 }
