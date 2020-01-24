@@ -13,7 +13,6 @@ dependencies {
 
     // Common
     implementation Libs.kotlin_stdlib
-    implementation Libs.kotlin_reflect
 
     // Rx
     implementation Libs.rxandroid

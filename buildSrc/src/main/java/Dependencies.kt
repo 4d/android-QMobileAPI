@@ -34,7 +34,6 @@ object Tools {
 object Libs {
 
     // Common
-    val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
     val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
 
     // Rx
