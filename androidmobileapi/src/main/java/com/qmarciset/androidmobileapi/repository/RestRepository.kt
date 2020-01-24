@@ -13,7 +13,7 @@ open class RestRepository(private val tableName: String, private val apiService:
     var disposable: CompositeDisposable = CompositeDisposable()
 
     fun getAllFromApi(
-        onResult: (isSuccess: Boolean, response: ResponseBody?, error: Any?) -> Unit
+        onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
         disposable.add(
             apiService.getEntities(tableName)
@@ -23,9 +23,9 @@ open class RestRepository(private val tableName: String, private val apiService:
                     override fun onSuccess(response: Response<ResponseBody>) {
 
                         if (response.isSuccessful) {
-                            onResult(true, response.body(), null)
+                            onResult(true, response, null)
                         } else {
-                            onResult(false, response.errorBody(), null)
+                            onResult(false, null, response)
                         }
                     }
 
@@ -36,3 +36,30 @@ open class RestRepository(private val tableName: String, private val apiService:
         )
     }
 }
+
+/*class RetryWithDelay2(private val MAX_RETRIES: Int, private val DELAY_DURATION_IN_SECONDS: Long)
+    : Function1<Flowable<out Throwable>, Publisher<*>> {
+    private var retryCount = 0
+
+    override fun invoke(observable: Flowable<out Throwable>): Publisher<*> {
+        if (++retryCount < MAX_RETRIES) {
+            return observable.delay(DELAY_DURATION_IN_SECONDS, TimeUnit.SECONDS)
+        } // Max retries hit. Just pass the error along.
+        else {
+            return observable.delay(0, TimeUnit.SECONDS)
+        }
+    }
+}*/
+/*fun <T> Single<T>.retryWithDelay(maxRetries: Int, retryDelayMillis: Int): Single<T> {
+    var retryCount = 0
+
+    return retryWhen { thObservable ->
+        thObservable.flatMap { throwable ->
+            if (++retryCount < maxRetries) {
+                Flowable.timer(retryDelayMillis.toLong(), TimeUnit.MILLISECONDS)
+            } else {
+                Flowable.error(throwable)
+            }
+        }
+    }
+}*/

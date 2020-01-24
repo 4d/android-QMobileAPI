@@ -13,6 +13,7 @@ dependencies {
 
     // Common
     implementation Libs.kotlin_stdlib
+    implementation Libs.kotlin_reflect
 
     // Rx
     implementation Libs.rxandroid
@@ -34,6 +35,7 @@ dependencies {
     // Testing
     testImplementation Libs.androidx_junit
     testImplementation Libs.junit
+    testImplementation Libs.mockito
     testImplementation Libs.okhttp_mockwebserver
     testImplementation Libs.robolectric
 }

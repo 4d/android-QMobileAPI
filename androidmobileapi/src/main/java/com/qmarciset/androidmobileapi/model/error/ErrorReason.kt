@@ -1,6 +1,6 @@
-package com.qmarciset.androidmobileapi.model.auth
+package com.qmarciset.androidmobileapi.model.error
 
-data class ErrorResponse(
+data class ErrorReason(
     val message: String?,
     val componentSignature: String?,
     val errCode: Int?

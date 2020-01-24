@@ -6,6 +6,5 @@ data class AuthResponse(
     val statusText: String?,
     val success: Boolean,
     val token: String?,
-    val userInfo: UserInfo?,
-    val __ERRORS: List<ErrorResponse>?
+    val userInfo: UserInfo?
 )

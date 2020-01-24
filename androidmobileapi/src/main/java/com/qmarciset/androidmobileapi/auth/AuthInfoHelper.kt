@@ -1,6 +1,7 @@
 package com.qmarciset.androidmobileapi.auth
 
 import android.content.Context
+import com.qmarciset.androidmobileapi.model.auth.AuthResponse
 import com.qmarciset.androidmobileapi.utils.SingletonHolder
 import com.qmarciset.androidmobileapi.utils.customPrefs
 import com.qmarciset.androidmobileapi.utils.defaultPrefs
@@ -101,4 +102,25 @@ class AuthInfoHelper(context: Context) {
         set(value) {
             prefs[COOKIE] = value
         }
+}
+
+fun AuthInfoHelper.buildAuthRequestBody(email: String, password: String): JSONObject {
+    return JSONObject().apply {
+        put(AuthInfoHelper.AUTH_EMAIL, email)
+        put(AuthInfoHelper.AUTH_PASSWORD, password)
+        put(AuthInfoHelper.AUTH_APPLICATION, this@buildAuthRequestBody.appInfo)
+        put(AuthInfoHelper.AUTH_DEVICE, this@buildAuthRequestBody.device)
+        put(AuthInfoHelper.AUTH_TEAM, this@buildAuthRequestBody.team)
+        put(AuthInfoHelper.AUTH_LANGUAGE, this@buildAuthRequestBody.language)
+        put(AuthInfoHelper.AUTH_PARAMETERS, JSONObject())
+    }
+}
+
+fun AuthInfoHelper.handleLoginInfo(authResponse: AuthResponse): Boolean {
+    this.sessionId = authResponse.id ?: ""
+    authResponse.token?.let {
+        this.sessionToken = it
+        return true
+    }
+    return false
 }

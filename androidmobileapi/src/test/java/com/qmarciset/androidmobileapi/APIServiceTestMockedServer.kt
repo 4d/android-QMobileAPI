@@ -3,6 +3,7 @@ package com.qmarciset.androidmobileapi
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.google.gson.Gson
+import com.qmarciset.androidmobileapi.auth.LoginRequiredCallback
 import com.qmarciset.androidmobileapi.model.catalog.Catalog
 import com.qmarciset.androidmobileapi.model.catalog.Kind
 import com.qmarciset.androidmobileapi.model.catalog.Scope
@@ -10,6 +11,7 @@ import com.qmarciset.androidmobileapi.model.entity.Entities
 import com.qmarciset.androidmobileapi.model.info.Info
 import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.ApiService
+import com.qmarciset.androidmobileapi.network.LoginApiService
 import com.qmarciset.androidmobileapi.utils.getTestHeaders
 import com.qmarciset.androidmobileapi.utils.model.Event
 import com.qmarciset.androidmobileapi.utils.parseJsonToType
@@ -29,6 +31,7 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import retrofit2.Response
@@ -49,9 +52,14 @@ class APIServiceTestMockedServer {
         mockWebServer.dispatcher = dispatcher
         mockWebServer.start()
 
+        val loginApiService: LoginApiService = Mockito.mock(LoginApiService::class.java)
+        val loginRequiredCallback: LoginRequiredCallback =
+            Mockito.mock(LoginRequiredCallback::class.java)
         apiServiceMocked = ApiClient.getApiService(
             ApplicationProvider.getApplicationContext(),
-            mockWebServer.url("/").toString()
+            mockWebServer.url("/").toString(),
+            loginApiService,
+            loginRequiredCallback
         )
     }
 
