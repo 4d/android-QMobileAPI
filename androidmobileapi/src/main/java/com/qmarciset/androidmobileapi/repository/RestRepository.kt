@@ -12,6 +12,7 @@ open class RestRepository(private val tableName: String, private val apiService:
 
     var disposable: CompositeDisposable = CompositeDisposable()
 
+    // Performs getEntities request
     fun getAllFromApi(
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {

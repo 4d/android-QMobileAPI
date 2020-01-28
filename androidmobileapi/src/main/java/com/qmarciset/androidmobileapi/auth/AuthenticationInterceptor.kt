@@ -24,7 +24,7 @@ class AuthenticationInterceptor(
     private var corruptedTokenCounter = 0
 
     companion object {
-        private const val CORRUPTED_TOKEN_TRIGGER_LIMIT = 3
+        private const val CORRUPTED_TOKEN_TRIGGER_LIMIT = 7
     }
 
     private var loginApiService: LoginApiService? = null
@@ -41,6 +41,7 @@ class AuthenticationInterceptor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
 
+        // Adding Content-Type and X-QMobile headers
         val requestBuilder = originalRequest.newBuilder()
             .addHeader(
                 ApiClient.CONTENT_TYPE_HEADER_KEY,
@@ -51,6 +52,7 @@ class AuthenticationInterceptor(
                 ApiClient.X_QMOBILE_HEADER_VALUE
             )
 
+        // If a token is stored in sharedPreferences, we add it in header
         if (authInfoHelper.sessionToken.isNotEmpty()) {
             Timber.d("SessionToken retrieved in SharedPreferences : ${authInfoHelper.sessionToken}")
             requestBuilder
@@ -80,6 +82,7 @@ class AuthenticationInterceptor(
 
         var response = chain.proceed(request)
 
+        // Boolean to make sure we don't perform the refreshAuth() procedure twice
         var isAuthAlreadyRefreshed = false
 
         val parsedError: ErrorResponse? = tryToParseError(response)
@@ -102,6 +105,7 @@ class AuthenticationInterceptor(
         if (!isAuthAlreadyRefreshed) {
             when (response.code) {
                 HttpURLConnection.HTTP_OK -> {
+                    // Everything is fine
                 }
                 HttpURLConnection.HTTP_UNAUTHORIZED -> {
                     refreshAuth(
@@ -124,16 +128,19 @@ class AuthenticationInterceptor(
     ): Response? {
         if (authInfoHelper.guestLogin) {
             loginApiService?.let { loginApiService ->
+                // Closing the current active response before building a new one
                 response.closeQuietly()
                 requestBuilder.refreshAuthentication(loginApiService)
                 return chain.proceed(requestBuilder.build())
             }
         } else {
+            // We ask to go back to the login page as this is not a guest authenticated session
             loginRequiredCallback?.loginRequired()
         }
         return null
     }
 
+    // Refresh authentication by performing a synchronous logout followed by a synchronous login
     private fun Request.Builder.refreshAuthentication(loginApiService: LoginApiService) {
         val authRepository = AuthRepository(loginApiService)
         if (authRepository.syncLogout()) {
@@ -146,8 +153,14 @@ class AuthenticationInterceptor(
                             ApiClient.AUTHORIZATION_HEADER_KEY,
                             "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${authInfoHelper.sessionToken}"
                         )
+                } else {
+                    // No sessionToken could be retrieved
                 }
+            } else {
+                // Login request failed
             }
+        } else {
+            // Logout request failed
         }
     }
 }
@@ -156,7 +169,7 @@ fun tryToParseError(response: Response): ErrorResponse? {
     // If buffer is read here, it won't be readable later to decode the response.
     // Therefore, we use peekBody() to copy the buffer instead of body()
     val copyResponse = response.peekBody(Long.MAX_VALUE)
-//    val responseBody = response.body
+    // val responseBody = response.body
     val json = copyResponse.string()
     return Gson().parseJsonToType<ErrorResponse>(json)
 }

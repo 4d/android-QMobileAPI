@@ -6,6 +6,7 @@ object Versions {
     val atsl_junit = "1.1.1"
     val junit = "4.13"
     val kotlin = "1.3.61"
+    val mockito = "3.2.4"
     val okhttp = "4.3.1"
     val preference = "1.1.0"
     val retrofit = "2.7.1"
@@ -57,6 +58,7 @@ object Libs {
     // Testing
     val androidx_junit = "androidx.test.ext:junit:${Versions.atsl_junit}"
     val junit = "junit:junit:${Versions.junit}"
+    val mockito = "org.mockito:mockito-core:${Versions.mockito}"
     val okhttp_mockwebserver = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
     val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
 }

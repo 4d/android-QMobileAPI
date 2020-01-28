@@ -18,6 +18,7 @@ class AuthRepository(private val loginApiService: LoginApiService) {
 
     var disposable: CompositeDisposable = CompositeDisposable()
 
+    // Performs synchronous $authenticate request
     fun syncAuthenticate(jsonRequest: JSONObject): AuthResponse? {
         val body = jsonRequest.toString()
             .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
@@ -31,6 +32,7 @@ class AuthRepository(private val loginApiService: LoginApiService) {
         return null
     }
 
+    // Performs asynchronous $authenticate request
     fun authenticate(
         jsonRequest: JSONObject,
         shouldRetryOnError: Boolean,
@@ -65,11 +67,13 @@ class AuthRepository(private val loginApiService: LoginApiService) {
         )
     }
 
+    // Performs synchronous $logout request
     fun syncLogout(): Boolean {
         val logoutResponse = loginApiService.syncLogout().execute().body()
         return logoutResponse?.ok ?: false
     }
 
+    // Performs asynchronous $logout request
     fun logout(
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {

@@ -34,6 +34,7 @@ dependencies {
     // Testing
     testImplementation Libs.androidx_junit
     testImplementation Libs.junit
+    testImplementation Libs.mockito
     testImplementation Libs.okhttp_mockwebserver
     testImplementation Libs.robolectric
 }

@@ -4,6 +4,7 @@ import okhttp3.Headers
 
 object CookieHelper {
 
+    // Utility function to concatenate cookies
     fun buildCookieString(headers: Headers): String? {
         val headersMap = headers.toMultimap()
         val cookies = headersMap["Set-Cookie"]

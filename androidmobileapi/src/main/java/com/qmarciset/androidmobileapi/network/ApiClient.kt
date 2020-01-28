@@ -28,14 +28,14 @@ object ApiClient {
 
     private lateinit var authInfoHelper: AuthInfoHelper
 
-    //     For Singleton instantiation
+    // For Singleton instantiation
     @Volatile
     var LOGIN_INSTANCE: LoginApiService? = null
 
     @Volatile
     var INSTANCE: ApiService? = null
 
-    @Suppress("UNCHECKED_CAST")
+    // Gets or generates the ApiClient
     fun getApiService(
         context: Context,
         baseUrl: String = "",
@@ -55,11 +55,8 @@ object ApiClient {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
-    fun getLoginApiService(
-        context: Context,
-        baseUrl: String = ""
-    ): LoginApiService {
+    // Gets or generates the LoginApiClient
+    fun getLoginApiService(context: Context, baseUrl: String = ""): LoginApiService {
         LOGIN_INSTANCE?.let {
             return it
         } ?: kotlin.run {
@@ -104,6 +101,7 @@ object ApiClient {
         }
     }
 
+    // Clears instances to refresh their build with updated remoteUrl
     fun clearApiClients() {
         retrofit = null
         okHttpClient = null
@@ -111,6 +109,7 @@ object ApiClient {
         LOGIN_INSTANCE = null
     }
 
+    // Sets the interceptors for requests
     private fun initOkHttp(
         loginApiService: LoginApiService?,
         loginRequiredCallback: LoginRequiredCallback?
@@ -125,6 +124,7 @@ object ApiClient {
                 .setLevel(HttpLoggingInterceptor.Level.BODY)
         )
 
+        // Adds authentication interceptor
         okHttpClientBuilder.addInterceptor(
             AuthenticationInterceptor(authInfoHelper, loginApiService, loginRequiredCallback)
         )
@@ -134,5 +134,6 @@ object ApiClient {
         return newOkHttpClient
     }
 
+    // Adjusts retrofit baseUrl depending on what is given in remoteUrl
     private fun buildUrl(remoteUrl: String): String = remoteUrl.removeSuffix("/") + SERVER_ENDPOINT
 }
