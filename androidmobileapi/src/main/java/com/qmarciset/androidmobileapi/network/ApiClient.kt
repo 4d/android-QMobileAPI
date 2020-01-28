@@ -83,7 +83,7 @@ object ApiClient {
         retrofit?.let {
             return it
         } ?: kotlin.run {
-            return Retrofit.Builder()
+            val newRetrofit = Retrofit.Builder()
                 .baseUrl(
                     if (baseUrl.isEmpty())
                         buildUrl(authInfoHelper.remoteUrl)
@@ -99,27 +99,39 @@ object ApiClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
+            retrofit = newRetrofit
+            return newRetrofit
         }
+    }
+
+    fun clearApiClients() {
+        retrofit = null
+        okHttpClient = null
+        INSTANCE = null
+        LOGIN_INSTANCE = null
     }
 
     private fun initOkHttp(
         loginApiService: LoginApiService?,
         loginRequiredCallback: LoginRequiredCallback?
     ): OkHttpClient {
-        val httpClient = OkHttpClient().newBuilder()
+        val okHttpClientBuilder = OkHttpClient().newBuilder()
             .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .readTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .writeTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
 
-        httpClient.addInterceptor(
+        okHttpClientBuilder.addInterceptor(
             HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY)
         )
 
-        httpClient.addInterceptor(
+        okHttpClientBuilder.addInterceptor(
             AuthenticationInterceptor(authInfoHelper, loginApiService, loginRequiredCallback)
         )
-        return httpClient.build()
+
+        val newOkHttpClient = okHttpClientBuilder.build()
+        okHttpClient = newOkHttpClient
+        return newOkHttpClient
     }
 
     private fun buildUrl(remoteUrl: String): String = remoteUrl.removeSuffix("/") + SERVER_ENDPOINT

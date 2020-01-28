@@ -12,14 +12,14 @@ import com.qmarciset.androidmobileapi.model.info.Info
 import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.ApiService
 import com.qmarciset.androidmobileapi.network.LoginApiService
-import com.qmarciset.androidmobileapi.utils.getTestHeaders
+import com.qmarciset.androidmobileapi.utils.assertRequest
+import com.qmarciset.androidmobileapi.utils.assertResponseSuccessful
+import com.qmarciset.androidmobileapi.utils.mockResponse
 import com.qmarciset.androidmobileapi.utils.model.Event
 import com.qmarciset.androidmobileapi.utils.parseJsonToType
-import com.qmarciset.androidmobileapi.utils.readContentFromFilePath
 import java.net.HttpURLConnection
 import junit.framework.TestCase
 import okhttp3.ResponseBody
-import okhttp3.internal.toHeaderList
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -38,10 +38,10 @@ import retrofit2.Response
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])
-class APIServiceTestMockedServer {
+class ApiTest {
 
     private var mockWebServer = MockWebServer()
-    private lateinit var apiServiceMocked: ApiService
+    private lateinit var apiService: ApiService
     private lateinit var dispatcher: Dispatcher
     private var gson = Gson()
 
@@ -55,12 +55,16 @@ class APIServiceTestMockedServer {
         val loginApiService: LoginApiService = Mockito.mock(LoginApiService::class.java)
         val loginRequiredCallback: LoginRequiredCallback =
             Mockito.mock(LoginRequiredCallback::class.java)
-        apiServiceMocked = ApiClient.getApiService(
-            ApplicationProvider.getApplicationContext(),
-            mockWebServer.url("/").toString(),
-            loginApiService,
-            loginRequiredCallback
-        )
+
+        synchronized(ApplicationProvider.getApplicationContext()) {
+            ApiClient.clearApiClients()
+            apiService = ApiClient.getApiService(
+                ApplicationProvider.getApplicationContext(),
+                mockWebServer.url("/").toString(),
+                loginApiService,
+                loginRequiredCallback
+            )
+        }
     }
 
     private fun initDispatcher() {
@@ -118,26 +122,6 @@ class APIServiceTestMockedServer {
         }
     }
 
-    private fun assertRequest(request: RecordedRequest) {
-        assertEquals("${request.method} ${request.path} HTTP/1.1", request.requestLine)
-        assertEquals("application/json", request.getHeader("Content-Type"))
-        assertEquals("", request.body.readUtf8())
-    }
-
-    private fun mockResponse(filename: String): MockResponse {
-        val responseCode = MockResponse().setResponseCode(HttpURLConnection.HTTP_OK)
-        return responseCode.apply {
-            responseCode.headers =
-                getTestHeaders()
-        }
-            .setBody(
-                readContentFromFilePath(
-                    ApplicationProvider.getApplicationContext(),
-                    filename
-                )
-            )
-    }
-
     @After
     fun teardown() {
         mockWebServer.shutdown()
@@ -146,7 +130,7 @@ class APIServiceTestMockedServer {
     @Test
     fun `test get catalog`() {
         // Action /$catalog
-        val response: Response<ResponseBody> = apiServiceMocked.getCatalog().blockingGet()
+        val response: Response<ResponseBody> = apiService.getCatalog().blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -161,7 +145,7 @@ class APIServiceTestMockedServer {
     @Test
     fun `test get all dataClasses`() {
         // Action /$catalog/$all
-        val response: Response<ResponseBody> = apiServiceMocked.getAllDataClasses().blockingGet()
+        val response: Response<ResponseBody> = apiService.getAllDataClasses().blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -177,7 +161,7 @@ class APIServiceTestMockedServer {
     @Test
     fun `test get dataClass`() {
         // Action /$catalog/Event
-        val response: Response<ResponseBody> = apiServiceMocked.getDataClass("Event").blockingGet()
+        val response: Response<ResponseBody> = apiService.getDataClass("Event").blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -195,7 +179,7 @@ class APIServiceTestMockedServer {
     @Test
     fun `test get info`() {
         // Action /$info
-        val response: Response<ResponseBody> = apiServiceMocked.getInfo().blockingGet()
+        val response: Response<ResponseBody> = apiService.getInfo().blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -211,7 +195,7 @@ class APIServiceTestMockedServer {
     fun `test get entity`() {
         // Action /Event(0)
         val response: Response<ResponseBody> =
-            apiServiceMocked.getEntity("Event", "12").blockingGet()
+            apiService.getEntity("Event", "12").blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -227,7 +211,7 @@ class APIServiceTestMockedServer {
     fun `test get entity with attributes`() {
         // Action /Event(0)/id,title
         val response: Response<ResponseBody> =
-            apiServiceMocked.getEntityWithAttributes("Event", "12", "id,title").blockingGet()
+            apiService.getEntityWithAttributes("Event", "12", "id,title").blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -244,7 +228,7 @@ class APIServiceTestMockedServer {
     @Test
     fun `test get entities`() {
         // Action /Event
-        val response: Response<ResponseBody> = apiServiceMocked.getEntities("Event").blockingGet()
+        val response: Response<ResponseBody> = apiService.getEntities("Event").blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -263,7 +247,7 @@ class APIServiceTestMockedServer {
     fun `test get entities with attributes`() {
         // Action /Event/id,title
         val response: Response<ResponseBody> =
-            apiServiceMocked.getEntitiesWithAttributes("Event", "id,title").blockingGet()
+            apiService.getEntitiesWithAttributes("Event", "id,title").blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -284,7 +268,7 @@ class APIServiceTestMockedServer {
     fun `test get entities with filter`() {
         // Action /Event/$filter="id>13 AND id<16"
         val response: Response<ResponseBody> =
-            apiServiceMocked.getEntitiesFiltered("Event", "\"id>13 AND id<16\"").blockingGet()
+            apiService.getEntitiesFiltered("Event", "\"id>13 AND id<16\"").blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -302,7 +286,7 @@ class APIServiceTestMockedServer {
     @Test
     fun `test get entities with filter with attributes`() {
         // Action /Event/id,title/$filter="id>13 AND id<16"
-        val response: Response<ResponseBody> = apiServiceMocked.getEntitiesFilteredWithAttributes(
+        val response: Response<ResponseBody> = apiService.getEntitiesFilteredWithAttributes(
             "Event",
             "id,title",
             "\"id>13 AND id<16\""
@@ -321,13 +305,5 @@ class APIServiceTestMockedServer {
         assertEquals("Fourteenth Event", events?.get(0)?.title)
         assertNull(events?.get(0)?.timeStamp)
         assertNull(events?.get(0)?.count)
-    }
-
-    private fun assertResponseSuccessful(response: Response<*>) {
-        assertNotNull(response.body())
-        assertEquals(9, response.headers().toHeaderList().size)
-        assertEquals(HttpURLConnection.HTTP_OK, response.code())
-        assertEquals(true, response.isSuccessful)
-        assertEquals(null, response.errorBody())
     }
 }
