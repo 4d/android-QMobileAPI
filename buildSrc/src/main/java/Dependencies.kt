@@ -6,7 +6,7 @@ object Versions {
     val atsl_junit = "1.1.1"
     val junit = "4.13"
     val kotlin = "1.3.61"
-    val okhttp = "4.3.0"
+    val okhttp = "4.3.1"
     val preference = "1.1.0"
     val retrofit = "2.7.1"
     val robolectric = "4.3.1"
