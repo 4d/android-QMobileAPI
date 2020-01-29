@@ -5,6 +5,7 @@ import com.qmarciset.androidmobileapi.model.error.ErrorResponse
 import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.LoginApiService
 import com.qmarciset.androidmobileapi.repository.AuthRepository
+import com.qmarciset.androidmobileapi.utils.RequestErrorHandler
 import com.qmarciset.androidmobileapi.utils.RestErrorCode
 import com.qmarciset.androidmobileapi.utils.parseJsonToType
 import java.net.HttpURLConnection
@@ -24,7 +25,7 @@ class AuthenticationInterceptor(
     private var corruptedTokenCounter = 0
 
     companion object {
-        private const val CORRUPTED_TOKEN_TRIGGER_LIMIT = 7
+        private const val CORRUPTED_TOKEN_TRIGGER_LIMIT = 0
     }
 
     private var loginApiService: LoginApiService? = null
@@ -85,7 +86,7 @@ class AuthenticationInterceptor(
         // Boolean to make sure we don't perform the refreshAuth() procedure twice
         var isAuthAlreadyRefreshed = false
 
-        val parsedError: ErrorResponse? = tryToParseError(response)
+        val parsedError: ErrorResponse? = RequestErrorHandler.tryToParseError(response)
         parsedError?.let {
             parsedError.__ERRORS?.let { errors ->
                 if (errors.any { errorReason ->
@@ -163,13 +164,4 @@ class AuthenticationInterceptor(
             // Logout request failed
         }
     }
-}
-
-fun tryToParseError(response: Response): ErrorResponse? {
-    // If buffer is read here, it won't be readable later to decode the response.
-    // Therefore, we use peekBody() to copy the buffer instead of body()
-    val copyResponse = response.peekBody(Long.MAX_VALUE)
-    // val responseBody = response.body
-    val json = copyResponse.string()
-    return Gson().parseJsonToType<ErrorResponse>(json)
 }

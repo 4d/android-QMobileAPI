@@ -1,6 +1,7 @@
 package com.qmarciset.androidmobileapi.repository
 
 import com.qmarciset.androidmobileapi.network.ApiService
+import com.qmarciset.androidmobileapi.utils.RequestErrorHandler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -11,6 +12,32 @@ import retrofit2.Response
 open class RestRepository(private val tableName: String, private val apiService: ApiService) {
 
     var disposable: CompositeDisposable = CompositeDisposable()
+
+    // Performs getEntitiesFiltered request
+    fun getMoreRecentEntitiesFromApi(
+        predicate: String,
+        onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
+    ) {
+        disposable.add(
+            apiService.getEntitiesFiltered(tableName, predicate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
+                    override fun onSuccess(response: Response<ResponseBody>) {
+
+                        if (response.isSuccessful) {
+                            onResult(true, response, null)
+                        } else {
+                            onResult(false, null, response)
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        onResult(false, null, e)
+                    }
+                })
+        )
+    }
 
     // Performs getEntities request
     fun getAllFromApi(

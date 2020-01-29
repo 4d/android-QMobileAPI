@@ -27,6 +27,8 @@ class AuthInfoHelper(context: Context) {
         const val SESSION_TOKEN = "session_token"
         const val DEVICE_UUID = "device_uuid"
 
+        const val GLOBAL_STAMP = "__GlobalStamp"
+
         const val COOKIE = "Cookie"
 
         const val PRIVATE_PREF_NAME = "4D_QMOBILE_PRIVATE"
@@ -95,6 +97,12 @@ class AuthInfoHelper(context: Context) {
         get() = privatePrefs[SESSION_TOKEN] ?: ""
         set(value) {
             privatePrefs[SESSION_TOKEN] = value
+        }
+
+    var globalStamp: Int
+        get() = prefs[GLOBAL_STAMP] ?: 0
+        set(value) {
+            prefs[GLOBAL_STAMP] = value
         }
 
     var cookie: String

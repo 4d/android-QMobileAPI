@@ -15,6 +15,7 @@ class Employee(
     val Notes: String? = null,
     val Phone: String? = null,
     val Photo: Photo? = null,
+//    val __GlobalStamp: Int? = null,
     override val __GlobalStamp: Int? = null,
     override val __KEY: String,
     override val __STAMP: Int? = null,
