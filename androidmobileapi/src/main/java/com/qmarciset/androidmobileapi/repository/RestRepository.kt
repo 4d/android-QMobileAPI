@@ -1,7 +1,6 @@
 package com.qmarciset.androidmobileapi.repository
 
 import com.qmarciset.androidmobileapi.network.ApiService
-import com.qmarciset.androidmobileapi.utils.RequestErrorHandler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver

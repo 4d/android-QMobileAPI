@@ -1,13 +1,11 @@
 package com.qmarciset.androidmobileapi.auth
 
-import com.google.gson.Gson
 import com.qmarciset.androidmobileapi.model.error.ErrorResponse
 import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.LoginApiService
 import com.qmarciset.androidmobileapi.repository.AuthRepository
 import com.qmarciset.androidmobileapi.utils.RequestErrorHandler
 import com.qmarciset.androidmobileapi.utils.RestErrorCode
-import com.qmarciset.androidmobileapi.utils.parseJsonToType
 import java.net.HttpURLConnection
 import okhttp3.Interceptor
 import okhttp3.Request
