@@ -12,8 +12,10 @@ import okhttp3.mockwebserver.RecordedRequest
 import org.junit.Assert
 import retrofit2.Response
 
-// Sample headers
-fun getTestHeaders(): Headers {
+/**
+ * Sample headers
+ */
+private fun getTestHeaders(): Headers {
     val headers = mutableMapOf<String, String>()
     headers["4DREST-INFO"] = "1.1"
     headers["Accept-Ranges"] = "bytes"
@@ -28,19 +30,25 @@ fun getTestHeaders(): Headers {
     return headers.toHeaders()
 }
 
-// Reads content from assets json files
-fun readContentFromFilePath(context: Context, filename: String): String {
+/**
+ * Reads content from assets json files
+ */
+private fun readContentFromFilePath(context: Context, filename: String): String {
     return context.assets.open(filename).bufferedReader().use {
         it.readText()
     }
 }
 
-// Checks that the request returns positively
+/**
+ * Checks that the request returns positively
+ */
 fun assertRequest(request: RecordedRequest) {
     Assert.assertEquals("${request.method} ${request.path} HTTP/1.1", request.requestLine)
 }
 
-// Mocks response for unit tests
+/**
+ * Mocks response for unit tests
+ */
 fun mockResponse(filename: String): MockResponse {
     val responseCode = MockResponse().setResponseCode(HttpURLConnection.HTTP_OK)
     return responseCode.apply {
@@ -55,7 +63,9 @@ fun mockResponse(filename: String): MockResponse {
         )
 }
 
-// Checks that the request returns positively and contains the correct headers count
+/**
+ * Checks that the request returns positively and contains the correct headers count
+ */
 fun assertResponseSuccessful(response: Response<*>) {
     Assert.assertNotNull(response.body())
     Assert.assertEquals(9, response.headers().toHeaderList().size)

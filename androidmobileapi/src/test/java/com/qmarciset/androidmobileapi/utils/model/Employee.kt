@@ -1,4 +1,4 @@
-package com.qmarciset.androidmobileapi.model.entity.custom
+package com.qmarciset.androidmobileapi.utils.model
 
 import com.qmarciset.androidmobileapi.model.entity.EntityModel
 
@@ -14,8 +14,7 @@ class Employee(
     val Location: String? = null,
     val Notes: String? = null,
     val Phone: String? = null,
-    val Photo: Photo? = null,
-//    val __GlobalStamp: Int? = null,
+    val Photo: com.qmarciset.androidmobileapi.utils.model.Photo? = null,
     override val __GlobalStamp: Int? = null,
     override val __KEY: String,
     override val __STAMP: Int? = null,

@@ -12,8 +12,10 @@ open class RestRepository(private val tableName: String, private val apiService:
 
     var disposable: CompositeDisposable = CompositeDisposable()
 
-    // Performs getEntitiesFiltered request
-    fun getMoreRecentEntitiesFromApi(
+    /**
+     * Performs getEntitiesFiltered request
+     */
+    fun getMoreRecentEntities(
         predicate: String,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
@@ -38,8 +40,10 @@ open class RestRepository(private val tableName: String, private val apiService:
         )
     }
 
-    // Performs getEntities request
-    fun getAllFromApi(
+    /**
+     * Performs getEntities request
+     */
+    fun getAll(
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
         disposable.add(

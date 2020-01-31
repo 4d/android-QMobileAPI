@@ -35,7 +35,9 @@ object ApiClient {
     @Volatile
     var INSTANCE: ApiService? = null
 
-    // Gets or generates the ApiClient
+    /**
+     * Gets or generates the ApiClient
+     */
     fun getApiService(
         context: Context,
         baseUrl: String = "",
@@ -55,7 +57,9 @@ object ApiClient {
         }
     }
 
-    // Gets or generates the LoginApiClient
+    /**
+     * Gets or generates the LoginApiClient
+     */
     fun getLoginApiService(context: Context, baseUrl: String = ""): LoginApiService {
         LOGIN_INSTANCE?.let {
             return it
@@ -101,7 +105,9 @@ object ApiClient {
         }
     }
 
-    // Clears instances to refresh their build with updated remoteUrl
+    /**
+     * Clears instances to refresh their build with updated remoteUrl
+     */
     fun clearApiClients() {
         retrofit = null
         okHttpClient = null
@@ -109,7 +115,9 @@ object ApiClient {
         LOGIN_INSTANCE = null
     }
 
-    // Sets the interceptors for requests
+    /**
+     * Sets the interceptors for requests
+     */
     private fun initOkHttp(
         loginApiService: LoginApiService?,
         loginRequiredCallback: LoginRequiredCallback?
@@ -134,6 +142,8 @@ object ApiClient {
         return newOkHttpClient
     }
 
-    // Adjusts retrofit baseUrl depending on what is given in remoteUrl
+    /**
+     * Adjusts retrofit baseUrl depending on what is given in remoteUrl
+     */
     private fun buildUrl(remoteUrl: String): String = remoteUrl.removeSuffix("/") + SERVER_ENDPOINT
 }

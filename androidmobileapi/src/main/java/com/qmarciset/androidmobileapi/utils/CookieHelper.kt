@@ -2,9 +2,14 @@ package com.qmarciset.androidmobileapi.utils
 
 import okhttp3.Headers
 
+/**
+ * Helper class for cookies
+ */
 object CookieHelper {
 
-    // Utility function to concatenate cookies
+    /**
+     * Utility function to concatenate cookies
+     */
     fun buildCookieString(headers: Headers): String? {
         val headersMap = headers.toMultimap()
         val cookies = headersMap["Set-Cookie"]

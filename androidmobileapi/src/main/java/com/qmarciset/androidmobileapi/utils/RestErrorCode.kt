@@ -1,5 +1,8 @@
 package com.qmarciset.androidmobileapi.utils
 
+/**
+ * Rest errors returned by 4D Server
+ */
 object RestErrorCode {
     // Web
     const val entity_not_found = 1_800

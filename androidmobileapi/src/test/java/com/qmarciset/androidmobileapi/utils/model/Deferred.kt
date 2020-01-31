@@ -1,4 +1,4 @@
-package com.qmarciset.androidmobileapi.model.entity.custom
+package com.qmarciset.androidmobileapi.utils.model
 
 data class Deferred(
     val image: Boolean?,

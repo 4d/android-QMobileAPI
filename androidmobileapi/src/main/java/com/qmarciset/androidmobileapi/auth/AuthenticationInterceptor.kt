@@ -4,14 +4,14 @@ import com.qmarciset.androidmobileapi.model.error.ErrorResponse
 import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.LoginApiService
 import com.qmarciset.androidmobileapi.repository.AuthRepository
-import com.qmarciset.androidmobileapi.utils.RequestErrorHandler
+import com.qmarciset.androidmobileapi.utils.RequestErrorHelper
 import com.qmarciset.androidmobileapi.utils.RestErrorCode
-import java.net.HttpURLConnection
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.internal.closeQuietly
 import timber.log.Timber
+import java.net.HttpURLConnection
 
 class AuthenticationInterceptor(
     mAuthInfoHelper: AuthInfoHelper,
@@ -21,6 +21,7 @@ class AuthenticationInterceptor(
 
     // For test purpose to trigger 401 error
     private var corruptedTokenCounter = 0
+    private val corruptedTokenSuffix = "XXX_CORRUPTED_XXX"
 
     companion object {
         private const val CORRUPTED_TOKEN_TRIGGER_LIMIT = 0
@@ -69,7 +70,7 @@ class AuthenticationInterceptor(
                     .removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)
                     .addHeader(
                         ApiClient.AUTHORIZATION_HEADER_KEY,
-                        "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${authInfoHelper.sessionToken}88"
+                        "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${authInfoHelper.sessionToken}_$corruptedTokenSuffix"
                     )
             }
         } else {
@@ -84,17 +85,13 @@ class AuthenticationInterceptor(
         // Boolean to make sure we don't perform the refreshAuth() procedure twice
         var isAuthAlreadyRefreshed = false
 
-        val parsedError: ErrorResponse? = RequestErrorHandler.tryToParseError(response)
+        val parsedError: ErrorResponse? = RequestErrorHelper.tryToParseError(response)
         parsedError?.let {
             parsedError.__ERRORS?.let { errors ->
                 if (errors.any { errorReason ->
                         errorReason.errCode == RestErrorCode.query_placeholder_is_missing_or_null
                     }) {
-                    refreshAuth(
-                        response,
-                        chain,
-                        requestBuilder
-                    )?.let { res ->
+                    refreshAuth(response, chain, requestBuilder)?.let { res ->
                         response = res
                     }
                     isAuthAlreadyRefreshed = true
@@ -107,11 +104,9 @@ class AuthenticationInterceptor(
                     // Everything is fine
                 }
                 HttpURLConnection.HTTP_UNAUTHORIZED -> {
-                    refreshAuth(
-                        response,
-                        chain,
-                        requestBuilder
-                    )?.let { response = it }
+                    refreshAuth(response, chain, requestBuilder)?.let {
+                        response = it
+                    }
                 }
                 else -> {
                 }
@@ -139,7 +134,9 @@ class AuthenticationInterceptor(
         return null
     }
 
-    // Refresh authentication by performing a synchronous logout followed by a synchronous login
+    /**
+     * Refresh authentication by performing a synchronous logout followed by a synchronous login
+     */
     private fun Request.Builder.refreshAuthentication(loginApiService: LoginApiService) {
         val authRepository = AuthRepository(loginApiService)
         if (authRepository.syncLogout()) {

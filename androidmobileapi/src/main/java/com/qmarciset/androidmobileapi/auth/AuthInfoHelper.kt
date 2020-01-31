@@ -10,6 +10,9 @@ import com.qmarciset.androidmobileapi.utils.set
 import java.util.UUID
 import org.json.JSONObject
 
+/**
+ * Helper class to store authentication information into SharedPreferences
+ */
 class AuthInfoHelper(context: Context) {
 
     companion object : SingletonHolder<AuthInfoHelper, Context>(::AuthInfoHelper) {
@@ -112,7 +115,9 @@ class AuthInfoHelper(context: Context) {
         }
 }
 
-// Builds the request body for $authenticate request
+/**
+ * Builds the request body for $authenticate request
+ */
 fun AuthInfoHelper.buildAuthRequestBody(email: String, password: String): JSONObject {
     return JSONObject().apply {
         put(AuthInfoHelper.AUTH_EMAIL, email)
@@ -125,7 +130,9 @@ fun AuthInfoHelper.buildAuthRequestBody(email: String, password: String): JSONOb
     }
 }
 
-// Gets the sessionToken from $authenticate request response
+/**
+ * Gets the sessionToken from $authenticate request response
+ */
 fun AuthInfoHelper.handleLoginInfo(authResponse: AuthResponse): Boolean {
     this.sessionId = authResponse.id ?: ""
     authResponse.token?.let {
