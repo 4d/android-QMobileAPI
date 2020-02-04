@@ -6,12 +6,12 @@ import com.qmarciset.androidmobileapi.network.LoginApiService
 import com.qmarciset.androidmobileapi.repository.AuthRepository
 import com.qmarciset.androidmobileapi.utils.RequestErrorHelper
 import com.qmarciset.androidmobileapi.utils.RestErrorCode
+import java.net.HttpURLConnection
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.internal.closeQuietly
 import timber.log.Timber
-import java.net.HttpURLConnection
 
 class AuthenticationInterceptor(
     mAuthInfoHelper: AuthInfoHelper,

@@ -8,3 +8,6 @@ const val COOKIES_ARE_HANDLED = false
 
 // Constant for the number of retries when $authenticate method fails
 const val MAX_LOGIN_RETRY = 1
+
+// Constant timeout value for server pinging (in ms)
+const val PING_TIMEOUT = 5000

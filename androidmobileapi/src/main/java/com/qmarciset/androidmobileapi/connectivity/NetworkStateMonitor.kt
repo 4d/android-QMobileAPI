@@ -13,26 +13,20 @@ import timber.log.Timber
 class NetworkStateMonitor(private val connectivityManager: ConnectivityManager) :
     LiveData<NetworkState>() {
 
-    private var hasNetworkChanged: Boolean = false
-
     private val networkStateObject = object : ConnectivityManager.NetworkCallback() {
         override fun onLost(network: Network) {
             super.onLost(network)
-            hasNetworkChanged = true
             postValue(NetworkState.CONNECTION_LOST)
         }
 
         override fun onUnavailable() {
             super.onUnavailable()
-            hasNetworkChanged = true
             postValue(NetworkState.DISCONNECTED)
         }
 
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
-            if (hasNetworkChanged) {
-                postValue(NetworkState.CONNECTED)
-            }
+            postValue(NetworkState.CONNECTED)
         }
     }
 

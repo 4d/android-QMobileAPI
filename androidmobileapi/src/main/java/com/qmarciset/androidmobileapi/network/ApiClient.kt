@@ -52,7 +52,7 @@ object ApiClient {
                     ApiService::class.java
                 )
             INSTANCE = service
-            Timber.d("ApiService created")
+            Timber.i("ApiService created")
             return service
         }
     }
@@ -68,7 +68,7 @@ object ApiClient {
                 LoginApiService::class.java
             )
             LOGIN_INSTANCE = service
-            Timber.d("LoginApiService created")
+            Timber.i("LoginApiService created")
             return service
         }
     }

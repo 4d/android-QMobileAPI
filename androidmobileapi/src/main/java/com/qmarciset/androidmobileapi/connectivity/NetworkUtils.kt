@@ -2,7 +2,6 @@ package com.qmarciset.androidmobileapi.connectivity
 
 import android.net.ConnectivityManager
 import android.os.Build
-import java.net.InetAddress
 
 /**
  * Utility class for network status checking
@@ -33,10 +32,4 @@ object NetworkUtils {
     }
 
     val sdkNewerThanKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-
-    /**
-     * Check server reachability
-     */
-    fun serverReachable(remoteUrl: String, timeout: Int): Boolean =
-        InetAddress.getByName(remoteUrl).isReachable(timeout)
 }
