@@ -1,3 +1,9 @@
+/*
+ * Created by Quentin Marciset on 7/2/2020.
+ * 4D SAS
+ * Copyright (c) 2020 Quentin Marciset. All rights reserved.
+ */
+
 package com.qmarciset.androidmobileapi
 
 import com.google.gson.Gson
@@ -40,7 +46,7 @@ class GsonExtTest {
             object : TypeToken<List<Event>>() {}.type
         )
         Assert.assertTrue(element.isJsonArray)
-        val expectation = Entities(null, element.asJsonArray, null, null, null)
+        val expectation = Entities(null, null, element.asJsonArray, null, null, null)
         val events = gson.parseJsonToType<List<Event>>(expectation.__ENTITIES)
         Assert.assertEquals("Twelfth Event", events?.get(0)?.title)
     }
