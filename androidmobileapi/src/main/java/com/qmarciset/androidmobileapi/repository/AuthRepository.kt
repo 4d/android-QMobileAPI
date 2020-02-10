@@ -57,7 +57,7 @@ class AuthRepository(private val loginApiService: LoginApiService) {
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry { integer, _ ->
                     // Retries authentication MAX_LOGIN_RETRY times
-                    Timber.d("Retrying authenticate automatically")
+                    Timber.d("Retrying \$authenticate automatically")
                     integer <= MAX_LOGIN_RETRY && shouldRetryOnError
                 }
                 .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {

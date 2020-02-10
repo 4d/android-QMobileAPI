@@ -43,7 +43,6 @@ class AuthenticationInterceptor(
         this.loginRequiredCallback = mLoginRequiredCallback
     }
 
-    @Suppress("LongMethod", "NestedBlockDepth")
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
 
@@ -71,13 +70,7 @@ class AuthenticationInterceptor(
             // For test purpose to trigger 401 error, triggered on 3rd ApiService request
             corruptedTokenCounter++
             if (corruptedTokenCounter == CORRUPTED_TOKEN_TRIGGER_LIMIT) {
-                Timber.e("[[ XXX Adding corrupted token XXX ]]")
-                requestBuilder
-                    .removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)
-                    .addHeader(
-                        ApiClient.AUTHORIZATION_HEADER_KEY,
-                        "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${authInfoHelper.sessionToken}_$corruptedTokenSuffix"
-                    )
+                addCorruptedToken(requestBuilder)
             }
         } else {
             Timber.d("No sessionToken retrieved in SharedPreferences")
@@ -119,6 +112,16 @@ class AuthenticationInterceptor(
             }
         }
         return response
+    }
+
+    private fun addCorruptedToken(requestBuilder: Request.Builder) {
+        Timber.e("[[ XXX Adding corrupted token XXX ]]")
+        requestBuilder
+            .removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)
+            .addHeader(
+                ApiClient.AUTHORIZATION_HEADER_KEY,
+                "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${authInfoHelper.sessionToken}_$corruptedTokenSuffix"
+            )
     }
 
     private fun refreshAuth(
