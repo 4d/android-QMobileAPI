@@ -114,6 +114,9 @@ class AuthenticationInterceptor(
         return response
     }
 
+    /**
+     * For test purpose
+     */
     private fun addCorruptedToken(requestBuilder: Request.Builder) {
         Timber.e("[[ XXX Adding corrupted token XXX ]]")
         requestBuilder
