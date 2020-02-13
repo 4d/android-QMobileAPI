@@ -53,7 +53,6 @@ class ApiTest {
 
     @Before
     fun prepareTest() {
-        println("prepareTest")
         initDispatcher()
         mockWebServer.dispatcher = dispatcher
         mockWebServer.start()

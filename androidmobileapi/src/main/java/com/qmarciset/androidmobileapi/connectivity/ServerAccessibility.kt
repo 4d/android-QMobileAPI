@@ -46,8 +46,8 @@ class ServerAccessibility {
             }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { hasInternet ->
-                    onResult(hasInternet)
+                .subscribe { isServerAccessible ->
+                    onResult(isServerAccessible)
                 }
         )
     }
