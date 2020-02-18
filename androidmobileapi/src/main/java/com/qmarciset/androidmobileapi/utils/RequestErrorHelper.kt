@@ -35,6 +35,6 @@ object RequestErrorHelper {
         val copyResponse = response.peekBody(Long.MAX_VALUE)
         // val responseBody = response.body
         val json = copyResponse.string()
-        return Gson().parseJsonToType<ErrorResponse>(json)
+        return Gson().parseJsonToType(json)
     }
 }
