@@ -19,7 +19,7 @@ import org.json.JSONObject
 /**
  * Helper class to store authentication information into SharedPreferences
  */
-class AuthInfoHelper(context: Context) {
+open class AuthInfoHelper(context: Context) {
 
     companion object : SingletonHolder<AuthInfoHelper, Context>(::AuthInfoHelper) {
         const val AUTH_EMAIL = "email"
@@ -108,7 +108,8 @@ class AuthInfoHelper(context: Context) {
             privatePrefs[SESSION_TOKEN] = value
         }
 
-    var globalStamp: Int
+    // open for unit tests
+    open var globalStamp: Int
         get() = prefs[GLOBAL_STAMP] ?: 0
         set(value) {
             prefs[GLOBAL_STAMP] = value
