@@ -16,10 +16,10 @@ import androidx.lifecycle.LiveData
 import timber.log.Timber
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class NetworkStateMonitor(private val connectivityManager: ConnectivityManager) :
+open class NetworkStateMonitor(private val connectivityManager: ConnectivityManager) :
     LiveData<NetworkState>() {
 
-    private val networkStateObject = object : ConnectivityManager.NetworkCallback() {
+    val networkStateObject = object : ConnectivityManager.NetworkCallback() {
         override fun onLost(network: Network) {
             super.onLost(network)
             postValue(NetworkState.CONNECTION_LOST)
