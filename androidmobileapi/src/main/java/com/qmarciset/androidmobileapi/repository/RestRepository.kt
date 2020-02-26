@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
 import retrofit2.Response
 
-open class RestRepository(private val tableName: String, private val apiService: ApiService) {
+class RestRepository(private val tableName: String, private val apiService: ApiService) {
 
     var disposable: CompositeDisposable = CompositeDisposable()
 

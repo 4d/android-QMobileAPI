@@ -37,10 +37,10 @@ class ServerAccessibility {
                     socket.connect(socketAddress, timeout)
                     socket.close()
 
-                    Timber.d("Server ping successful")
+                    Timber.i("Server ping successful")
                     true
                 } catch (e: IOException) {
-                    Timber.e("Server ping unsuccessful")
+                    Timber.i("Server ping unsuccessful")
                     false
                 }
             }

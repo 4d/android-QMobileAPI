@@ -59,7 +59,7 @@ class AuthenticationInterceptor(
 
         // If a token is stored in sharedPreferences, we add it in header
         if (authInfoHelper.sessionToken.isNotEmpty()) {
-            Timber.d("SessionToken retrieved in SharedPreferences : ${authInfoHelper.sessionToken}")
+            Timber.d("[SessionToken retrieved in SharedPreferences : ${authInfoHelper.sessionToken}]")
             requestBuilder
                 .removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)
                 .addHeader(
@@ -73,7 +73,7 @@ class AuthenticationInterceptor(
                 addCorruptedToken(requestBuilder)
             }
         } else {
-            Timber.d("No sessionToken retrieved in SharedPreferences")
+            Timber.d("[No sessionToken retrieved in SharedPreferences]")
         }
 
         val request = requestBuilder.build()
