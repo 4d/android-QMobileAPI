@@ -12,13 +12,13 @@ object Versions {
     val atsl_junit = "1.1.1"
     val junit = "4.13"
     val kotlin = "1.3.61"
-    val mockito = "3.2.4"
-    val okhttp = "4.3.1"
+    val mockito = "3.3.1"
+    val okhttp = "4.4.0"
     val preference = "1.1.0"
     val retrofit = "2.7.1"
     val robolectric = "4.3.1"
     val rx_android = "2.1.1"
-    val rxjava2 = "2.2.17"
+    val rxjava2 = "2.2.18"
     val timber = "4.7.1"
 }
 
