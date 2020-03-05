@@ -8,10 +8,10 @@ import org.gradle.api.JavaVersion
 
 object Versions {
     val android_gradle_plugin = "3.5.2"
-    val artifactory = "4.13.0"
+    val artifactory = "4.14.1"
     val atsl_junit = "1.1.1"
     val junit = "4.13"
-    val kotlin = "1.3.61"
+    val kotlin = "1.3.70"
     val mockito = "3.3.1"
     val okhttp = "4.4.0"
     val preference = "1.1.0"
