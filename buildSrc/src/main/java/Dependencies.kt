@@ -8,17 +8,17 @@ import org.gradle.api.JavaVersion
 
 object Versions {
     val android_gradle_plugin = "3.5.2"
-    val artifactory = "4.14.1"
+    val artifactory = "4.15.1"
     val atsl_junit = "1.1.1"
     val junit = "4.13"
-    val kotlin = "1.3.70"
-    val mockito = "3.3.1"
+    val kotlin = "1.3.71"
+    val mockito = "3.3.3"
     val okhttp = "4.4.0"
     val preference = "1.1.0"
-    val retrofit = "2.7.1"
+    val retrofit = "2.8.0"
     val robolectric = "4.3.1"
     val rx_android = "2.1.1"
-    val rxjava2 = "2.2.18"
+    val rxjava2 = "2.2.19"
     val timber = "4.7.1"
 }
 

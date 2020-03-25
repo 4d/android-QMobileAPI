@@ -85,16 +85,14 @@ class AuthenticationInterceptor(
         var isAuthAlreadyRefreshed = false
 
         val parsedError: ErrorResponse? = RequestErrorHelper.tryToParseError(response)
-        parsedError?.let {
-            parsedError.__ERRORS?.let { errors ->
-                if (errors.any { errorReason ->
-                        errorReason.errCode == RestErrorCode.query_placeholder_is_missing_or_null
-                    }) {
-                    refreshAuth(response, chain, requestBuilder)?.let { res ->
-                        response = res
-                    }
-                    isAuthAlreadyRefreshed = true
+        parsedError?.__ERRORS?.let { errors ->
+            if (errors.any { errorReason ->
+                    errorReason.errCode == RestErrorCode.query_placeholder_is_missing_or_null
+                }) {
+                refreshAuth(response, chain, requestBuilder)?.let { res ->
+                    response = res
                 }
+                isAuthAlreadyRefreshed = true
             }
         }
         if (!isAuthAlreadyRefreshed) {
