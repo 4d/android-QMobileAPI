@@ -6,7 +6,10 @@
 
 package com.qmarciset.androidmobileapi.model.entity
 
+import com.google.gson.Gson
 import com.google.gson.JsonArray
+import com.qmarciset.androidmobileapi.utils.parseJsonToType
+import okhttp3.ResponseBody
 
 @Suppress("ConstructorParameterNaming")
 data class Entities(
@@ -16,4 +19,20 @@ data class Entities(
     val __FIRST: Int?,
     val __SENT: Int?,
     val __entityModel: String?
-)
+) {
+
+    companion object {
+        /**
+         * Retrieves data from response and insert it in database
+         */
+        fun decodeEntities(
+            gson: Gson,
+            responseBody: ResponseBody,
+            onResult: (entities: Entities?) -> Unit
+        ) {
+            val json = responseBody.string()
+            val entities = gson.parseJsonToType<Entities>(json)
+            onResult(entities)
+        }
+    }
+}
