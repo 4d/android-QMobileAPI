@@ -37,6 +37,7 @@ open class AuthInfoHelper(context: Context) {
         const val DEVICE_UUID = "device_uuid"
 
         const val GLOBAL_STAMP = "__GlobalStamp"
+        const val DELETED_RECORDS_STAMP = "__Stamp"
 
         const val COOKIE = "Cookie"
 
@@ -114,6 +115,12 @@ open class AuthInfoHelper(context: Context) {
         set(value) {
             prefs[GLOBAL_STAMP] = value
         }
+
+    var deletedRecordsStamp: Int
+    get() = prefs[DELETED_RECORDS_STAMP] ?: 0
+    set(value) {
+        prefs[DELETED_RECORDS_STAMP] = value
+    }
 
     var cookie: String
         get() = prefs[COOKIE] ?: ""

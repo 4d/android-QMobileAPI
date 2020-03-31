@@ -17,3 +17,6 @@ const val MAX_LOGIN_RETRY = 1
 
 // Constant timeout value for server pinging (in ms)
 const val PING_TIMEOUT = 5000
+
+// Table name for deleted records
+const val DELETED_RECORDS = "__DeletedRecords"

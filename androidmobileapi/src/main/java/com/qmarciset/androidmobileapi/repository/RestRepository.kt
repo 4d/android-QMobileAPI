@@ -16,12 +16,13 @@ import retrofit2.Response
 
 class RestRepository(private val tableName: String, private val apiService: ApiService) {
 
-    var disposable: CompositeDisposable = CompositeDisposable()
+    private var disposable: CompositeDisposable = CompositeDisposable()
 
     /**
      * Performs getEntitiesFiltered request
      */
     fun getMoreRecentEntities(
+        tableName: String = this.tableName,
         predicate: String,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
