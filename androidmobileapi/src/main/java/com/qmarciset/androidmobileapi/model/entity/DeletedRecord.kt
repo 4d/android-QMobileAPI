@@ -33,7 +33,7 @@ data class DeletedRecord(
             return "\"__Stamp >= $globalStamp\""
         }
 
-        private fun decodeDeletedRecords(
+        fun decodeDeletedRecords(
             gson: Gson,
             entities: Entities?,
             onResult: (deletedRecordList: List<DeletedRecord>) -> Unit

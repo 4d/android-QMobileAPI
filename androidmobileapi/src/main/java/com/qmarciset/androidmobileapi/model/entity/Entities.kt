@@ -23,7 +23,7 @@ data class Entities(
 
     companion object {
         /**
-         * Retrieves data from response and insert it in database
+         * Retrieves data from response
          */
         fun decodeEntities(
             gson: Gson,
@@ -31,8 +31,15 @@ data class Entities(
             onResult: (entities: Entities?) -> Unit
         ) {
             val json = responseBody.string()
-            val entities = gson.parseJsonToType<Entities>(json)
+            val entities = parseEntities(gson, json)
             onResult(entities)
+        }
+
+        /**
+         * Parse Entities from json String
+         */
+        fun parseEntities(gson: Gson, json: String): Entities? {
+            return gson.parseJsonToType<Entities>(json)
         }
     }
 }
