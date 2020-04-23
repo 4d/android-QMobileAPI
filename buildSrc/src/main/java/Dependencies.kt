@@ -13,7 +13,7 @@ object Versions {
     val junit = "4.13"
     val kotlin = "1.3.71"
     val mockito = "3.3.3"
-    val okhttp = "4.4.0"
+    val okhttp = "4.5.0"
     val preference = "1.1.0"
     val retrofit = "2.8.0"
     val robolectric = "4.3.1"
