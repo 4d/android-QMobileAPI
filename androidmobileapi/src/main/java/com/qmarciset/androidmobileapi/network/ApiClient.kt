@@ -10,13 +10,13 @@ import android.content.Context
 import com.qmarciset.androidmobileapi.auth.AuthInfoHelper
 import com.qmarciset.androidmobileapi.auth.AuthenticationInterceptor
 import com.qmarciset.androidmobileapi.auth.LoginRequiredCallback
-import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
@@ -29,10 +29,13 @@ object ApiClient {
     private const val SERVER_ENDPOINT = "/mobileapp/"
     private const val REQUEST_TIMEOUT = 30
 
+    private var retrofitLogin: Retrofit? = null
     private var retrofit: Retrofit? = null
+    private var okHttpClientLogin: OkHttpClient? = null
     private var okHttpClient: OkHttpClient? = null
 
     private lateinit var authInfoHelper: AuthInfoHelper
+    private lateinit var authenticationInterceptor : AuthenticationInterceptor
 
     // For Singleton instantiation
     @Volatile
@@ -70,7 +73,7 @@ object ApiClient {
         LOGIN_INSTANCE?.let {
             return it
         } ?: kotlin.run {
-            val service = getClient(context, baseUrl, null, null).create(
+            val service = getClientLogin(context, baseUrl).create(
                 LoginApiService::class.java
             )
             LOGIN_INSTANCE = service
@@ -79,36 +82,70 @@ object ApiClient {
         }
     }
 
+    /**
+     * Builds a retrofit client for ApiService
+     */
     private fun getClient(
         context: Context,
         baseUrl: String,
-        loginApiService: LoginApiService?,
-        loginRequiredCallback: LoginRequiredCallback?
+        loginApiService: LoginApiService,
+        loginRequiredCallback: LoginRequiredCallback
     ): Retrofit {
         authInfoHelper = AuthInfoHelper.getInstance(context)
 
         retrofit?.let {
             return it
-        } ?: kotlin.run {
-            val newRetrofit = Retrofit.Builder()
-                .baseUrl(
-                    if (baseUrl.isEmpty())
-                        buildUrl(authInfoHelper.remoteUrl)
-                    else
-                        baseUrl
-                )
-                .client(
-                    okHttpClient ?: initOkHttp(
-                        loginApiService,
-                        loginRequiredCallback
-                    )
-                )
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
-            retrofit = newRetrofit
-            return newRetrofit
         }
+        val newRetrofit = Retrofit.Builder()
+            .baseUrl(
+                if (baseUrl.isEmpty())
+                    buildUrl(authInfoHelper.remoteUrl)
+                else
+                    baseUrl
+            )
+            .client(
+                okHttpClient ?: initOkHttp(
+                    loginApiService,
+                    loginRequiredCallback
+                )
+            )
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+        retrofit = newRetrofit
+        return newRetrofit
+    }
+
+    /**
+     * Builds a retrofit client for LoginApiService
+     */
+    private fun getClientLogin(
+        context: Context,
+        baseUrl: String
+    ): Retrofit {
+        authInfoHelper = AuthInfoHelper.getInstance(context)
+
+        retrofitLogin?.let {
+            return it
+        }
+        val newRetrofit = Retrofit.Builder()
+            .baseUrl(
+                if (baseUrl.isEmpty())
+                    buildUrl(authInfoHelper.remoteUrl)
+                else
+                    baseUrl
+            )
+            .client(
+                okHttpClientLogin ?: initOkHttp(
+                    null,
+                    null
+                )
+            )
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+        retrofitLogin = newRetrofit
+        return newRetrofit
     }
 
     /**
@@ -118,6 +155,8 @@ object ApiClient {
         retrofit = null
         okHttpClient = null
         INSTANCE = null
+        retrofitLogin = null
+        okHttpClientLogin = null
         LOGIN_INSTANCE = null
     }
 
@@ -139,12 +178,14 @@ object ApiClient {
         )
 
         // Adds authentication interceptor
-        okHttpClientBuilder.addInterceptor(
-            AuthenticationInterceptor(authInfoHelper, loginApiService, loginRequiredCallback)
-        )
+        authenticationInterceptor = AuthenticationInterceptor(authInfoHelper, loginApiService, loginRequiredCallback)
+        okHttpClientBuilder.addInterceptor(authenticationInterceptor)
 
         val newOkHttpClient = okHttpClientBuilder.build()
-        okHttpClient = newOkHttpClient
+        if (loginApiService != null)
+            okHttpClient = newOkHttpClient
+        else
+            okHttpClientLogin = newOkHttpClient
         return newOkHttpClient
     }
 
@@ -152,4 +193,11 @@ object ApiClient {
      * Adjusts retrofit baseUrl depending on what is given in remoteUrl
      */
     private fun buildUrl(remoteUrl: String): String = remoteUrl.removeSuffix("/") + SERVER_ENDPOINT
+
+    /**
+     * Lets MainActivity interact with AuthenticationInterceptor
+     */
+    fun dataSyncFinished() {
+        authenticationInterceptor.reinitializeInterceptorRetryState()
+    }
 }

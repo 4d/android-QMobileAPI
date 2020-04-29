@@ -18,6 +18,7 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.internal.closeQuietly
 import timber.log.Timber
+import java.util.concurrent.atomic.AtomicBoolean
 
 class AuthenticationInterceptor(
     mAuthInfoHelper: AuthInfoHelper,
@@ -25,17 +26,12 @@ class AuthenticationInterceptor(
     mLoginRequiredCallback: LoginRequiredCallback?
 ) : Interceptor {
 
-    // For test purpose to trigger 401 error
-    private var corruptedTokenCounter = 0
-    private val corruptedTokenSuffix = "XXX_CORRUPTED_XXX"
-
-    companion object {
-        private const val CORRUPTED_TOKEN_TRIGGER_LIMIT = 0
-    }
-
     private var loginApiService: LoginApiService? = null
     private var authInfoHelper: AuthInfoHelper
     private var loginRequiredCallback: LoginRequiredCallback? = null
+
+    private var hasAuthBeenRefreshed = AtomicBoolean(false)
+    private var isAuthInProgress = AtomicBoolean(false)
 
     init {
         this.loginApiService = mLoginApiService
@@ -66,12 +62,6 @@ class AuthenticationInterceptor(
                     ApiClient.AUTHORIZATION_HEADER_KEY,
                     "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${authInfoHelper.sessionToken}"
                 )
-
-            // For test purpose to trigger 401 error, triggered on 3rd ApiService request
-            corruptedTokenCounter++
-            if (corruptedTokenCounter == CORRUPTED_TOKEN_TRIGGER_LIMIT) {
-                addCorruptedToken(requestBuilder)
-            }
         } else {
             Timber.d("[No sessionToken retrieved in SharedPreferences]")
         }
@@ -81,9 +71,6 @@ class AuthenticationInterceptor(
 
         var response = chain.proceed(request)
 
-        // Boolean to make sure we don't perform the refreshAuth() procedure twice
-        var isAuthAlreadyRefreshed = false
-
         val parsedError: ErrorResponse? = RequestErrorHelper.tryToParseError(response)
         parsedError?.__ERRORS?.let { errors ->
             if (errors.any { errorReason ->
@@ -92,37 +79,26 @@ class AuthenticationInterceptor(
                 refreshAuth(response, chain, requestBuilder)?.let { res ->
                     response = res
                 }
-                isAuthAlreadyRefreshed = true
             }
         }
-        if (!isAuthAlreadyRefreshed) {
-            when (response.code) {
-                HttpURLConnection.HTTP_OK -> {
-                    // Everything is fine
-                }
-                HttpURLConnection.HTTP_UNAUTHORIZED -> {
+
+        when (response.code) {
+            HttpURLConnection.HTTP_OK -> {
+                // Everything is fine
+            }
+            HttpURLConnection.HTTP_UNAUTHORIZED -> {
+                if (hasAuthBeenRefreshed.get() && loginApiService != null) {
+                    response = chain.proceed(request)
+                } else {
                     refreshAuth(response, chain, requestBuilder)?.let {
                         response = it
                     }
                 }
-                else -> {
-                }
+            }
+            else -> {
             }
         }
         return response
-    }
-
-    /**
-     * For test purpose
-     */
-    private fun addCorruptedToken(requestBuilder: Request.Builder) {
-        Timber.e("[[ XXX Adding corrupted token XXX ]]")
-        requestBuilder
-            .removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)
-            .addHeader(
-                ApiClient.AUTHORIZATION_HEADER_KEY,
-                "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${authInfoHelper.sessionToken}_$corruptedTokenSuffix"
-            )
     }
 
     private fun refreshAuth(
@@ -130,43 +106,52 @@ class AuthenticationInterceptor(
         chain: Interceptor.Chain,
         requestBuilder: Request.Builder
     ): Response? {
-        if (authInfoHelper.guestLogin) {
-            loginApiService?.let { loginApiService ->
-                // Closing the current active response before building a new one
-                response.closeQuietly()
-                requestBuilder.refreshAuthentication(loginApiService)
-                return chain.proceed(requestBuilder.build())
+        if (!isAuthInProgress.getAndSet(true) && !hasAuthBeenRefreshed.get()) {
+            if (authInfoHelper.guestLogin) {
+                loginApiService?.let { loginApiService ->
+                    // Closing the current active response before building a new one
+                    response.closeQuietly()
+                    requestBuilder.refreshAuthentication(loginApiService)
+                    return chain.proceed(requestBuilder.build())
+                }
+            } else {
+                // We ask to go back to the login page as this is not a guest authenticated session
+                authInfoHelper.sessionToken = ""
+                loginRequiredCallback?.loginRequired()
             }
-        } else {
-            // We ask to go back to the login page as this is not a guest authenticated session
-            loginRequiredCallback?.loginRequired()
         }
         return null
     }
 
     /**
-     * Refresh authentication by performing a synchronous logout followed by a synchronous login
+     * Refresh authentication by performing a synchronous login
      */
     private fun Request.Builder.refreshAuthentication(loginApiService: LoginApiService) {
         val authRepository = AuthRepository(loginApiService)
-        if (authRepository.syncLogout()) {
-            val authRequest = authInfoHelper.buildAuthRequestBody("", "")
-            val authResponse = authRepository.syncAuthenticate(authRequest)
-            if (authResponse != null) {
-                if (authInfoHelper.handleLoginInfo(authResponse)) {
-                    this.removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)
-                        .addHeader(
-                            ApiClient.AUTHORIZATION_HEADER_KEY,
-                            "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${authInfoHelper.sessionToken}"
-                        )
-                } else {
-                    // No sessionToken could be retrieved
-                }
+        val authRequest = authInfoHelper.buildAuthRequestBody("", "")
+        val authResponse = authRepository.syncAuthenticate(authRequest)
+        if (authResponse != null) {
+            if (authInfoHelper.handleLoginInfo(authResponse)) {
+                this.removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)
+                    .addHeader(
+                        ApiClient.AUTHORIZATION_HEADER_KEY,
+                        "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${authInfoHelper.sessionToken}"
+                    )
+                hasAuthBeenRefreshed.set(true)
             } else {
-                // Login request failed
+                // No sessionToken could be retrieved
             }
         } else {
-            // Logout request failed
+            // Login request failed
         }
+        isAuthInProgress.set(false)
+    }
+
+    /**
+     * Reinitialize AtomicBoolean to be able to perform other automatic authentication if another 401
+     * occurs in another datasync
+     */
+    fun reinitializeInterceptorRetryState() {
+        hasAuthBeenRefreshed.set(false)
     }
 }
