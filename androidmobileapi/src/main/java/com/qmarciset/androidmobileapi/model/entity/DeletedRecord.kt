@@ -55,7 +55,7 @@ data class DeletedRecord(
 
             restRepository.getMoreRecentEntities(
                 tableName = DELETED_RECORDS,
-                predicate = predicate
+                filter = predicate
             ) { isSuccess, response, error ->
                 if (isSuccess) {
                     response?.body()?.let {

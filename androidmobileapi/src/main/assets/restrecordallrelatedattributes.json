@@ -1,0 +1,32 @@
+{
+  "__entityModel": "Event",
+  "__KEY": "12",
+  "__TIMESTAMP": "\"2017-03-13T08:27:17.298Z\"",
+  "__STAMP": 22,
+  "guests": {
+    "__ENTITYSET": "/rest/Event(12)/guests?$expand=guests",
+    "__GlobalStamp": 50,
+    "__COUNT": 135,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "1",
+        "__TIMESTAMP": "2019-12-01T20:18:26.046Z",
+        "__STAMP": 5,
+        "lastName": "BLOOMBERG",
+        "firstName": "Roch",
+        "job": "QA",
+        "location": "NYC"
+      },
+      {
+        "__KEY": "2",
+        "__TIMESTAMP": "2019-12-04T10:58:42.542Z",
+        "__STAMP": 6,
+        "lastName": "JONES",
+        "firstName": "Jack",
+        "job": "Localization",
+        "location": "Seattle"
+      }
+    ]
+  }
+}

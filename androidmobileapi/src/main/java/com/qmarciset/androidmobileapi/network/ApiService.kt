@@ -56,55 +56,28 @@ interface ApiService {
     /**
      * Returns the data for the specific entity defined by the datastore class's primary key,
      * e.g., Company(22) or Company("IT0911AB2200")
+     * [dataClassName] table name
+     * [key] entity primary key
+     * [attributes] specifies the attributes from table and related tables to receive
      */
     @GET("{dataClassName}({key})")
     fun getEntity(
         @Path("dataClassName") dataClassName: String,
-        @Path("key") key: String
-    ): Single<Response<ResponseBody>>
-
-    /**
-     * Applies the previous request but only returns specified attributes values
-     */
-    @GET("{dataClassName}({key})/{attributes}")
-    fun getEntityWithAttributes(
-        @Path("dataClassName") dataClassName: String,
         @Path("key") key: String,
-        @Path("attributes") attributes: String
+        @Query("\$attributes", encoded = true) attributes: String? = null
     ): Single<Response<ResponseBody>>
 
     /**
      * Returns all the data (by default the first 100 entities) for a specific datastore class
      * (e.g., Company)
+     * [dataClassName] table name
+     * [filter] specifies a filter on entity set
+     * [attributes] specifies the related attributes of the table to return
      */
     @GET("{dataClassName}")
-    fun getEntities(@Path("dataClassName") dataClassName: String): Single<Response<ResponseBody>>
-
-    /**
-     * Applies the previous request but only returns specified attributes values
-     */
-    @GET("{dataClassName}/{attributes}")
-    fun getEntitiesWithAttributes(
+    fun getEntities(
         @Path("dataClassName") dataClassName: String,
-        @Path("attributes") attributes: String
-    ): Single<Response<ResponseBody>>
-
-    /**
-     * Filters the data in a datastore class or method (e.g., $filter="firstName!='' AND salary>30000")
-     */
-    @GET("{dataClassName}/")
-    fun getEntitiesFiltered(
-        @Path("dataClassName") dataClassName: String,
-        @Query("\$filter", encoded = true) predicate: String
-    ): Single<Response<ResponseBody>>
-
-    /**
-     * Applies the previous request but only returns specified attributes values
-     */
-    @GET("{dataClassName}/{attributes}/")
-    fun getEntitiesFilteredWithAttributes(
-        @Path("dataClassName") dataClassName: String,
-        @Path("attributes") attributes: String,
-        @Query("\$filter", encoded = true) predicate: String
+        @Query("\$filter", encoded = true) filter: String? = null,
+        @Query("\$attributes", encoded = true) attributes: String? = null
     ): Single<Response<ResponseBody>>
 }

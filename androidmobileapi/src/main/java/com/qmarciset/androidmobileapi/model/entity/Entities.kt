@@ -23,7 +23,7 @@ data class Entities(
 
     companion object {
         /**
-         * Retrieves data from response
+         * Retrieves data from response, retrieve Entities object
          */
         fun decodeEntities(
             gson: Gson,

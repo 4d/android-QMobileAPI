@@ -10,13 +10,13 @@ import android.content.Context
 import com.qmarciset.androidmobileapi.auth.AuthInfoHelper
 import com.qmarciset.androidmobileapi.auth.AuthenticationInterceptor
 import com.qmarciset.androidmobileapi.auth.LoginRequiredCallback
+import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
@@ -35,7 +35,7 @@ object ApiClient {
     private var okHttpClient: OkHttpClient? = null
 
     private lateinit var authInfoHelper: AuthInfoHelper
-    private lateinit var authenticationInterceptor : AuthenticationInterceptor
+    private lateinit var authenticationInterceptor: AuthenticationInterceptor
 
     // For Singleton instantiation
     @Volatile
@@ -178,7 +178,8 @@ object ApiClient {
         )
 
         // Adds authentication interceptor
-        authenticationInterceptor = AuthenticationInterceptor(authInfoHelper, loginApiService, loginRequiredCallback)
+        authenticationInterceptor =
+            AuthenticationInterceptor(authInfoHelper, loginApiService, loginRequiredCallback)
         okHttpClientBuilder.addInterceptor(authenticationInterceptor)
 
         val newOkHttpClient = okHttpClientBuilder.build()

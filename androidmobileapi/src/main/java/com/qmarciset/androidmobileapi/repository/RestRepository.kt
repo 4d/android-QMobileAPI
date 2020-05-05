@@ -23,11 +23,12 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
      */
     fun getMoreRecentEntities(
         tableName: String = this.tableName,
-        predicate: String,
+        filter: String,
+        attributes: String? = null,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
         disposable.add(
-            apiService.getEntitiesFiltered(tableName, predicate)
+            apiService.getEntities(dataClassName = tableName, filter = filter, attributes = attributes)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
