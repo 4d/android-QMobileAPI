@@ -47,33 +47,6 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
                 })
         )
     }
-
-    /**
-     * Performs getEntities request
-     */
-    fun getAll(
-        onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
-    ) {
-        disposable.add(
-            apiService.getEntities(tableName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
-                    override fun onSuccess(response: Response<ResponseBody>) {
-
-                        if (response.isSuccessful) {
-                            onResult(true, response, null)
-                        } else {
-                            onResult(false, null, response)
-                        }
-                    }
-
-                    override fun onError(e: Throwable) {
-                        onResult(false, null, e)
-                    }
-                })
-        )
-    }
 }
 
 /*class RetryWithDelay2(private val MAX_RETRIES: Int, private val DELAY_DURATION_IN_SECONDS: Long)
