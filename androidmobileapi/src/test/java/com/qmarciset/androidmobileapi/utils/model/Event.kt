@@ -19,6 +19,7 @@ data class Event(
     val title: String? = null,
     val location: Location? = null,
     val guests: Entities? = null,
+    val organizer: Employee? = null,
     override val __GlobalStamp: Int?,
     override val __KEY: String?,
     override val __STAMP: Int?,
@@ -39,6 +40,8 @@ data class Location(
 data class Employee(
     val firstName: String? = null,
     val lastName: String? = null,
+    val organizedEvent: Event? = null,
+    val participatedEvents: Entities? = null,
     override val __GlobalStamp: Int?,
     override val __KEY: String?,
     override val __STAMP: Int?,

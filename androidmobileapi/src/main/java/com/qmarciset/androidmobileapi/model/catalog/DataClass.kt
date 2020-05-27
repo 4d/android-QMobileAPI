@@ -14,5 +14,6 @@ data class DataClass(
     val attributes: List<Attribute?>?,
     val className: String?,
     val collectionName: String?,
-    val key: List<Key?>?
+    val key: List<Key?>?,
+    val tableNumber: Int?
 )

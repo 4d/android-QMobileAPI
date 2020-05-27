@@ -1,0 +1,95 @@
+{
+  "__entityModel": "Event",
+  "__COUNT": 3,
+  "__SENT": 3,
+  "__FIRST": 0,
+  "__ENTITIES": [
+    {
+      "__KEY": "12",
+      "__TIMESTAMP": "\"2017-03-06T14:47:38.001Z\"",
+      "__STAMP": 16,
+      "id": 12,
+      "title": "Twelfth Event",
+      "guests": {
+        "__ENTITYSET": "/rest/Event(12)/guests?$expand=guests",
+        "__GlobalStamp": 50,
+        "__COUNT": 135,
+        "__FIRST": 0,
+        "__ENTITIES": [
+          {
+            "__KEY": "1",
+            "__TIMESTAMP": "2019-12-01T20:18:26.046Z",
+            "__STAMP": 5,
+            "lastName": "BLOOMBERG",
+            "firstName": "Roch"
+          },
+          {
+            "__KEY": "2",
+            "__TIMESTAMP": "2019-12-04T10:58:42.542Z",
+            "__STAMP": 6,
+            "lastName": "JONES",
+            "firstName": "Jack"
+          }
+        ]
+      }
+    },
+    {
+      "__KEY": "14",
+      "__TIMESTAMP": "\"2017-03-06T14:48:26.526Z\"",
+      "__STAMP": 14,
+      "id": 14,
+      "title": "Fourteenth Event",
+      "guests": {
+        "__ENTITYSET": "/rest/Event(14)/guests?$expand=guests",
+        "__GlobalStamp": 50,
+        "__COUNT": 135,
+        "__FIRST": 0,
+        "__ENTITIES": [
+          {
+            "__KEY": "1",
+            "__TIMESTAMP": "2019-12-01T20:18:26.046Z",
+            "__STAMP": 5,
+            "lastName": "BLOOMBERG",
+            "firstName": "Roch"
+          },
+          {
+            "__KEY": "2",
+            "__TIMESTAMP": "2019-12-04T10:58:42.542Z",
+            "__STAMP": 6,
+            "lastName": "JONES",
+            "firstName": "Jack"
+          }
+        ]
+      }
+    },
+    {
+      "__KEY": "15",
+      "__TIMESTAMP": "\"2017-03-06T15:03:47.314Z\"",
+      "__STAMP": 7,
+      "id": 15,
+      "title": "Fifteenth Event",
+      "guests": {
+        "__ENTITYSET": "/rest/Event(15)/guests?$expand=guests",
+        "__GlobalStamp": 50,
+        "__COUNT": 135,
+        "__FIRST": 0,
+        "__ENTITIES": [
+          {
+            "__KEY": "1",
+            "__TIMESTAMP": "2019-12-01T20:18:26.046Z",
+            "__STAMP": 5,
+            "lastName": "BLOOMBERG",
+            "firstName": "Roch"
+          },
+          {
+            "__KEY": "2",
+            "__TIMESTAMP": "2019-12-04T10:58:42.542Z",
+            "__STAMP": 6,
+            "lastName": "JONES",
+            "firstName": "Jack"
+          }
+        ]
+      }
+    }
+  ]
+}

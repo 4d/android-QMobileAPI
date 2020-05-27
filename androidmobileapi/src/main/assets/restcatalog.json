@@ -1,9 +1,25 @@
 {
+  "__UNIQID": "10521B6D843F463298CDC8C1241C21E2",
   "dataClasses": [
     {
-      "name": "Event",
-      "uri": "/mobileapp/$catalog/Event",
-      "dataURI": "/mobileapp/Event"
+      "name": "__DeletedRecords",
+      "uri": "/mobileapp/$catalog/__DeletedRecords",
+      "dataURI": "/mobileapp/__DeletedRecords"
+    },
+    {
+      "name": "Employee",
+      "uri": "/mobileapp/$catalog/Employee",
+      "dataURI": "/mobileapp/Employee"
+    },
+    {
+      "name": "Office",
+      "uri": "/mobileapp/$catalog/Office",
+      "dataURI": "/mobileapp/Office"
+    },
+    {
+      "name": "Service",
+      "uri": "/mobileapp/$catalog/Service",
+      "dataURI": "/mobileapp/Service"
     }
   ]
 }

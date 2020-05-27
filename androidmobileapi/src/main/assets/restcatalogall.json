@@ -1,61 +1,339 @@
 {
+  "__UNIQID": "10521B6D843F463298CDC8C1241C21E2",
   "dataClasses": [
     {
-      "name": "Event",
-      "className": "Event",
-      "collectionName": "EventCollection",
+      "name": "__DeletedRecords",
+      "className": "__DeletedRecords",
+      "collectionName": "__DeletedRecordsSelection",
+      "tableNumber": 3,
       "scope": "public",
-      "dataURI": "/mobileapp/Event",
+      "dataURI": "/mobileapp/__DeletedRecords",
       "attributes": [
         {
-          "name": "id",
+          "name": "ID",
           "kind": "storage",
+          "fieldPos": 1,
+          "scope": "public",
+          "indexed": true,
+          "type": "long64",
+          "identifying": true
+        },
+        {
+          "name": "__Stamp",
+          "kind": "storage",
+          "fieldPos": 2,
+          "scope": "public",
+          "indexed": true,
+          "type": "long64"
+        },
+        {
+          "name": "__TableNumber",
+          "kind": "storage",
+          "fieldPos": 3,
+          "scope": "public",
+          "type": "long"
+        },
+        {
+          "name": "__TableName",
+          "kind": "storage",
+          "fieldPos": 4,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "__PrimaryKey",
+          "kind": "storage",
+          "fieldPos": 5,
+          "scope": "public",
+          "type": "string"
+        }
+      ],
+      "key": [
+        {
+          "name": "ID"
+        }
+      ]
+    },
+    {
+      "name": "Employee",
+      "className": "Employee",
+      "collectionName": "EmployeeSelection",
+      "tableNumber": 1,
+      "scope": "public",
+      "dataURI": "/mobileapp/Employee",
+      "attributes": [
+        {
+          "name": "ID",
+          "kind": "storage",
+          "fieldPos": 1,
           "scope": "public",
           "indexed": true,
           "type": "long",
           "identifying": true
         },
         {
-          "name": "count",
+          "name": "FirstName",
           "kind": "storage",
-          "scope": "public",
-          "type": "long"
-        },
-        {
-          "name": "timeStamp",
-          "kind": "storage",
-          "scope": "public",
-          "type": "date",
-          "simpleDate": true
-        },
-        {
-          "name": "title",
-          "kind": "storage",
+          "fieldPos": 2,
           "scope": "public",
           "type": "string"
         },
         {
-          "name": "cancellable",
+          "name": "LastName",
           "kind": "storage",
+          "fieldPos": 3,
           "scope": "public",
-          "type": "bool"
+          "type": "string"
         },
         {
-          "name": "picture",
+          "name": "Job",
           "kind": "storage",
+          "fieldPos": 4,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Company",
+          "kind": "storage",
+          "fieldPos": 5,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Email",
+          "kind": "storage",
+          "fieldPos": 6,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Notes",
+          "kind": "storage",
+          "fieldPos": 7,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Phone",
+          "kind": "storage",
+          "fieldPos": 8,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Address",
+          "kind": "storage",
+          "fieldPos": 9,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Location",
+          "kind": "storage",
+          "fieldPos": 10,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Photo",
+          "kind": "storage",
+          "fieldPos": 11,
           "scope": "public",
           "type": "image"
         },
         {
-          "name": "json",
+          "name": "serviceID",
           "kind": "storage",
+          "fieldPos": 12,
           "scope": "public",
-          "type": "object"
+          "type": "long"
+        },
+        {
+          "name": "__GlobalStamp",
+          "kind": "storage",
+          "fieldPos": 13,
+          "scope": "public",
+          "indexed": true,
+          "type": "long64"
+        },
+        {
+          "name": "service",
+          "kind": "relatedEntity",
+          "fieldPos": 12,
+          "scope": "public",
+          "type": "Service",
+          "foreignKey": "serviceID",
+          "inverseName": "employees",
+          "path": "Service"
+        },
+        {
+          "name": "serviceManaged",
+          "kind": "relatedEntities",
+          "fieldPos": 1,
+          "scope": "public",
+          "type": "ServiceSelection",
+          "inverseName": "manager",
+          "reversePath": true,
+          "path": "manager"
         }
       ],
       "key": [
         {
-          "name": "id"
+          "name": "ID"
+        }
+      ]
+    },
+    {
+      "name": "Office",
+      "className": "Office",
+      "collectionName": "OfficeSelection",
+      "tableNumber": 5,
+      "scope": "public",
+      "dataURI": "/mobileapp/Office",
+      "attributes": [
+        {
+          "name": "ID",
+          "kind": "storage",
+          "fieldPos": 1,
+          "scope": "public",
+          "indexed": true,
+          "type": "long",
+          "identifying": true
+        },
+        {
+          "name": "__GlobalStamp",
+          "kind": "storage",
+          "fieldPos": 2,
+          "scope": "public",
+          "indexed": true,
+          "type": "long64"
+        },
+        {
+          "name": "name",
+          "kind": "storage",
+          "fieldPos": 3,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "area",
+          "kind": "storage",
+          "fieldPos": 4,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "deskNumber",
+          "kind": "storage",
+          "fieldPos": 5,
+          "scope": "public",
+          "type": "long"
+        },
+        {
+          "name": "deskTaken",
+          "kind": "storage",
+          "fieldPos": 6,
+          "scope": "public",
+          "type": "long"
+        }
+      ],
+      "key": [
+        {
+          "name": "ID"
+        }
+      ]
+    },
+    {
+      "name": "Service",
+      "className": "Service",
+      "collectionName": "ServiceSelection",
+      "tableNumber": 4,
+      "scope": "public",
+      "dataURI": "/mobileapp/Service",
+      "attributes": [
+        {
+          "name": "ID",
+          "kind": "storage",
+          "fieldPos": 1,
+          "scope": "public",
+          "indexed": true,
+          "type": "long",
+          "identifying": true
+        },
+        {
+          "name": "name",
+          "kind": "storage",
+          "fieldPos": 2,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "comment",
+          "kind": "storage",
+          "fieldPos": 3,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "__GlobalStamp",
+          "kind": "storage",
+          "fieldPos": 4,
+          "scope": "public",
+          "indexed": true,
+          "type": "long64"
+        },
+        {
+          "name": "employeeNumber",
+          "kind": "storage",
+          "fieldPos": 5,
+          "scope": "public",
+          "type": "long"
+        },
+        {
+          "name": "budget",
+          "kind": "storage",
+          "fieldPos": 6,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "managerID",
+          "kind": "storage",
+          "fieldPos": 7,
+          "scope": "public",
+          "type": "long"
+        },
+        {
+          "name": "employees",
+          "kind": "storage",
+          "fieldPos": 8,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "manager",
+          "kind": "relatedEntity",
+          "fieldPos": 7,
+          "scope": "public",
+          "type": "Employee",
+          "foreignKey": "managerID",
+          "inverseName": "serviceManaged",
+          "path": "Employee"
+        },
+        {
+          "name": "employees",
+          "kind": "relatedEntities",
+          "fieldPos": 1,
+          "scope": "public",
+          "type": "EmployeeSelection",
+          "inverseName": "service",
+          "reversePath": true,
+          "path": "service"
+        }
+      ],
+      "key": [
+        {
+          "name": "ID"
         }
       ]
     }

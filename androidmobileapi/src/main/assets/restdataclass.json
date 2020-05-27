@@ -1,43 +1,132 @@
 {
+  "__UNIQID": "10521B6D843F463298CDC8C1241C21E2",
   "dataClasses": [
     {
-      "name": "Event",
-      "className": "Event",
-      "collectionName": "EventCollection",
+      "name": "Employee",
+      "className": "Employee",
+      "collectionName": "EmployeeSelection",
+      "tableNumber": 1,
       "scope": "public",
-      "dataURI": "/rest/Event",
+      "dataURI": "/mobileapp/Employee",
       "attributes": [
         {
-          "name": "id",
+          "name": "ID",
           "kind": "storage",
+          "fieldPos": 1,
           "scope": "public",
           "indexed": true,
           "type": "long",
           "identifying": true
         },
         {
-          "name": "count",
+          "name": "FirstName",
           "kind": "storage",
+          "fieldPos": 2,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "LastName",
+          "kind": "storage",
+          "fieldPos": 3,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Job",
+          "kind": "storage",
+          "fieldPos": 4,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Company",
+          "kind": "storage",
+          "fieldPos": 5,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Email",
+          "kind": "storage",
+          "fieldPos": 6,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Notes",
+          "kind": "storage",
+          "fieldPos": 7,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Phone",
+          "kind": "storage",
+          "fieldPos": 8,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Address",
+          "kind": "storage",
+          "fieldPos": 9,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Location",
+          "kind": "storage",
+          "fieldPos": 10,
+          "scope": "public",
+          "type": "string"
+        },
+        {
+          "name": "Photo",
+          "kind": "storage",
+          "fieldPos": 11,
+          "scope": "public",
+          "type": "image"
+        },
+        {
+          "name": "serviceID",
+          "kind": "storage",
+          "fieldPos": 12,
           "scope": "public",
           "type": "long"
         },
         {
-          "name": "timeStamp",
+          "name": "__GlobalStamp",
           "kind": "storage",
+          "fieldPos": 13,
           "scope": "public",
-          "type": "date",
-          "simpleDate": true
+          "indexed": true,
+          "type": "long64"
         },
         {
-          "name": "title",
-          "kind": "storage",
+          "name": "service",
+          "kind": "relatedEntity",
+          "fieldPos": 12,
           "scope": "public",
-          "type": "string"
+          "type": "Service",
+          "foreignKey": "serviceID",
+          "inverseName": "employees",
+          "path": "Service"
+        },
+        {
+          "name": "serviceManaged",
+          "kind": "relatedEntities",
+          "fieldPos": 1,
+          "scope": "public",
+          "type": "ServiceSelection",
+          "inverseName": "manager",
+          "reversePath": true,
+          "path": "manager"
         }
       ],
       "key": [
         {
-          "name": "id"
+          "name": "ID"
         }
       ]
     }

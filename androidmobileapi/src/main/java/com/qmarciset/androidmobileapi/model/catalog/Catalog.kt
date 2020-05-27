@@ -7,5 +7,6 @@
 package com.qmarciset.androidmobileapi.model.catalog
 
 data class Catalog(
+    val __UNIQID: String?,
     val dataClasses: ArrayList<DataClass>?
 )
