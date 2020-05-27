@@ -34,7 +34,6 @@ class GsonExtTest {
             Event(
                 title = "Twelfth Event",
                 __KEY = "12",
-                __entityModel = "Event",
                 __GlobalStamp = null,
                 __STAMP = 16,
                 __TIMESTAMP = "2017-03-06T14:47:38.001Z"
@@ -46,7 +45,7 @@ class GsonExtTest {
             object : TypeToken<List<Event>>() {}.type
         )
         Assert.assertTrue(element.isJsonArray)
-        val expectation = Entities(null, null, element.asJsonArray, null, null, null)
+        val expectation = Entities(null, null, element.asJsonArray, null, null, null, null, null)
         val events = gson.parseJsonToType<List<Event>>(expectation.__ENTITIES)
         Assert.assertEquals("Twelfth Event", events?.get(0)?.title)
     }

@@ -23,8 +23,7 @@ data class Event(
     override val __GlobalStamp: Int?,
     override val __KEY: String?,
     override val __STAMP: Int?,
-    override val __TIMESTAMP: String?,
-    override val __entityModel: String?
+    override val __TIMESTAMP: String?
 ) : EntityModel
 
 data class Location(
@@ -33,8 +32,7 @@ data class Location(
     override val __GlobalStamp: Int?,
     override val __KEY: String?,
     override val __STAMP: Int?,
-    override val __TIMESTAMP: String?,
-    override val __entityModel: String?
+    override val __TIMESTAMP: String?
 ) : EntityModel
 
 data class Employee(
@@ -45,6 +43,5 @@ data class Employee(
     override val __GlobalStamp: Int?,
     override val __KEY: String?,
     override val __STAMP: Int?,
-    override val __TIMESTAMP: String?,
-    override val __entityModel: String?
+    override val __TIMESTAMP: String?
 ) : EntityModel

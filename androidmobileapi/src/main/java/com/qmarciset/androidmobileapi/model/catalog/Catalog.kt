@@ -6,6 +6,7 @@
 
 package com.qmarciset.androidmobileapi.model.catalog
 
+@Suppress("ConstructorParameterNaming")
 data class Catalog(
     val __UNIQID: String?,
     val dataClasses: ArrayList<DataClass>?

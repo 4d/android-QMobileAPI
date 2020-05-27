@@ -18,7 +18,9 @@ data class Entities(
     val __ENTITIES: JsonArray?,
     val __FIRST: Int?,
     val __SENT: Int?,
-    val __entityModel: String?
+    val __DATACLASS: String?,
+    val __entityModel: String?, // filled in Entities response
+    val __ENTITYSET: String? // filled in one-to-many relations
 ) {
 
     companion object {
