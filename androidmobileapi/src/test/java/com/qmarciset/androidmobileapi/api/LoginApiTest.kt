@@ -4,7 +4,7 @@
  * Copyright (c) 2020 Quentin Marciset. All rights reserved.
  */
 
-package com.qmarciset.androidmobileapi
+package com.qmarciset.androidmobileapi.api
 
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
@@ -19,7 +19,6 @@ import com.qmarciset.androidmobileapi.utils.assertRequest
 import com.qmarciset.androidmobileapi.utils.assertResponseSuccessful
 import com.qmarciset.androidmobileapi.utils.mockResponse
 import com.qmarciset.androidmobileapi.utils.parseJsonToType
-import java.net.HttpURLConnection
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
@@ -37,6 +36,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import retrofit2.Response
+import java.net.HttpURLConnection
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])

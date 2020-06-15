@@ -32,7 +32,7 @@ interface LoginApiService {
      * Performs authenticate synchronously
      */
     @POST("\$authenticate")
-    fun syncAuthenticate(@Body body: RequestBody): Call<AuthResponse>
+    fun syncAuthenticate(@Body body: RequestBody?): Call<AuthResponse>
 
     /**
      * Logs out current user. Session token given in header will be extracted to remove the

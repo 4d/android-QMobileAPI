@@ -32,7 +32,9 @@ dependencies {
     implementation Libs.timber
 
     // Testing
+    testImplementation Libs.androidx_core_testing
     testImplementation Libs.androidx_junit
+    testImplementation Libs.androidx_runner
     testImplementation Libs.junit
     testImplementation Libs.mockito
     testImplementation Libs.okhttp_mockwebserver

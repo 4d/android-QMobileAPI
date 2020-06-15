@@ -7,19 +7,22 @@
 package com.qmarciset.androidmobileapi.auth
 
 import android.content.Context
+import com.google.gson.Gson
 import com.qmarciset.androidmobileapi.model.auth.AuthResponse
+import com.qmarciset.androidmobileapi.model.queries.Queries
 import com.qmarciset.androidmobileapi.utils.SingletonHolder
 import com.qmarciset.androidmobileapi.utils.customPrefs
 import com.qmarciset.androidmobileapi.utils.defaultPrefs
 import com.qmarciset.androidmobileapi.utils.get
+import com.qmarciset.androidmobileapi.utils.parseJsonToType
 import com.qmarciset.androidmobileapi.utils.set
-import java.util.UUID
 import org.json.JSONObject
+import java.util.UUID
 
 /**
  * Helper class to store authentication information into SharedPreferences
  */
-open class AuthInfoHelper(context: Context) {
+open class AuthInfoHelper(val context: Context) {
 
     companion object : SingletonHolder<AuthInfoHelper, Context>(::AuthInfoHelper) {
         const val AUTH_EMAIL = "email"
@@ -36,6 +39,8 @@ open class AuthInfoHelper(context: Context) {
         const val SESSION_TOKEN = "session_token"
         const val DEVICE_UUID = "device_uuid"
 
+        const val QUERY_PREFIX = "queries_"
+
         const val GLOBAL_STAMP = "__GlobalStamp"
         const val DELETED_RECORDS_STAMP = "__Stamp"
 
@@ -44,36 +49,36 @@ open class AuthInfoHelper(context: Context) {
         const val PRIVATE_PREF_NAME = "4D_QMOBILE_PRIVATE"
     }
 
-    private val prefs =
+    val prefs =
         defaultPrefs(context)
 
-    private val privatePrefs =
+    val privatePrefs =
         customPrefs(context, PRIVATE_PREF_NAME)
 
     // Application Info
     var appInfo: JSONObject
-        get() = JSONObject(prefs[AUTH_APPLICATION] ?: "")
+        get() = JSONObject(prefs[AUTH_APPLICATION] ?: "{}")
         set(value) {
             prefs[AUTH_APPLICATION] = value
         }
 
     // Device Info
     var device: JSONObject
-        get() = JSONObject(prefs[AUTH_DEVICE] ?: "")
+        get() = JSONObject(prefs[AUTH_DEVICE] ?: "{}")
         set(value) {
             prefs[AUTH_DEVICE] = value
         }
 
     // Team Info
     var team: JSONObject
-        get() = JSONObject(prefs[AUTH_TEAM] ?: "")
+        get() = JSONObject(prefs[AUTH_TEAM] ?: "{}")
         set(value) {
             prefs[AUTH_TEAM] = value
         }
 
     // Language Info
     var language: JSONObject
-        get() = JSONObject(prefs[AUTH_LANGUAGE] ?: "")
+        get() = JSONObject(prefs[AUTH_LANGUAGE] ?: "{}")
         set(value) {
             prefs[AUTH_LANGUAGE] = value
         }
@@ -111,16 +116,22 @@ open class AuthInfoHelper(context: Context) {
 
     // open for unit tests
     open var globalStamp: Int
-        get() = prefs[GLOBAL_STAMP] ?: 0
+        get() {
+            val gs = prefs[GLOBAL_STAMP] ?: -1
+            return if (gs == -1) 0 else gs
+        }
         set(value) {
             prefs[GLOBAL_STAMP] = value
         }
 
     var deletedRecordsStamp: Int
-    get() = prefs[DELETED_RECORDS_STAMP] ?: 0
-    set(value) {
-        prefs[DELETED_RECORDS_STAMP] = value
-    }
+        get() {
+            val drs = prefs[DELETED_RECORDS_STAMP] ?: -1
+            return if (drs == -1) 0 else drs
+        }
+        set(value) {
+            prefs[DELETED_RECORDS_STAMP] = value
+        }
 
     var cookie: String
         get() = prefs[COOKIE] ?: ""
@@ -153,5 +164,18 @@ open class AuthInfoHelper(context: Context) {
             return true
         }
         return false
+    }
+
+    // Query filters
+    fun getQuery(tableName: String): String = prefs["$QUERY_PREFIX$tableName"] ?: ""
+
+    fun setQueries(queriesJSONObject: JSONObject) {
+        val queriesObject = Gson().parseJsonToType<Queries>(queriesJSONObject.toString())
+        queriesObject?.let {
+            for (query in queriesObject.queries) {
+                if (query.tableName.isNullOrEmpty().not() && query.value.isNullOrEmpty().not())
+                    prefs["$QUERY_PREFIX${query.tableName}"] = query.value
+            }
+        }
     }
 }

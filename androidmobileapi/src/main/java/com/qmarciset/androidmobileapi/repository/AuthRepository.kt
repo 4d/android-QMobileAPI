@@ -20,7 +20,7 @@ import org.json.JSONObject
 import retrofit2.Response
 import timber.log.Timber
 
-class AuthRepository(private val loginApiService: LoginApiService) {
+open class AuthRepository(private val loginApiService: LoginApiService) {
 
     var disposable: CompositeDisposable = CompositeDisposable()
 
@@ -32,6 +32,7 @@ class AuthRepository(private val loginApiService: LoginApiService) {
             .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
         val authResponse = loginApiService.syncAuthenticate(body).execute().body()
+
         authResponse?.let {
             if (authResponse.success) {
                 return authResponse

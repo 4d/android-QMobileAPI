@@ -12,13 +12,13 @@ import com.qmarciset.androidmobileapi.network.LoginApiService
 import com.qmarciset.androidmobileapi.repository.AuthRepository
 import com.qmarciset.androidmobileapi.utils.RequestErrorHelper
 import com.qmarciset.androidmobileapi.utils.RestErrorCode
-import java.net.HttpURLConnection
-import java.util.concurrent.atomic.AtomicBoolean
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.internal.closeQuietly
 import timber.log.Timber
+import java.net.HttpURLConnection
+import java.util.concurrent.atomic.AtomicBoolean
 
 class AuthenticationInterceptor(
     mAuthInfoHelper: AuthInfoHelper,
@@ -74,8 +74,9 @@ class AuthenticationInterceptor(
         val parsedError: ErrorResponse? = RequestErrorHelper.tryToParseError(response)
         parsedError?.__ERRORS?.let { errors ->
             if (errors.any { errorReason ->
-                    errorReason.errCode == RestErrorCode.query_placeholder_is_missing_or_null
-                }) {
+                errorReason.errCode == RestErrorCode.query_placeholder_is_missing_or_null
+            }
+            ) {
                 refreshAuth(response, chain, requestBuilder)?.let { res ->
                     response = res
                 }

@@ -8,8 +8,6 @@ package com.qmarciset.androidmobileapi.utils
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import java.net.HttpURLConnection
-import kotlin.collections.set
 import okhttp3.Headers
 import okhttp3.Headers.Companion.toHeaders
 import okhttp3.internal.toHeaderList
@@ -17,11 +15,15 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
 import org.junit.Assert
 import retrofit2.Response
+import java.net.HttpURLConnection
+import kotlin.collections.set
+
+const val UNIT_TEST_TOKEN = "unit test token"
 
 /**
  * Sample headers
  */
-private fun getTestHeaders(): Headers {
+fun getTestHeaders(): Headers {
     val headers = mutableMapOf<String, String>()
     headers["4DREST-INFO"] = "1.1"
     headers["Accept-Ranges"] = "bytes"
