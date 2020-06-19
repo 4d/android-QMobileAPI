@@ -151,9 +151,18 @@ class AuthenticationInterceptorTest {
             override fun dispatch(request: RecordedRequest): MockResponse {
                 println("Request = $request")
 
-                Assert.assertEquals(ApiClient.CONTENT_TYPE_HEADER_VALUE, request.headers[ApiClient.CONTENT_TYPE_HEADER_KEY])
-                Assert.assertEquals(ApiClient.X_QMOBILE_HEADER_VALUE, request.headers[ ApiClient.X_QMOBILE_HEADER_KEY])
-                Assert.assertEquals("${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} $UNIT_TEST_TOKEN", request.headers[ApiClient.AUTHORIZATION_HEADER_KEY])
+                Assert.assertEquals(
+                    ApiClient.CONTENT_TYPE_HEADER_VALUE,
+                    request.headers[ApiClient.CONTENT_TYPE_HEADER_KEY]
+                )
+                Assert.assertEquals(
+                    ApiClient.X_QMOBILE_HEADER_VALUE,
+                    request.headers[ApiClient.X_QMOBILE_HEADER_KEY]
+                )
+                Assert.assertEquals(
+                    "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} $UNIT_TEST_TOKEN",
+                    request.headers[ApiClient.AUTHORIZATION_HEADER_KEY]
+                )
 
                 return when (request.path) {
 
@@ -179,7 +188,8 @@ class AuthenticationInterceptorTest {
         val authInfoHelper = AuthInfoHelper.getInstance(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
 
-        Mockito.`when`(loginApiService.syncAuthenticate(Mockito.any(RequestBody::class.java))).thenReturn(mockedCall)
+        Mockito.`when`(loginApiService.syncAuthenticate(Mockito.any(RequestBody::class.java)))
+            .thenReturn(mockedCall)
 
         Mockito.doAnswer {
             Response.success(null)
@@ -194,10 +204,17 @@ class AuthenticationInterceptorTest {
 
                     "/Event(12)" -> {
 
-                        Assert.assertEquals(ApiClient.CONTENT_TYPE_HEADER_VALUE, request.headers[ApiClient.CONTENT_TYPE_HEADER_KEY])
-                        Assert.assertEquals(ApiClient.X_QMOBILE_HEADER_VALUE, request.headers[ ApiClient.X_QMOBILE_HEADER_KEY])
+                        Assert.assertEquals(
+                            ApiClient.CONTENT_TYPE_HEADER_VALUE,
+                            request.headers[ApiClient.CONTENT_TYPE_HEADER_KEY]
+                        )
+                        Assert.assertEquals(
+                            ApiClient.X_QMOBILE_HEADER_VALUE,
+                            request.headers[ApiClient.X_QMOBILE_HEADER_KEY]
+                        )
 
-                        val responseCode = MockResponse().setResponseCode(HttpURLConnection.HTTP_UNAUTHORIZED)
+                        val responseCode =
+                            MockResponse().setResponseCode(HttpURLConnection.HTTP_UNAUTHORIZED)
 //                        Assert.assertEquals(null, request.headers[ApiClient.AUTHORIZATION_HEADER_KEY])
                         return responseCode
                     }
@@ -207,7 +224,8 @@ class AuthenticationInterceptorTest {
         }
 
         mockWebServer.dispatcher = dispatcher
-        val response: Response<ResponseBody> = apiService.getEntity(dataClassName = "Event", key = "12").blockingGet()
+        val response: Response<ResponseBody> =
+            apiService.getEntity(dataClassName = "Event", key = "12").blockingGet()
         Assert.assertEquals(HttpURLConnection.HTTP_UNAUTHORIZED, response.code())
         Assert.assertEquals(false, response.isSuccessful)
     }
@@ -227,7 +245,8 @@ class AuthenticationInterceptorTest {
             userInfo = JsonObject()
         )
 
-        Mockito.`when`(loginApiService.syncAuthenticate(Mockito.any(RequestBody::class.java))).thenReturn(mockedCall)
+        Mockito.`when`(loginApiService.syncAuthenticate(Mockito.any(RequestBody::class.java)))
+            .thenReturn(mockedCall)
 
         Mockito.doAnswer {
             Response.success(authResponse)
@@ -244,16 +263,29 @@ class AuthenticationInterceptorTest {
 
                     "/Event(12)" -> {
 
-                        Assert.assertEquals(ApiClient.CONTENT_TYPE_HEADER_VALUE, request.headers[ApiClient.CONTENT_TYPE_HEADER_KEY])
-                        Assert.assertEquals(ApiClient.X_QMOBILE_HEADER_VALUE, request.headers[ ApiClient.X_QMOBILE_HEADER_KEY])
+                        Assert.assertEquals(
+                            ApiClient.CONTENT_TYPE_HEADER_VALUE,
+                            request.headers[ApiClient.CONTENT_TYPE_HEADER_KEY]
+                        )
+                        Assert.assertEquals(
+                            ApiClient.X_QMOBILE_HEADER_VALUE,
+                            request.headers[ApiClient.X_QMOBILE_HEADER_KEY]
+                        )
 
                         val responseCode: MockResponse
                         if (firstTime) {
-                            responseCode = MockResponse().setResponseCode(HttpURLConnection.HTTP_UNAUTHORIZED)
-                            Assert.assertEquals(null, request.headers[ApiClient.AUTHORIZATION_HEADER_KEY])
+                            responseCode =
+                                MockResponse().setResponseCode(HttpURLConnection.HTTP_UNAUTHORIZED)
+                            Assert.assertEquals(
+                                null,
+                                request.headers[ApiClient.AUTHORIZATION_HEADER_KEY]
+                            )
                         } else {
                             responseCode = MockResponse().setResponseCode(HttpURLConnection.HTTP_OK)
-                            Assert.assertEquals("${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} $UNIT_TEST_TOKEN", request.headers[ApiClient.AUTHORIZATION_HEADER_KEY])
+                            Assert.assertEquals(
+                                "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} $UNIT_TEST_TOKEN",
+                                request.headers[ApiClient.AUTHORIZATION_HEADER_KEY]
+                            )
                         }
                         firstTime = false
                         return responseCode
@@ -264,7 +296,8 @@ class AuthenticationInterceptorTest {
         }
 
         mockWebServer.dispatcher = dispatcher
-        val response: Response<ResponseBody> = apiService.getEntity(dataClassName = "Event", key = "12").blockingGet()
+        val response: Response<ResponseBody> =
+            apiService.getEntity(dataClassName = "Event", key = "12").blockingGet()
         Assert.assertNotNull(response.body())
         Assert.assertEquals(HttpURLConnection.HTTP_OK, response.code())
         Assert.assertEquals(true, response.isSuccessful)

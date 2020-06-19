@@ -28,7 +28,11 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
         disposable.add(
-            apiService.getEntities(dataClassName = tableName, filter = filter, attributes = attributes)
+            apiService.getEntities(
+                dataClassName = tableName,
+                filter = filter,
+                attributes = attributes
+            )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {

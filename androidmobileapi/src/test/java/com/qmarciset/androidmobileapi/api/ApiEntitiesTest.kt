@@ -117,10 +117,12 @@ class ApiEntitiesTest {
     fun teardown() {
         mockWebServer.shutdown()
     }
+
     @Test
     fun `test get entities`() {
         // Action /Event
-        val response: Response<ResponseBody> = apiService.getEntities(dataClassName = "Event").blockingGet()
+        val response: Response<ResponseBody> =
+            apiService.getEntities(dataClassName = "Event").blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -160,7 +162,10 @@ class ApiEntitiesTest {
     fun `test get entities with attributes and related entity attributes`() {
         // Action /Event?$attributes=id,title,organizer.lastName,organizer.firstName
         val response: Response<ResponseBody> =
-            apiService.getEntities(dataClassName = "Event", attributes = "id,title,organizer.lastName,organizer.firstName").blockingGet()
+            apiService.getEntities(
+                dataClassName = "Event",
+                attributes = "id,title,organizer.lastName,organizer.firstName"
+            ).blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -189,7 +194,10 @@ class ApiEntitiesTest {
     fun `test get entities with attributes and related entities attributes`() {
         // Action /Event?$attributes=id,title,guests.lastName,guests.firstName
         val response: Response<ResponseBody> =
-            apiService.getEntities(dataClassName = "Event", attributes = "id,title,guests.lastName,guests.firstName").blockingGet()
+            apiService.getEntities(
+                dataClassName = "Event",
+                attributes = "id,title,guests.lastName,guests.firstName"
+            ).blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -219,7 +227,8 @@ class ApiEntitiesTest {
     fun `test get entities with filter`() {
         // Action /Event/$filter="id>13 AND id<16"
         val response: Response<ResponseBody> =
-            apiService.getEntities(dataClassName = "Event", filter = "\"id>13 AND id<16\"").blockingGet()
+            apiService.getEntities(dataClassName = "Event", filter = "\"id>13 AND id<16\"")
+                .blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()

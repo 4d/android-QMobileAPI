@@ -129,7 +129,8 @@ class ApiEntityTest {
     fun `test get entity with attributes`() {
         // Action /Event(12)?$attribute=id,title
         val response: Response<ResponseBody> =
-            apiService.getEntity(dataClassName = "Event", key = "12", attributes = "id,title").blockingGet()
+            apiService.getEntity(dataClassName = "Event", key = "12", attributes = "id,title")
+                .blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -147,7 +148,11 @@ class ApiEntityTest {
     fun `test get entity with attributes and related entity attributes`() {
         // Action /Event(12)?$attributes=id,title,organizer.lastName,organizer.firstName
         val response: Response<ResponseBody> =
-            apiService.getEntity(dataClassName = "Event", key = "12", attributes = "id,title,organizer.lastName,organizer.firstName").blockingGet()
+            apiService.getEntity(
+                dataClassName = "Event",
+                key = "12",
+                attributes = "id,title,organizer.lastName,organizer.firstName"
+            ).blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -174,7 +179,11 @@ class ApiEntityTest {
     fun `test get entity with attributes with related entities attributes`() {
         // Action /Event(12)/?$attributes=id,title,guests.lastName,guests.firstName
         val response: Response<ResponseBody> =
-            apiService.getEntity(dataClassName = "Event", key = "12", attributes = "id,title,guests.lastName,guests.firstName").blockingGet()
+            apiService.getEntity(
+                dataClassName = "Event",
+                key = "12",
+                attributes = "id,title,guests.lastName,guests.firstName"
+            ).blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
@@ -199,7 +208,8 @@ class ApiEntityTest {
     fun `test get entity with all related attributes`() {
         // "/Event(12)?\$attributes=guests.*
         val response: Response<ResponseBody> =
-            apiService.getEntity(dataClassName = "Event", key = "12", attributes = "guests.*").blockingGet()
+            apiService.getEntity(dataClassName = "Event", key = "12", attributes = "guests.*")
+                .blockingGet()
         assertResponseSuccessful(response)
 
         val responseBody = response.body()
