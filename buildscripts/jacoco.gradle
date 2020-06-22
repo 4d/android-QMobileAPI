@@ -10,7 +10,7 @@ tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
 }
 
-task jacocoTestReport(type:JacocoReport, dependsOn: "check") {
+task jacocoTestReport(type:JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
     description = "Generate Jacoco coverage reports for Debug build"
 
@@ -23,15 +23,21 @@ task jacocoTestReport(type:JacocoReport, dependsOn: "check") {
     def excludes = [
             '**/R.class',
             '**/R$*.class',
+            '**/*$ViewInjector*.*',
             '**/BuildConfig.*',
             '**/Manifest*.*',
             '**/*Test*.*',
-            'android/**/*.*'
+            'android/**/*.*',
+            '**/*Fragment.*',
+            '**/*Activity.*'
     ]
+
+    // generated classes
     def javaClasses = fileTree(dir: "$buildDir/intermediates/classes/debug", excludes: excludes)
     def kotlinClasses = fileTree(dir: "$buildDir/tmp/kotlin-classes/debug", excludes: excludes)
     classDirectories.from = files([javaClasses, kotlinClasses])
 
+    // sources
     additionalSourceDirs.from = files()
     sourceDirectories.from = files([android.sourceSets.main.java.srcDirs])
 
