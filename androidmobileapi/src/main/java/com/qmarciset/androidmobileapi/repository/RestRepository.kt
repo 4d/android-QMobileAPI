@@ -7,11 +7,16 @@
 package com.qmarciset.androidmobileapi.repository
 
 import com.qmarciset.androidmobileapi.network.ApiService
+import com.qmarciset.androidmobileapi.utils.APP_JSON
+import com.qmarciset.androidmobileapi.utils.UTF8_CHARSET
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Response
 
 class RestRepository(private val tableName: String, private val apiService: ApiService) {
@@ -19,20 +24,50 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
     private var disposable: CompositeDisposable = CompositeDisposable()
 
     /**
-     * Performs getEntitiesFiltered request
+     * Performs getEntities request
      */
-    fun getMoreRecentEntities(
+    fun getEntities(
         tableName: String = this.tableName,
         filter: String,
         attributes: String? = null,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
         disposable.add(
-            apiService.getEntities(
-                dataClassName = tableName,
-                filter = filter,
-                attributes = attributes
-            )
+            apiService.getEntities(dataClassName = tableName, filter = filter, attributes = attributes)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
+                    override fun onSuccess(response: Response<ResponseBody>) {
+
+                        if (response.isSuccessful) {
+                            onResult(true, response, null)
+                        } else {
+                            onResult(false, null, response)
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        onResult(false, null, e)
+                    }
+                })
+        )
+    }
+
+    /**
+     * Performs getEntitiesExtendedAttributes request
+     */
+    fun getEntitiesExtendedAttributes(
+        jsonRequestBody: JSONObject,
+        tableName: String = this.tableName,
+        filter: String,
+        onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
+    ) {
+
+        val body = jsonRequestBody.toString()
+            .toRequestBody("$APP_JSON; $UTF8_CHARSET".toMediaTypeOrNull())
+
+        disposable.add(
+            apiService.getEntitiesExtendedAttributes(body = body, dataClassName = tableName, filter = filter)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {

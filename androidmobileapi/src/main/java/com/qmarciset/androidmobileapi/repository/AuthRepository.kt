@@ -8,7 +8,9 @@ package com.qmarciset.androidmobileapi.repository
 
 import com.qmarciset.androidmobileapi.model.auth.AuthResponse
 import com.qmarciset.androidmobileapi.network.LoginApiService
+import com.qmarciset.androidmobileapi.utils.APP_JSON
 import com.qmarciset.androidmobileapi.utils.MAX_LOGIN_RETRY
+import com.qmarciset.androidmobileapi.utils.UTF8_CHARSET
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -27,9 +29,9 @@ open class AuthRepository(private val loginApiService: LoginApiService) {
     /**
      * Performs synchronous $authenticate request
      */
-    fun syncAuthenticate(jsonRequest: JSONObject): AuthResponse? {
-        val body = jsonRequest.toString()
-            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+    fun syncAuthenticate(jsonRequestBody: JSONObject): AuthResponse? {
+        val body = jsonRequestBody.toString()
+            .toRequestBody("$APP_JSON; $UTF8_CHARSET".toMediaTypeOrNull())
 
         val authResponse = loginApiService.syncAuthenticate(body).execute().body()
 
@@ -45,12 +47,12 @@ open class AuthRepository(private val loginApiService: LoginApiService) {
      * Performs asynchronous $authenticate request
      */
     fun authenticate(
-        jsonRequest: JSONObject,
+        jsonRequestBody: JSONObject,
         shouldRetryOnError: Boolean,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
-        val body = jsonRequest.toString()
-            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        val body = jsonRequestBody.toString()
+            .toRequestBody("$APP_JSON; $UTF8_CHARSET".toMediaTypeOrNull())
 
         disposable.add(
             loginApiService.authenticate(body)

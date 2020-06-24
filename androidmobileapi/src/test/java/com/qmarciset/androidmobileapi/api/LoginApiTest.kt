@@ -1,5 +1,5 @@
 /*
- * Created by Quentin Marciset on 7/2/2020.
+ * Created by Quentin Marciset on 23/6/2020.
  * 4D SAS
  * Copyright (c) 2020 Quentin Marciset. All rights reserved.
  */
@@ -15,10 +15,7 @@ import com.qmarciset.androidmobileapi.model.auth.LogoutResponse
 import com.qmarciset.androidmobileapi.model.auth.UserInfo
 import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.LoginApiService
-import com.qmarciset.androidmobileapi.utils.assertRequest
-import com.qmarciset.androidmobileapi.utils.assertResponseSuccessful
-import com.qmarciset.androidmobileapi.utils.mockResponse
-import com.qmarciset.androidmobileapi.utils.parseJsonToType
+import com.qmarciset.androidmobileapi.utils.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
@@ -100,7 +97,7 @@ class LoginApiTest {
             put(AuthInfoHelper.AUTH_PASSWORD, "azezeaearaze")
         }
         val body = jsonRequest.toString()
-            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            .toRequestBody("$APP_JSON; $UTF8_CHARSET".toMediaTypeOrNull())
         val response: Response<ResponseBody> = loginApiService.authenticate(body).blockingGet()
         assertResponseSuccessful(response)
 
@@ -139,7 +136,7 @@ class LoginApiTest {
             put(AuthInfoHelper.AUTH_PASSWORD, "azezeaearaze")
         }
         val body = jsonRequest.toString()
-            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            .toRequestBody("$APP_JSON; $UTF8_CHARSET".toMediaTypeOrNull())
         val response = loginApiService.syncAuthenticate(body).execute()
         assertResponseSuccessful(response)
 

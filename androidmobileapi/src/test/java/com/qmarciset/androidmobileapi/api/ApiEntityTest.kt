@@ -13,12 +13,7 @@ import com.qmarciset.androidmobileapi.auth.LoginRequiredCallback
 import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.ApiService
 import com.qmarciset.androidmobileapi.network.LoginApiService
-import com.qmarciset.androidmobileapi.utils.assertRequest
-import com.qmarciset.androidmobileapi.utils.assertResponseSuccessful
-import com.qmarciset.androidmobileapi.utils.mockResponse
-import com.qmarciset.androidmobileapi.utils.model.Employee
-import com.qmarciset.androidmobileapi.utils.model.Event
-import com.qmarciset.androidmobileapi.utils.parseJsonToType
+import com.qmarciset.androidmobileapi.utils.*
 import okhttp3.ResponseBody
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -120,7 +115,7 @@ class ApiEntityTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val event = gson.parseJsonToType<Event>(json)
+        val event = gson.parseJsonToType<EventApiTest>(json)
         assertEquals(12, event?.id)
         assertEquals("event 1", event?.title)
     }
@@ -137,7 +132,7 @@ class ApiEntityTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val event = gson.parseJsonToType<Event>(json)
+        val event = gson.parseJsonToType<EventApiTest>(json)
         assertEquals(12, event?.id)
         assertEquals("event 1", event?.title)
         assertNull(event?.timeStamp)
@@ -159,7 +154,7 @@ class ApiEntityTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val event = gson.parseJsonToType<Event>(json)
+        val event = gson.parseJsonToType<EventApiTest>(json)
         assertEquals(12, event?.id)
         assertEquals("event 1", event?.title)
         assertNull(event?.timeStamp)
@@ -190,12 +185,12 @@ class ApiEntityTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val event = gson.parseJsonToType<Event>(json)
+        val event = gson.parseJsonToType<EventApiTest>(json)
         assertEquals(12, event?.id)
         assertEquals("event 1", event?.title)
 
         val guestsEntities = event?.guests
-        val guests = gson.parseJsonToType<List<Employee>>(guestsEntities?.__ENTITIES)
+        val guests = gson.parseJsonToType<List<EmployeeApiTest>>(guestsEntities?.__ENTITIES)
         assertNotNull(guests)
         assertEquals("BLOOMBERG", guests?.get(0)?.lastName)
         assertEquals("Roch", guests?.get(0)?.firstName)
@@ -216,12 +211,12 @@ class ApiEntityTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val event = gson.parseJsonToType<Event>(json)
+        val event = gson.parseJsonToType<EventApiTest>(json)
         assertNull(event?.id)
         assertNull(event?.title)
 
         val guestsEntities = event?.guests
-        val guests = gson.parseJsonToType<List<Employee>>(guestsEntities?.__ENTITIES)
+        val guests = gson.parseJsonToType<List<EmployeeApiTest>>(guestsEntities?.__ENTITIES)
 
         assertNotNull(guests)
         assertEquals("BLOOMBERG", guests?.get(0)?.lastName)

@@ -129,8 +129,8 @@ class AuthenticationInterceptor(
      */
     private fun Request.Builder.refreshAuthentication(loginApiService: LoginApiService) {
         val authRepository = AuthRepository(loginApiService)
-        val authRequest = authInfoHelper.buildAuthRequestBody("", "")
-        val authResponse = authRepository.syncAuthenticate(authRequest)
+        val authRequestBody = authInfoHelper.buildAuthRequestBody("", "")
+        val authResponse = authRepository.syncAuthenticate(authRequestBody)
         if (authResponse != null) {
             if (authInfoHelper.handleLoginInfo(authResponse)) {
                 this.removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)

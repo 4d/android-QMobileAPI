@@ -7,9 +7,12 @@
 package com.qmarciset.androidmobileapi.network
 
 import io.reactivex.Single
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -74,10 +77,27 @@ interface ApiService {
      * [filter] specifies a filter on entity set
      * [attributes] specifies the related attributes of the table to return
      */
+    // Kind of deprecated. Only used in unit tests
     @GET("{dataClassName}")
     fun getEntities(
         @Path("dataClassName") dataClassName: String,
         @Query("\$filter", encoded = true) filter: String? = null,
         @Query("\$attributes", encoded = true) attributes: String? = null
+    ): Single<Response<ResponseBody>>
+
+    /**
+     * Returns all the data (by default the first 100 entities) for a specific datastore class
+     * (e.g., Company)
+     * [body] contains data such as wanted attributes, or queries on related attributes
+     * [dataClassName] table name
+     * [filter] specifies a filter on entity set
+     * [extendedAttributes] true, to ensure that we get filtered related entities
+     */
+    @POST("{dataClassName}")
+    fun getEntitiesExtendedAttributes(
+        @Body body: RequestBody,
+        @Path("dataClassName") dataClassName: String,
+        @Query("\$filter", encoded = true) filter: String? = null,
+        @Query("\$extendedAttributes", encoded = true) extendedAttributes: Boolean = true
     ): Single<Response<ResponseBody>>
 }

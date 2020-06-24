@@ -10,6 +10,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.qmarciset.androidmobileapi.model.auth.AuthResponse
 import com.qmarciset.androidmobileapi.model.queries.Queries
+import com.qmarciset.androidmobileapi.model.relation.Relations
 import com.qmarciset.androidmobileapi.utils.SingletonHolder
 import com.qmarciset.androidmobileapi.utils.customPrefs
 import com.qmarciset.androidmobileapi.utils.defaultPrefs
@@ -40,6 +41,11 @@ open class AuthInfoHelper(val context: Context) {
         const val DEVICE_UUID = "device_uuid"
 
         const val QUERY_PREFIX = "queries_"
+        const val PROPERTIES_PREFIX = "properties_"
+        const val RELATIONS_PREFIX = "relations_"
+        const val RELATIONS = "relations"
+
+        const val SEPARATOR = ","
 
         const val GLOBAL_STAMP = "__GlobalStamp"
         const val DELETED_RECORDS_STAMP = "__Stamp"
@@ -166,7 +172,7 @@ open class AuthInfoHelper(val context: Context) {
         return false
     }
 
-    // Query filters
+    // Table queries
     fun getQuery(tableName: String): String = prefs["$QUERY_PREFIX$tableName"] ?: ""
 
     fun setQueries(queriesJSONObject: JSONObject) {
@@ -178,4 +184,33 @@ open class AuthInfoHelper(val context: Context) {
             }
         }
     }
+
+    // Table properties
+    fun getProperties(tableName: String): String = prefs["$PROPERTIES_PREFIX$tableName"] ?: ""
+
+    fun setProperties(tableName: String, properties: String) {
+        prefs["$PROPERTIES_PREFIX$tableName"] = properties
+    }
+
+    // Table relations
+    var relations: String
+        get() = prefs[RELATIONS] ?: ""
+        set(value) {
+            prefs[RELATIONS] = value
+        }
+//    fun getRelations(tableName: String): String = prefs["$RELATIONS_PREFIX$tableName"] ?: ""
+//
+//    fun setRelations(relationsJsonString: String) {
+//        val relationsObject = Gson().parseJsonToType<Relations>(relationsJSONObject.toString())
+//        relationsObject?.let {
+//            for (relation in relationsObject.relations) {
+//                if (relation.tableName.isNullOrEmpty().not()
+//                    && relation.type.isNullOrEmpty().not()
+//                    && relation.name.isNullOrEmpty().not()
+//                )
+//                    prefs["$RELATIONS_PREFIX${relation.tableName}"] =
+//                        relation.name + SEPARATOR + relation.type
+//            }
+//        }
+//    }
 }

@@ -53,7 +53,7 @@ data class DeletedRecord(
             val predicate = buildStampPredicate(authInfoHelper.deletedRecordsStamp)
             Timber.d("Performing data request, with predicate $predicate")
 
-            restRepository.getMoreRecentEntities(
+            restRepository.getEntities(
                 tableName = DELETED_RECORDS,
                 filter = predicate
             ) { isSuccess, response, error ->

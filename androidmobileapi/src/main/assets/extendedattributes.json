@@ -1,0 +1,66 @@
+{
+  "__DATACLASS": "Service",
+  "__entityModel": "Service",
+  "__GlobalStamp": 296,
+  "__COUNT": 1,
+  "__FIRST": 0,
+  "__ENTITIES": [
+    {
+      "__KEY": "16",
+      "__TIMESTAMP": "2020-05-05T06:42:19.053Z",
+      "__STAMP": 7,
+      "name": "Sponsorship",
+      "manager": {
+        "__KEY": "2",
+        "__TIMESTAMP": "2020-04-27T10:27:26.062Z",
+        "__STAMP": 16,
+        "ID": 2,
+        "FirstName": "Joel",
+        "LastName": "Price",
+        "Job": "Artist",
+        "Company": "Klean Corp",
+        "Email": "joel.price@test.com",
+        "Notes": "Egestas diam in arcu cursus. Nunc scelerisque viverra mauris in aliquam sem. Gravida rutrum quisque non tellus orci ac auctor augue. Nibh sit amet commodo nulla facilisi. Est placerat in egestas erat imperdiet sed euismod nisi. Mattis nunc sed blandit lib",
+        "Phone": "555-666-3333",
+        "Address": "4583 Summer Way",
+        "Location": "Oakland",
+        "Photo": {
+          "__deferred": {
+            "uri": "/mobileapp/Employee(2)/Photo?$imageformat=best&$version=16&$expand=Photo",
+            "image": true
+          }
+        },
+        "serviceID": 16,
+        "__GlobalStamp": 275,
+        "service": {
+          "__deferred": {
+            "uri": "/mobileapp/Service(16)",
+            "__KEY": "16"
+          }
+        },
+        "serviceManaged": {
+          "__deferred": {
+            "uri": "/mobileapp/Employee(2)/serviceManaged?$expand=serviceManaged"
+          }
+        }
+      },
+      "employees": {
+        "__ENTITYSET": "/mobileapp/Service(16)/employees?$expand=employees",
+        "__DATACLASS": "Employee",
+        "__GlobalStamp": 296,
+        "__COUNT": 1,
+        "__FIRST": 0,
+        "__ENTITIES": [
+          {
+            "__KEY": "2",
+            "__TIMESTAMP": "2020-04-27T10:27:26.062Z",
+            "__STAMP": 16,
+            "FirstName": "Joel"
+          }
+        ],
+        "__SENT": 1
+      }
+    }
+  ],
+  "__SENT": 1
+}

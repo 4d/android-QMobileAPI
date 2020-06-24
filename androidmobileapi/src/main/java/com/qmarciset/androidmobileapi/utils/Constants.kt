@@ -20,3 +20,7 @@ const val PING_TIMEOUT = 5000
 
 // Table name for deleted records
 const val DELETED_RECORDS = "__DeletedRecords"
+
+// POST request body information
+const val APP_JSON = "application/json"
+const val UTF8_CHARSET = "charset=utf-8"

@@ -10,7 +10,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
 import com.qmarciset.androidmobileapi.model.entity.Entities
-import com.qmarciset.androidmobileapi.utils.model.Event
+import com.qmarciset.androidmobileapi.utils.EventApiTest
 import com.qmarciset.androidmobileapi.utils.parseJsonToType
 import org.junit.Assert
 import org.junit.Test
@@ -31,7 +31,7 @@ class GsonExtTest {
     @Test
     fun testParseJsonElementToType() {
         val event = listOf(
-            Event(
+            EventApiTest(
                 title = "Twelfth Event",
                 __KEY = "12",
                 __GlobalStamp = null,
@@ -42,11 +42,11 @@ class GsonExtTest {
         val gson = Gson()
         val element: JsonElement = gson.toJsonTree(
             event,
-            object : TypeToken<List<Event>>() {}.type
+            object : TypeToken<List<EventApiTest>>() {}.type
         )
         Assert.assertTrue(element.isJsonArray)
         val expectation = Entities(null, null, element.asJsonArray, null, null, null, null, null)
-        val events = gson.parseJsonToType<List<Event>>(expectation.__ENTITIES)
+        val events = gson.parseJsonToType<List<EventApiTest>>(expectation.__ENTITIES)
         Assert.assertEquals("Twelfth Event", events?.get(0)?.title)
     }
 }
