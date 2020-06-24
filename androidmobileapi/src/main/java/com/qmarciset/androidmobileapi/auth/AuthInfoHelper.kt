@@ -10,7 +10,6 @@ import android.content.Context
 import com.google.gson.Gson
 import com.qmarciset.androidmobileapi.model.auth.AuthResponse
 import com.qmarciset.androidmobileapi.model.queries.Queries
-import com.qmarciset.androidmobileapi.model.relation.Relations
 import com.qmarciset.androidmobileapi.utils.SingletonHolder
 import com.qmarciset.androidmobileapi.utils.customPrefs
 import com.qmarciset.androidmobileapi.utils.defaultPrefs

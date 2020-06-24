@@ -14,7 +14,14 @@ import com.qmarciset.androidmobileapi.model.entity.Entities
 import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.ApiService
 import com.qmarciset.androidmobileapi.network.LoginApiService
-import com.qmarciset.androidmobileapi.utils.*
+import com.qmarciset.androidmobileapi.utils.APP_JSON
+import com.qmarciset.androidmobileapi.utils.EmployeeExtendedAttributes
+import com.qmarciset.androidmobileapi.utils.ServiceExtendedAttributes
+import com.qmarciset.androidmobileapi.utils.UTF8_CHARSET
+import com.qmarciset.androidmobileapi.utils.assertRequest
+import com.qmarciset.androidmobileapi.utils.assertResponseSuccessful
+import com.qmarciset.androidmobileapi.utils.mockResponse
+import com.qmarciset.androidmobileapi.utils.parseJsonToType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
