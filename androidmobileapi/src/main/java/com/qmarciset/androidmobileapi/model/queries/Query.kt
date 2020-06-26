@@ -13,4 +13,8 @@ data class Queries(
 data class Query(
     val tableName: String?,
     val value: String?
-)
+) {
+    companion object {
+        const val QUERY_PROPERTY = "__Query"
+    }
+}

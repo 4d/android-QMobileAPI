@@ -14,7 +14,6 @@ import com.qmarciset.androidmobileapi.model.entity.Entities
 import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.ApiService
 import com.qmarciset.androidmobileapi.network.LoginApiService
-import com.qmarciset.androidmobileapi.utils.EmployeeApiTest
 import com.qmarciset.androidmobileapi.utils.EventApiTest
 import com.qmarciset.androidmobileapi.utils.assertRequest
 import com.qmarciset.androidmobileapi.utils.assertResponseSuccessful
@@ -129,11 +128,11 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities>(json)
+        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
         assertEquals(3, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
-        val events = gson.parseJsonToType<List<EventApiTest>>(entities?.__ENTITIES)
+        val events = entities?.__ENTITIES
         assertEquals("Twelfth Event", events?.get(0)?.title)
     }
 
@@ -148,11 +147,11 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities>(json)
+        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
         assertEquals(3, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
-        val events = gson.parseJsonToType<List<EventApiTest>>(entities?.__ENTITIES)
+        val events = entities?.__ENTITIES
         assertEquals("Twelfth Event", events?.get(0)?.title)
         assertNull(events?.get(0)?.timeStamp)
         assertNull(events?.get(0)?.count)
@@ -172,11 +171,11 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities>(json)
+        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
         assertEquals(3, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
-        val events = gson.parseJsonToType<List<EventApiTest>>(entities?.__ENTITIES)
+        val events = entities?.__ENTITIES
         assertEquals("Twelfth Event", events?.get(0)?.title)
         assertNull(events?.get(0)?.timeStamp)
         assertNull(events?.get(0)?.count)
@@ -204,17 +203,17 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities>(json)
+        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
         assertEquals(3, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
-        val events = gson.parseJsonToType<List<EventApiTest>>(entities?.__ENTITIES)
+        val events = entities?.__ENTITIES
         assertEquals("Twelfth Event", events?.get(0)?.title)
         assertNull(events?.get(0)?.timeStamp)
         assertNull(events?.get(0)?.count)
 
         val guestsEntities = events?.get(0)?.guests
-        val guests = gson.parseJsonToType<List<EmployeeApiTest>>(guestsEntities?.__ENTITIES)
+        val guests = guestsEntities?.__ENTITIES
         assertNotNull(guests)
         assertEquals("BLOOMBERG", guests?.get(0)?.lastName)
         assertEquals("Roch", guests?.get(0)?.firstName)
@@ -235,11 +234,11 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities>(json)
+        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
         assertEquals(2, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
-        val events = gson.parseJsonToType<List<EventApiTest>>(entities?.__ENTITIES)
+        val events = entities?.__ENTITIES
         assertEquals("Fourteenth Event", events?.get(0)?.title)
     }
 
@@ -257,11 +256,11 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities>(json)
+        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
         assertEquals(2, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
-        val events = gson.parseJsonToType<List<EventApiTest>>(entities?.__ENTITIES)
+        val events = entities?.__ENTITIES
         assertEquals("Fourteenth Event", events?.get(0)?.title)
         assertNull(events?.get(0)?.timeStamp)
         assertNull(events?.get(0)?.count)
@@ -281,11 +280,11 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities>(json)
+        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
         assertEquals(2, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
-        val events = gson.parseJsonToType<List<EventApiTest>>(entities?.__ENTITIES)
+        val events = entities?.__ENTITIES
         assertEquals("Fourteenth Event", events?.get(0)?.title)
         assertNull(events?.get(0)?.timeStamp)
         assertNull(events?.get(0)?.count)
@@ -299,7 +298,7 @@ class ApiEntitiesTest {
         } ?: kotlin.run { Assert.fail() }
 
         val guestsEntities = events?.get(0)?.guests
-        val guests = gson.parseJsonToType<List<EmployeeApiTest>>(guestsEntities?.__ENTITIES)
+        val guests = guestsEntities?.__ENTITIES
         assertNotNull(guests)
         assertEquals("BLOOMBERG", guests?.get(0)?.lastName)
         assertNull(guests?.get(0)?.firstName)

@@ -7,15 +7,14 @@
 package com.qmarciset.androidmobileapi.model.entity
 
 import com.google.gson.Gson
-import com.google.gson.JsonArray
 import com.qmarciset.androidmobileapi.utils.parseJsonToType
 import okhttp3.ResponseBody
 
 @Suppress("ConstructorParameterNaming")
-data class Entities(
+data class Entities<T : EntityModel>(
     val __COUNT: Int?,
     val __GlobalStamp: Int?,
-    val __ENTITIES: JsonArray?,
+    val __ENTITIES: List<T>?,
     val __FIRST: Int?,
     val __SENT: Int?,
     val __DATACLASS: String?,
@@ -27,21 +26,21 @@ data class Entities(
         /**
          * Retrieves data from response, retrieve Entities object
          */
-        fun decodeEntities(
+        fun <T : EntityModel> decodeEntities(
             gson: Gson,
             responseBody: ResponseBody,
-            onResult: (entities: Entities?) -> Unit
+            onResult: (entities: Entities<T>?) -> Unit
         ) {
             val json = responseBody.string()
-            val entities = parseEntities(gson, json)
+            val entities: Entities<T>? = parseEntities(gson, json)
             onResult(entities)
         }
 
         /**
          * Parse Entities from json String
          */
-        fun parseEntities(gson: Gson, json: String): Entities? {
-            return gson.parseJsonToType<Entities>(json)
+        fun <T : EntityModel> parseEntities(gson: Gson, json: String): Entities<T>? {
+            return gson.parseJsonToType(json)
         }
     }
 }

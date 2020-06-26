@@ -15,7 +15,6 @@ import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.ApiService
 import com.qmarciset.androidmobileapi.network.LoginApiService
 import com.qmarciset.androidmobileapi.utils.APP_JSON
-import com.qmarciset.androidmobileapi.utils.EmployeeExtendedAttributes
 import com.qmarciset.androidmobileapi.utils.ServiceExtendedAttributes
 import com.qmarciset.androidmobileapi.utils.UTF8_CHARSET
 import com.qmarciset.androidmobileapi.utils.assertRequest
@@ -117,10 +116,10 @@ class ExtendedAttributesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities>(json)
+        val entities = gson.parseJsonToType<Entities<ServiceExtendedAttributes>>(json)
         assertEquals("Service", entities?.__entityModel)
 
-        val services = gson.parseJsonToType<List<ServiceExtendedAttributes>>(entities?.__ENTITIES)
+        val services = entities?.__ENTITIES
         assertEquals(1, services?.size)
         val service = services?.get(0)
         assertNull(service?.employeeNumber)
@@ -134,7 +133,7 @@ class ExtendedAttributesTest {
         assertNotNull(manager?.Location)
         assertNotNull(manager?.Notes)
 
-        val employees = gson.parseJsonToType<List<EmployeeExtendedAttributes>>(service?.employees?.__ENTITIES)
+        val employees = service?.employees?.__ENTITIES
         assertEquals(1, employees?.size)
         val employee = employees?.get(0)
 

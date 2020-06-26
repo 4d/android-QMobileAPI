@@ -13,7 +13,6 @@ import com.qmarciset.androidmobileapi.auth.LoginRequiredCallback
 import com.qmarciset.androidmobileapi.network.ApiClient
 import com.qmarciset.androidmobileapi.network.ApiService
 import com.qmarciset.androidmobileapi.network.LoginApiService
-import com.qmarciset.androidmobileapi.utils.EmployeeApiTest
 import com.qmarciset.androidmobileapi.utils.EventApiTest
 import com.qmarciset.androidmobileapi.utils.assertRequest
 import com.qmarciset.androidmobileapi.utils.assertResponseSuccessful
@@ -195,7 +194,7 @@ class ApiEntityTest {
         assertEquals("event 1", event?.title)
 
         val guestsEntities = event?.guests
-        val guests = gson.parseJsonToType<List<EmployeeApiTest>>(guestsEntities?.__ENTITIES)
+        val guests = guestsEntities?.__ENTITIES
         assertNotNull(guests)
         assertEquals("BLOOMBERG", guests?.get(0)?.lastName)
         assertEquals("Roch", guests?.get(0)?.firstName)
@@ -221,7 +220,7 @@ class ApiEntityTest {
         assertNull(event?.title)
 
         val guestsEntities = event?.guests
-        val guests = gson.parseJsonToType<List<EmployeeApiTest>>(guestsEntities?.__ENTITIES)
+        val guests = guestsEntities?.__ENTITIES
 
         assertNotNull(guests)
         assertEquals("BLOOMBERG", guests?.get(0)?.lastName)

@@ -41,10 +41,6 @@ open class AuthInfoHelper(val context: Context) {
 
         const val QUERY_PREFIX = "queries_"
         const val PROPERTIES_PREFIX = "properties_"
-        const val RELATIONS_PREFIX = "relations_"
-        const val RELATIONS = "relations"
-
-        const val SEPARATOR = ","
 
         const val GLOBAL_STAMP = "__GlobalStamp"
         const val DELETED_RECORDS_STAMP = "__Stamp"
@@ -190,26 +186,4 @@ open class AuthInfoHelper(val context: Context) {
     fun setProperties(tableName: String, properties: String) {
         prefs["$PROPERTIES_PREFIX$tableName"] = properties
     }
-
-    // Table relations
-    var relations: String
-        get() = prefs[RELATIONS] ?: ""
-        set(value) {
-            prefs[RELATIONS] = value
-        }
-//    fun getRelations(tableName: String): String = prefs["$RELATIONS_PREFIX$tableName"] ?: ""
-//
-//    fun setRelations(relationsJsonString: String) {
-//        val relationsObject = Gson().parseJsonToType<Relations>(relationsJSONObject.toString())
-//        relationsObject?.let {
-//            for (relation in relationsObject.relations) {
-//                if (relation.tableName.isNullOrEmpty().not()
-//                    && relation.type.isNullOrEmpty().not()
-//                    && relation.name.isNullOrEmpty().not()
-//                )
-//                    prefs["$RELATIONS_PREFIX${relation.tableName}"] =
-//                        relation.name + SEPARATOR + relation.type
-//            }
-//        }
-//    }
 }

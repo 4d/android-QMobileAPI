@@ -91,7 +91,8 @@ interface ApiService {
      * [body] contains data such as wanted attributes, or queries on related attributes
      * [dataClassName] table name
      * [filter] specifies a filter on entity set
-     * [extendedAttributes] true, to ensure that we get filtered related entities
+     * [extendedAttributes] true, to ensure that we get filtered related entities, and reading
+     * request body
      */
     @POST("{dataClassName}")
     fun getEntitiesExtendedAttributes(

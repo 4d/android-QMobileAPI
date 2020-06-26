@@ -33,7 +33,11 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
         disposable.add(
-            apiService.getEntities(dataClassName = tableName, filter = filter, attributes = attributes)
+            apiService.getEntities(
+                dataClassName = tableName,
+                filter = filter,
+                attributes = attributes
+            )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
@@ -67,7 +71,11 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
             .toRequestBody("$APP_JSON; $UTF8_CHARSET".toMediaTypeOrNull())
 
         disposable.add(
-            apiService.getEntitiesExtendedAttributes(body = body, dataClassName = tableName, filter = filter)
+            apiService.getEntitiesExtendedAttributes(
+                body = body,
+                dataClassName = tableName,
+                filter = filter
+            )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
