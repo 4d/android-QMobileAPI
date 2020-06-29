@@ -11,7 +11,6 @@ import com.qmarciset.androidmobileapi.utils.APP_JSON
 import com.qmarciset.androidmobileapi.utils.UTF8_CHARSET
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -40,20 +39,7 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
-                    override fun onSuccess(response: Response<ResponseBody>) {
-
-                        if (response.isSuccessful) {
-                            onResult(true, response, null)
-                        } else {
-                            onResult(false, null, response)
-                        }
-                    }
-
-                    override fun onError(e: Throwable) {
-                        onResult(false, null, e)
-                    }
-                })
+                .subscribeWith(DisposableSingleObserver(onResult))
         )
     }
 
@@ -78,20 +64,7 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<Response<ResponseBody>>() {
-                    override fun onSuccess(response: Response<ResponseBody>) {
-
-                        if (response.isSuccessful) {
-                            onResult(true, response, null)
-                        } else {
-                            onResult(false, null, response)
-                        }
-                    }
-
-                    override fun onError(e: Throwable) {
-                        onResult(false, null, e)
-                    }
-                })
+                .subscribeWith(DisposableSingleObserver(onResult))
         )
     }
 }
