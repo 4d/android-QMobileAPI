@@ -77,7 +77,6 @@ interface ApiService {
      * [filter] specifies a filter on entity set
      * [attributes] specifies the related attributes of the table to return
      */
-    // Kind of deprecated. Only used in unit tests
     @GET("{dataClassName}")
     fun getEntities(
         @Path("dataClassName") dataClassName: String,
