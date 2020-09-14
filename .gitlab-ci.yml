@@ -11,6 +11,7 @@ stages:
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
   - chmod +x ./gradlew
+  - export ANDROID_SDK_ROOT=$PWD/android-sdk
 
 cache:
   paths:
