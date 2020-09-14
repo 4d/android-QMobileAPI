@@ -4,6 +4,7 @@ variables:
   ANDROID_BUILD_TOOLS: "29.0.2"
 
 stages:
+  - prepare_env
   - lint
   - build
   - test
@@ -11,7 +12,6 @@ stages:
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
   - chmod +x ./gradlew
-  - export ANDROID_SDK_ROOT=$PWD/android-sdk
 
 cache:
   paths:
@@ -47,9 +47,7 @@ lint:
   echo "Starting build_sdk"
   unzip -q android-sdk.zip -d android-sdk
   rm android-sdk.zip
-  echo y | android-sdk/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
-  echo y | android-sdk/tools/bin/sdkmanager "platform-tools" >/dev/null
-  echo y | android-sdk/tools/bin/sdkmanager "tools" >/dev/null
+  echo y | android-sdk/tools/bin/sdkmanager "platform-tools" "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
   echo y | android-sdk/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null
   export ANDROID_HOME=$PWD/android-sdk
   export ANDROID_SDK_HOME=$PWD/android-sdk
@@ -59,25 +57,39 @@ lint:
   export PATH=$PATH:$ANDROID_HOME/tools/bin/
   export PATH=$PATH:$ANDROID_AVD_HOME
 
-buildLinux:
-  stage: build
+prepare_env_linux:
+  stage: prepare_env
+  tags:
+    - linux
   script:
     - *download_sdk_linux
     - *build_sdk
-    - ./gradlew clean --console=rich
-    - ./gradlew assemble --console=rich
-    - ./gradlew artifactoryPublish --console=rich
-  tags:
-    - linux
-  artifacts:
-    paths:
-     - androidmobileapi/build/outputs/aar/
 
-buildOsx:
-  stage: build
+prepare_env_osx:
+  stage: prepare_env
+  tags:
+    - osx
   script:
     - *download_sdk_osx
     - *build_sdk
+
+# buildLinux:
+#  stage: build
+#  script:
+#    - *download_sdk_linux
+#    - *build_sdk
+#    - ./gradlew clean --console=rich
+#    - ./gradlew assemble --console=rich
+#    - ./gradlew artifactoryPublish --console=rich
+#  tags:
+#    - linux
+#  artifacts:
+#    paths:
+#     - androidmobileapi/build/outputs/aar/
+
+build:
+  stage: build
+  script:
     - ./gradlew clean --console=rich
     - ./gradlew assemble --console=rich
     - ./gradlew artifactoryPublish --console=rich
