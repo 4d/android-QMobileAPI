@@ -7,7 +7,7 @@
 import org.gradle.api.JavaVersion
 
 object Versions {
-    val android_gradle_plugin = "3.5.2"
+    val android_gradle_plugin = "4.0.0"
     val arch_core = "2.1.0"
     val artifactory = "4.15.2"
     val atsl_junit = "1.1.1"
