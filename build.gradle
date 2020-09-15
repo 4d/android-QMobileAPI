@@ -51,10 +51,6 @@ subprojects {
                         testCoverageEnabled true
                     }
 
-                    buildFeatures {
-                        dataBinding true
-                    }
-
                     release {
                         // Enables code shrinking, obfuscation, and optimization for only
                         // your project's release build type.
@@ -86,6 +82,9 @@ subprojects {
                 }
                 kotlinOptions {
                     jvmTarget = "1.8"
+                }
+                dataBinding {
+                    enabled = true
                 }
                 lintOptions {
                     warning 'InvalidPackage'
