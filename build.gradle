@@ -14,7 +14,7 @@ buildscript {
 }
 
 plugins {
-    id "com.github.ben-manes.versions" version "0.31.0"
+    id "com.github.ben-manes.versions" version "0.29.0"
 }
 
 allprojects {
@@ -43,10 +43,6 @@ subprojects {
                     versionCode 1
                     versionName "1.0"
                     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-                }
-
-                buildFeatures {
-                    dataBinding true
                 }
 
                 buildTypes {
@@ -86,6 +82,9 @@ subprojects {
                 }
                 kotlinOptions {
                     jvmTarget = "1.8"
+                }
+                dataBinding {
+                    enabled = true
                 }
                 lintOptions {
                     warning 'InvalidPackage'
