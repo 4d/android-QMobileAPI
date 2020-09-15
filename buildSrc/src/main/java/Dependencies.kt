@@ -9,23 +9,23 @@ import org.gradle.api.JavaVersion
 object Versions {
     val android_gradle_plugin = "3.5.2"
     val arch_core = "2.1.0"
-    val artifactory = "4.17.0"
-    val atsl_junit = "1.1.2"
+    val artifactory = "4.15.2"
+    val atsl_junit = "1.1.1"
     val junit = "4.13"
-    val kotlin = "1.4.10"
-    val mockito = "3.5.10"
+    val kotlin = "1.4.0"
+    val mockito = "3.5.0"
     val okhttp = "4.8.1"
     val preference = "1.1.1"
     val retrofit = "2.9.0"
-    val robolectric = "4.4"
-    val runner = "1.3.0"
+    val robolectric = "4.3.1"
+    val runner = "1.1.0"
     val rx_android = "2.1.1"
     val rxjava2 = "2.2.19"
     val timber = "4.7.1"
 }
 
 object Config {
-    val buildTools = "30.0.0"
+    val buildTools = "29.0.2"
     val compileSdk = 29
     val minSdk = 19
     val targetSdk = 29
