@@ -45,10 +45,6 @@ subprojects {
                     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
                 }
 
-                buildFeatures {
-                    dataBinding true
-                }
-
                 buildTypes {
 
                     debug {
@@ -86,6 +82,9 @@ subprojects {
                 }
                 kotlinOptions {
                     jvmTarget = "1.8"
+                }
+                dataBinding {
+                    enabled = true
                 }
                 lintOptions {
                     warning 'InvalidPackage'
