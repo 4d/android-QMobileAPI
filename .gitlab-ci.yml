@@ -72,23 +72,11 @@ buildLinux:
     paths:
      - androidmobileapi/build/outputs/aar/
 
-buildOsx:
-  stage: build
-  script:
-    - *download_sdk_osx
-    - *build_sdk
-    - ./gradlew clean --console=rich
-    - ./gradlew assemble --console=rich
-    - ./gradlew artifactoryPublish --console=rich
-  tags:
-    - osx
-  artifacts:
-    paths:
-     - androidmobileapi/build/outputs/aar/
-
 unitTests:
   stage: test
   script:
     - ./gradlew -x lint check --console=rich
+  tags:
+    - linux
     #- ./gradlew jacocoTestReport
     #- awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' androidmobileapi/build/reports/jacoco/jacocoTestReport/jacocoTestReport.csv
