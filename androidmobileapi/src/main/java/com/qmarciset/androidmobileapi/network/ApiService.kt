@@ -81,7 +81,8 @@ interface ApiService {
     fun getEntities(
         @Path("dataClassName") dataClassName: String,
         @Query("\$filter", encoded = true) filter: String? = null,
-        @Query("\$attributes", encoded = true) attributes: String? = null
+        @Query("\$attributes", encoded = true) attributes: String? = null,
+        @Query("\$limit", encoded = true) limit: Int = 100000
     ): Single<Response<ResponseBody>>
 
     /**
@@ -98,6 +99,7 @@ interface ApiService {
         @Body body: RequestBody,
         @Path("dataClassName") dataClassName: String,
         @Query("\$filter", encoded = true) filter: String? = null,
-        @Query("\$extendedAttributes", encoded = true) extendedAttributes: Boolean = true
+        @Query("\$extendedAttributes", encoded = true) extendedAttributes: Boolean = true,
+        @Query("\$limit", encoded = true) limit: Int = 100000
     ): Single<Response<ResponseBody>>
 }
