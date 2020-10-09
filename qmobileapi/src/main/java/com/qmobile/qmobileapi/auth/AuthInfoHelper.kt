@@ -34,6 +34,7 @@ open class AuthInfoHelper(val context: Context) {
         const val AUTH_PARAMETERS = "parameters"
 
         const val GUEST_LOGIN = "guest_login"
+        const val EMBEDDED_DATA = "embedded_data"
         const val REMOTE_URL = "remote_url"
         const val SESSION_ID = "session_id"
         const val SESSION_TOKEN = "session_token"
@@ -88,6 +89,12 @@ open class AuthInfoHelper(val context: Context) {
         get() = prefs[GUEST_LOGIN] ?: false
         set(value) {
             prefs[GUEST_LOGIN] = value
+        }
+
+    var embeddedData: Boolean
+        get() = prefs[EMBEDDED_DATA] ?: false
+        set(value) {
+            prefs[EMBEDDED_DATA] = value
         }
 
     var remoteUrl: String

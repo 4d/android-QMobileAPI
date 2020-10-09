@@ -11,5 +11,6 @@ import org.json.JSONObject
 data class Manifest(
     val team: JSONObject?,
     val guestLogin: Boolean,
-    val remoteUrl: String?
+    val remoteUrl: String?,
+    val embeddedData: Boolean
 )
