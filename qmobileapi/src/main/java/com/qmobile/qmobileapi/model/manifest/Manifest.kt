@@ -12,5 +12,6 @@ data class Manifest(
     val team: JSONObject?,
     val guestLogin: Boolean,
     val remoteUrl: String?,
-    val embeddedData: Boolean
+    val embeddedData: Boolean,
+    val initialGlobalStamp: Int
 )
