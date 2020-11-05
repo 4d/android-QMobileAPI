@@ -26,7 +26,7 @@ class ServerAccessibility {
         hostname: String,
         port: Int,
         timeout: Int,
-        onResult: (isAccessible: Boolean) -> Unit
+        onResult: (isAccessible: Boolean?, throwable: Throwable?) -> Unit
     ) {
         disposable.add(
             Single.fromCallable {
@@ -46,8 +46,8 @@ class ServerAccessibility {
             }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { isServerAccessible ->
-                    onResult(isServerAccessible)
+                .subscribe { isServerAccessible, error ->
+                    onResult(isServerAccessible, error)
                 }
         )
     }

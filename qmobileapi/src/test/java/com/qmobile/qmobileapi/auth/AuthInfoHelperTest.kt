@@ -52,7 +52,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testAppInfo() {
+    fun appInfo() {
         Assert.assertEquals("{}", authInfoHelper.appInfo.toString())
         val currentAppInfo = authInfoHelper.appInfo
         currentAppInfo.put("NEW_KEY", "NEW_VALUE")
@@ -62,7 +62,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testDevice() {
+    fun device() {
         Assert.assertEquals("{}", authInfoHelper.device.toString())
         val currentDevice = authInfoHelper.device
         currentDevice.put("NEW_KEY", "NEW_VALUE")
@@ -72,7 +72,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testTeam() {
+    fun team() {
         Assert.assertEquals("{}", authInfoHelper.team.toString())
         val currentTeam = authInfoHelper.team
         currentTeam.put("NEW_KEY", "NEW_VALUE")
@@ -82,7 +82,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testLanguage() {
+    fun language() {
         Assert.assertEquals("{}", authInfoHelper.language.toString())
         val currentLanguage = authInfoHelper.language
         currentLanguage.put("NEW_KEY", "NEW_VALUE")
@@ -92,7 +92,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testGuestLogin() {
+    fun guestLogin() {
         Assert.assertEquals(false, authInfoHelper.guestLogin)
         authInfoHelper.guestLogin = true
         Assert.assertEquals(
@@ -102,7 +102,17 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testRemoteUrl() {
+    fun embeddedData() {
+        Assert.assertEquals(false, authInfoHelper.embeddedData)
+        authInfoHelper.embeddedData = true
+        Assert.assertEquals(
+            true,
+            AuthInfoHelper.getInstance(context).embeddedData
+        )
+    }
+
+    @Test
+    fun remoteUrl() {
         Assert.assertEquals("", authInfoHelper.remoteUrl)
         authInfoHelper.remoteUrl = "localhost"
         Assert.assertEquals(
@@ -112,12 +122,12 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testDeviceUUID() {
+    fun deviceUUID() {
         Assert.assertNotEquals("", authInfoHelper.deviceUUID)
     }
 
     @Test
-    fun testSessionId() {
+    fun sessionId() {
         Assert.assertEquals("", authInfoHelper.sessionId)
         authInfoHelper.sessionId = "session id"
         Assert.assertEquals(
@@ -127,7 +137,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testSessionToken() {
+    fun sessionToken() {
         Assert.assertEquals("", authInfoHelper.sessionToken)
         authInfoHelper.sessionToken = "session token"
         Assert.assertEquals(
@@ -137,7 +147,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testGlobalStamp() {
+    fun globalStamp() {
         Assert.assertEquals(0, authInfoHelper.globalStamp)
         authInfoHelper.globalStamp = 49
         Assert.assertEquals(
@@ -147,7 +157,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testDeletedRecordsStamp() {
+    fun deletedRecordsStamp() {
         Assert.assertEquals(0, authInfoHelper.deletedRecordsStamp)
         authInfoHelper.deletedRecordsStamp = 49
         Assert.assertEquals(
@@ -157,7 +167,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testCookie() {
+    fun cookie() {
         Assert.assertEquals("", authInfoHelper.cookie)
         authInfoHelper.cookie = "sample cookie"
         Assert.assertEquals(
@@ -167,7 +177,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testBuildAuthRequestBody() {
+    fun buildAuthRequestBody() {
         val email = "a@b.com"
         val password = "123abc"
         val authRequestBody = authInfoHelper.buildAuthRequestBody(email, password)
@@ -186,7 +196,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testHandleLoginInfoTrue() {
+    fun `handleLoginInfo true`() {
 
         val id = UUID.randomUUID().toString()
         val authResponse = AuthResponse(
@@ -212,7 +222,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testHandleLoginInfoFalse() {
+    fun `handleLoginInfo false`() {
 
         val authResponse = AuthResponse(
             id = null,
@@ -237,7 +247,7 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun testQueries() {
+    fun queries() {
         val queryList = mutableListOf<Query>()
         queryList.add(Query("Employee", "name=John"))
         queryList.add(Query("Office", "location=Berlin"))

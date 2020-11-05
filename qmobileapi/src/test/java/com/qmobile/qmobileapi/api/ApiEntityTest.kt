@@ -47,7 +47,7 @@ class ApiEntityTest {
     private var gson = Gson()
 
     @Before
-    fun prepareTest() {
+    fun setup() {
         initDispatcher()
         mockWebServer.dispatcher = dispatcher
         mockWebServer.start()
@@ -109,7 +109,7 @@ class ApiEntityTest {
     }
 
     @Test
-    fun `test get entity`() {
+    fun `get entity`() {
         // Action /Event(12)
         val response: Response<ResponseBody> =
             apiService.getEntity(dataClassName = "Event", key = "12").blockingGet()
@@ -125,7 +125,7 @@ class ApiEntityTest {
     }
 
     @Test
-    fun `test get entity with attributes`() {
+    fun `get entity with attributes`() {
         // Action /Event(12)?$attribute=id,title
         val response: Response<ResponseBody> =
             apiService.getEntity(dataClassName = "Event", key = "12", attributes = "id,title")
@@ -144,7 +144,7 @@ class ApiEntityTest {
     }
 
     @Test
-    fun `test get entity with attributes and related entity attributes`() {
+    fun `get entity with attributes and related entity attributes`() {
         // Action /Event(12)?$attributes=id,title,organizer.lastName,organizer.firstName
         val response: Response<ResponseBody> =
             apiService.getEntity(
@@ -175,7 +175,7 @@ class ApiEntityTest {
     }
 
     @Test
-    fun `test get entity with attributes with related entities attributes`() {
+    fun `get entity with attributes with related entities attributes`() {
         // Action /Event(12)/?$attributes=id,title,guests.lastName,guests.firstName
         val response: Response<ResponseBody> =
             apiService.getEntity(
@@ -204,7 +204,7 @@ class ApiEntityTest {
     }
 
     @Test
-    fun `test get entity with all related attributes`() {
+    fun `get entity with all related attributes`() {
         // "/Event(12)?\$attributes=guests.*
         val response: Response<ResponseBody> =
             apiService.getEntity(dataClassName = "Event", key = "12", attributes = "guests.*")

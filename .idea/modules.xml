@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/QMobileAPI.iml" filepath="$PROJECT_DIR$/.idea/modules/QMobileAPI.iml" group="QMobileAPI" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/QMobileAPI_buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/QMobileAPI_buildSrc.iml" group="QMobileAPI/QMobileAPI_buildSrc" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/qmobileapi/qmobileapi.iml" filepath="$PROJECT_DIR$/.idea/modules/qmobileapi/qmobileapi.iml" group="QMobileAPI/qmobileapi" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/QMobileAPI.iml" filepath="$PROJECT_DIR$/.idea/modules/QMobileAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/QMobileAPI.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/QMobileAPI.buildSrc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/qmobileapi/QMobileAPI.qmobileapi.iml" filepath="$PROJECT_DIR$/.idea/modules/qmobileapi/QMobileAPI.qmobileapi.iml" />
     </modules>
   </component>
 </project>

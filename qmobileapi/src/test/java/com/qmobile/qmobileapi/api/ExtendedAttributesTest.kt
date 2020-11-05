@@ -52,7 +52,7 @@ class ExtendedAttributesTest {
     private var gson = Gson()
 
     @Before
-    fun prepareTest() {
+    fun setup() {
         initDispatcher()
         mockWebServer.dispatcher = dispatcher
         mockWebServer.start()
@@ -83,7 +83,7 @@ class ExtendedAttributesTest {
                 return when (request.path) {
 
                     // `test extendedAttributes true or false is the same`()
-                    "/Service?\$filter=%22name%3DSponsorship%22&\$extendedAttributes=true" -> {
+                    "/Service?\$filter=%22name%3DSponsorship%22&\$extendedAttributes=true&\$limit=100000" -> {
                         mockResponse("extendedattributes.json")
                     }
                     else -> MockResponse().setResponseCode(HttpURLConnection.HTTP_NOT_FOUND)
@@ -98,7 +98,7 @@ class ExtendedAttributesTest {
     }
 
     @Test
-    fun `test extendedAttributes`() {
+    fun `post extendedAttributes`() {
         // Action /Service?$filter="name=Sponsorship"&$extendedAttributes=true
         val bodyString =
             JSONObject("{\"name\":true,\"employees\":{\"__Query\":{\"queryString\":\"FirstName=Joel\"},\"FirstName\":true},\"manager\":{\"__Query\":\"FirstName=Joel\",\"*\":true}}")

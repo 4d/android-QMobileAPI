@@ -51,8 +51,8 @@ class AuthenticationInterceptorTest {
     lateinit var loginRequiredCallback: LoginRequiredCallback
 
     @Before
-    fun prepareTest() {
-        MockitoAnnotations.initMocks(this)
+    fun setup() {
+        MockitoAnnotations.openMocks(this)
 
         ApiClient.clearApiClients()
         apiService = ApiClient.getApiService(
@@ -69,7 +69,7 @@ class AuthenticationInterceptorTest {
     }
 
     @Test
-    fun testErrorQuery_placeholder_is_missing_or_null() {
+    fun `errorQuery placeholder is missing or null`() {
 
         val authInfoHelper = AuthInfoHelper.getInstance(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
@@ -141,7 +141,7 @@ class AuthenticationInterceptorTest {
     }
 
     @Test
-    fun testHeaderWithSessionToken() {
+    fun `header with session token`() {
 
         val authInfoHelper = AuthInfoHelper.getInstance(ApplicationProvider.getApplicationContext())
         authInfoHelper.sessionToken = UNIT_TEST_TOKEN
@@ -183,7 +183,7 @@ class AuthenticationInterceptorTest {
     }
 
     @Test
-    fun testHttpForbiddenRefreshAuthFails() {
+    fun `http forbidden refreshAuth fails`() {
 
         val authInfoHelper = AuthInfoHelper.getInstance(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
@@ -231,7 +231,7 @@ class AuthenticationInterceptorTest {
     }
 
     @Test
-    fun testHttpForbiddenRefreshAuthSuccess() {
+    fun `http forbidden refreshAuth success`() {
 
         val authInfoHelper = AuthInfoHelper.getInstance(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true

@@ -23,7 +23,7 @@ class EmailValidatorTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun testIsValidEmail() {
+    fun isValidEmail() {
         val validEmailList = listOf(
             "EMAIL@example.com",
             "email@example.com",

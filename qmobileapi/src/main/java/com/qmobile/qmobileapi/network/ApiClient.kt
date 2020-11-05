@@ -26,11 +26,13 @@ object ApiClient {
     const val CONTENT_TYPE_HEADER_VALUE = "application/json"
     const val X_QMOBILE_HEADER_KEY = "X-QMobile"
     const val X_QMOBILE_HEADER_VALUE = "1"
+    const val HTTP_PREFIX = "http://"
+    const val HTTPS_PREFIX = "https://"
     private const val SERVER_ENDPOINT = "/mobileapp/"
     private const val REQUEST_TIMEOUT = 30
 
     private var retrofitLogin: Retrofit? = null
-    private var retrofit: Retrofit? = null
+    var retrofit: Retrofit? = null
     private var okHttpClientLogin: OkHttpClient? = null
     private var okHttpClient: OkHttpClient? = null
 
@@ -195,7 +197,15 @@ object ApiClient {
     /**
      * Adjusts retrofit baseUrl depending on what is given in remoteUrl
      */
-    private fun buildUrl(remoteUrl: String): String = remoteUrl.removeSuffix("/") + SERVER_ENDPOINT
+    fun buildUrl(remoteUrl: String): String {
+        var url = remoteUrl.removePrefix("/").removeSuffix("/")
+
+        if (!(url.startsWith(HTTP_PREFIX) || url.startsWith(HTTPS_PREFIX))) {
+            url = "$HTTPS_PREFIX$url"
+        }
+
+        return url.removeSuffix("/") + SERVER_ENDPOINT
+    }
 
     /**
      * Lets MainActivity interact with AuthenticationInterceptor

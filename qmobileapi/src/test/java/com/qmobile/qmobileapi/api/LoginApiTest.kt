@@ -50,7 +50,7 @@ class LoginApiTest {
     private var gson = Gson()
 
     @Before
-    fun prepareTest() {
+    fun setup() {
         println("prepareTest")
         initDispatcher()
         mockWebServer.dispatcher = dispatcher
@@ -95,7 +95,7 @@ class LoginApiTest {
     }
 
     @Test
-    fun `test authenticate`() {
+    fun `post authenticate`() {
         // Action /$authenticate
         val jsonRequest = JSONObject().apply {
             put(AuthInfoHelper.AUTH_EMAIL, "azeaze")
@@ -120,7 +120,7 @@ class LoginApiTest {
     }
 
     @Test
-    fun `test logout`() {
+    fun `post logout`() {
         // Action /$logout
         val response: Response<ResponseBody> = loginApiService.logout().blockingGet()
         assertResponseSuccessful(response)
@@ -134,7 +134,7 @@ class LoginApiTest {
     }
 
     @Test
-    fun `test synchronous authenticate`() {
+    fun `post synchronous authenticate`() {
         // Action /$authenticate
         val jsonRequest = JSONObject().apply {
             put(AuthInfoHelper.AUTH_EMAIL, "azeaze")
@@ -155,7 +155,7 @@ class LoginApiTest {
     }
 
     @Test
-    fun `test synchronous logout`() {
+    fun `post synchronous logout`() {
         // Action /$logout
         val response = loginApiService.syncLogout().execute()
         assertResponseSuccessful(response)

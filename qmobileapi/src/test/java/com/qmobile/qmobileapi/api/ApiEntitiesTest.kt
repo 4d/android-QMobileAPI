@@ -48,7 +48,7 @@ class ApiEntitiesTest {
     private var gson = Gson()
 
     @Before
-    fun prepareTest() {
+    fun setup() {
         initDispatcher()
         mockWebServer.dispatcher = dispatcher
         mockWebServer.start()
@@ -79,31 +79,31 @@ class ApiEntitiesTest {
                 return when (request.path) {
 
                     // `test get entities`()
-                    "/Event" -> {
+                    "/Event?\$limit=100000" -> {
                         mockResponse("restrecords.json")
                     }
                     // `test get entities with attributes`()
-                    "/Event?\$attributes=id,title" -> {
+                    "/Event?\$attributes=id,title&\$limit=100000" -> {
                         mockResponse("restrecordsattributes.json")
                     }
                     // `test get entities with attributes and related entity attributes`()
-                    "/Event?\$attributes=id,title,organizer.lastName,organizer.firstName" -> {
+                    "/Event?\$attributes=id,title,organizer.lastName,organizer.firstName&\$limit=100000" -> {
                         mockResponse("restrecordsrelatedentityattributes.json")
                     }
                     // `test get entities with attributes and related entities attributes`()
-                    "/Event?\$attributes=id,title,guests.lastName,guests.firstName" -> {
+                    "/Event?\$attributes=id,title,guests.lastName,guests.firstName&\$limit=100000" -> {
                         mockResponse("restrecordsrelatedentitiesattributes.json")
                     }
                     // `test get entities with filter`()
-                    "/Event?\$filter=%22id%3E13%20AND%20id%3C16%22" -> {
+                    "/Event?\$filter=%22id%3E13%20AND%20id%3C16%22&\$limit=100000" -> {
                         mockResponse("restrecordsfiltered.json")
                     }
                     // `test get entities with filter with attributes`()
-                    "/Event?\$filter=%22id%3E13%20AND%20id%3C16%22&\$attributes=id,title" -> {
+                    "/Event?\$filter=%22id%3E13%20AND%20id%3C16%22&\$attributes=id,title&\$limit=100000" -> {
                         mockResponse("restrecordsfilteredattributes.json")
                     }
                     // `test get entities with filter with attributes and relations`()
-                    "/Event?\$filter=%22id%3E13%20AND%20id%3C16%22&\$attributes=id,title,organizer.lastName,guests.lastName" -> {
+                    "/Event?\$filter=%22id%3E13%20AND%20id%3C16%22&\$attributes=id,title,organizer.lastName,guests.lastName&\$limit=100000" -> {
                         mockResponse("restrecordsfilteredandrelations.json")
                     }
                     else -> MockResponse().setResponseCode(HttpURLConnection.HTTP_NOT_FOUND)
@@ -118,7 +118,7 @@ class ApiEntitiesTest {
     }
 
     @Test
-    fun `test get entities`() {
+    fun `get entities`() {
         // Action /Event
         val response: Response<ResponseBody> =
             apiService.getEntities(dataClassName = "Event").blockingGet()
@@ -137,7 +137,7 @@ class ApiEntitiesTest {
     }
 
     @Test
-    fun `test get entities with attributes`() {
+    fun `get entities with attributes`() {
         // Action /Event?$attributes=id,title
         val response: Response<ResponseBody> =
             apiService.getEntities(dataClassName = "Event", attributes = "id,title").blockingGet()
@@ -158,7 +158,7 @@ class ApiEntitiesTest {
     }
 
     @Test
-    fun `test get entities with attributes and related entity attributes`() {
+    fun `get entities with attributes and related entity attributes`() {
         // Action /Event?$attributes=id,title,organizer.lastName,organizer.firstName
         val response: Response<ResponseBody> =
             apiService.getEntities(
@@ -190,7 +190,7 @@ class ApiEntitiesTest {
     }
 
     @Test
-    fun `test get entities with attributes and related entities attributes`() {
+    fun `get entities with attributes and related entities attributes`() {
         // Action /Event?$attributes=id,title,guests.lastName,guests.firstName
         val response: Response<ResponseBody> =
             apiService.getEntities(
@@ -223,7 +223,7 @@ class ApiEntitiesTest {
     }
 
     @Test
-    fun `test get entities with filter`() {
+    fun `get entities with filter`() {
         // Action /Event/$filter="id>13 AND id<16"
         val response: Response<ResponseBody> =
             apiService.getEntities(dataClassName = "Event", filter = "\"id>13 AND id<16\"")
@@ -243,7 +243,7 @@ class ApiEntitiesTest {
     }
 
     @Test
-    fun `test get entities with filter with attributes`() {
+    fun `get entities with filter with attributes`() {
         // Action /Event?$filter="id>13 AND id<16"&$attributes=id,title
         val response: Response<ResponseBody> = apiService.getEntities(
             dataClassName = "Event",
@@ -267,7 +267,7 @@ class ApiEntitiesTest {
     }
 
     @Test
-    fun `test get entities with filter with attributes and relations`() {
+    fun `get entities with filter with attributes and relations`() {
         // Action /Event?$filter="id>13 AND id<16"&$attributes=id,title,organizer.lastName,guests.lastName
         val response: Response<ResponseBody> = apiService.getEntities(
             dataClassName = "Event",

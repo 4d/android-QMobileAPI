@@ -49,7 +49,7 @@ class ApiTest {
     private var gson = Gson()
 
     @Before
-    fun prepareTest() {
+    fun setup() {
         initDispatcher()
         mockWebServer.dispatcher = dispatcher
         mockWebServer.start()
@@ -106,7 +106,7 @@ class ApiTest {
     }
 
     @Test
-    fun `test get catalog`() {
+    fun `get catalog`() {
         // Action /$catalog
         val response: Response<ResponseBody> = apiService.getCatalog().blockingGet()
         assertResponseSuccessful(response)
@@ -121,7 +121,7 @@ class ApiTest {
     }
 
     @Test
-    fun `test get all dataClasses`() {
+    fun `get all dataClasses`() {
         // Action /$catalog/$all
         val response: Response<ResponseBody> = apiService.getAllDataClasses().blockingGet()
         assertResponseSuccessful(response)
@@ -137,7 +137,7 @@ class ApiTest {
     }
 
     @Test
-    fun `test get dataClass`() {
+    fun `get dataClass`() {
         // Action /$catalog/Employee
         val response: Response<ResponseBody> = apiService.getDataClass("Employee").blockingGet()
         assertResponseSuccessful(response)
@@ -155,7 +155,7 @@ class ApiTest {
     }
 
     @Test
-    fun `test get info`() {
+    fun `get info`() {
         // Action /$info
         val response: Response<ResponseBody> = apiService.getInfo().blockingGet()
         assertResponseSuccessful(response)
