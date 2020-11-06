@@ -45,6 +45,7 @@ lint:
 .build_sdk: &build_sdk |
   echo "Starting build_sdk"
   unzip -q android-sdk.zip -d android-sdk
+  rm android-sdk.zip
   echo y | android-sdk/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
   echo y | android-sdk/tools/bin/sdkmanager "platform-tools" >/dev/null
   echo y | android-sdk/tools/bin/sdkmanager "tools" >/dev/null
@@ -74,6 +75,7 @@ buildLinux:
 unitTests:
   stage: test
   script:
+    - *download_sdk_linux
     - *build_sdk
     - ./gradlew -x lint check --console=rich
     - ./gradlew -x lint jacocoTestReport --console=rich
