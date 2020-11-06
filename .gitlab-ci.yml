@@ -77,8 +77,7 @@ unitTests:
   script:
     - *download_sdk_linux
     - *build_sdk
-    - ./gradlew -x lint check --console=rich
-    - ./gradlew -x lint jacocoTestReport --console=rich
+    - ./gradlew -x lint jacocoTestReport
     - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' qmobileapi/build/reports/jacoco/jacocoTestReport/jacocoTestReport.csv
   tags:
     - linux

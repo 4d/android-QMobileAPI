@@ -6,6 +6,6 @@
 
 package com.qmobile.qmobileapi.auth
 
-enum class AuthenticationState {
+enum class AuthenticationStateEnum {
     AUTHENTICATED, UNAUTHENTICATED, INVALID_AUTHENTICATION, LOGOUT
 }

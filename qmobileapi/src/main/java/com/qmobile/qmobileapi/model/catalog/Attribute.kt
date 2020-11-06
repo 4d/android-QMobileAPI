@@ -9,9 +9,9 @@ package com.qmobile.qmobileapi.model.catalog
 data class Attribute(
     val identifying: Boolean?,
     val indexed: Boolean?,
-    val kind: Kind?,
+    val kind: KindEnum?,
     val name: String?,
-    val scope: Scope?,
+    val scope: ScopeEnum?,
     val simpleDate: Boolean?,
     val type: String?
 )

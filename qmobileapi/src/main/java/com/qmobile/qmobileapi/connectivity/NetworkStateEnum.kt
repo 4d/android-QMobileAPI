@@ -6,6 +6,6 @@
 
 package com.qmobile.qmobileapi.connectivity
 
-enum class NetworkState {
+enum class NetworkStateEnum {
     CONNECTED, CONNECTION_LOST, DISCONNECTED, CONNECTING
 }

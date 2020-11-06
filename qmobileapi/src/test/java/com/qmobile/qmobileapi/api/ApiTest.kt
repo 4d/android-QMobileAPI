@@ -11,8 +11,8 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.gson.Gson
 import com.qmobile.qmobileapi.auth.LoginRequiredCallback
 import com.qmobile.qmobileapi.model.catalog.Catalog
-import com.qmobile.qmobileapi.model.catalog.Kind
-import com.qmobile.qmobileapi.model.catalog.Scope
+import com.qmobile.qmobileapi.model.catalog.KindEnum
+import com.qmobile.qmobileapi.model.catalog.ScopeEnum
 import com.qmobile.qmobileapi.model.info.Info
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
@@ -133,7 +133,7 @@ class ApiTest {
         val catalog = gson.parseJsonToType<Catalog>(json)
         assertEquals(4, catalog?.dataClasses?.size)
         assertEquals("__DeletedRecords", catalog?.dataClasses?.get(0)?.name)
-        assertEquals(Scope.PUBLIC, catalog?.dataClasses?.get(0)?.scope)
+        assertEquals(ScopeEnum.PUBLIC, catalog?.dataClasses?.get(0)?.scope)
     }
 
     @Test
@@ -149,9 +149,9 @@ class ApiTest {
         val catalog = gson.parseJsonToType<Catalog>(json)
         assertEquals("Employee", catalog?.dataClasses?.get(0)?.name)
         assertEquals("EmployeeSelection", catalog?.dataClasses?.get(0)?.collectionName)
-        assertEquals(Scope.PUBLIC, catalog?.dataClasses?.get(0)?.scope)
+        assertEquals(ScopeEnum.PUBLIC, catalog?.dataClasses?.get(0)?.scope)
         assertEquals("ID", catalog?.dataClasses?.get(0)?.attributes?.get(0)?.name)
-        assertEquals(Kind.STORAGE, catalog?.dataClasses?.get(0)?.attributes?.get(0)?.kind)
+        assertEquals(KindEnum.STORAGE, catalog?.dataClasses?.get(0)?.attributes?.get(0)?.kind)
     }
 
     @Test

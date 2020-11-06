@@ -13,9 +13,9 @@ import android.os.Build
  * Checks if Internet is available
  */
 fun ConnectivityManager?.isConnected(
-    networkState: NetworkState?
+    networkState: NetworkStateEnum?
 ): Boolean = if (sdkNewerThanKitKat) {
-    networkState == NetworkState.CONNECTED
+    networkState == NetworkStateEnum.CONNECTED
 } else {
     this.isKitKatConnectedOrConnecting()
 }

@@ -8,13 +8,13 @@ package com.qmobile.qmobileapi.model.catalog
 
 import com.google.gson.annotations.SerializedName
 
-enum class Scope {
-    @SerializedName("public")
-    PUBLIC,
-    @SerializedName("public on server")
-    PUBLIC_ON_SERVER,
-    @SerializedName("protected")
-    PROTECTED,
-    @SerializedName("private")
-    PRIVATE
+enum class KindEnum {
+    @SerializedName("storage")
+    STORAGE,
+    @SerializedName("calculated")
+    CALCULATED,
+    @SerializedName("related entity")
+    RELATED_ENTITY,
+    @SerializedName("alias")
+    ALIAS
 }
