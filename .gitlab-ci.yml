@@ -6,6 +6,7 @@ variables:
 stages:
   - lint
   - build
+  - test
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -65,11 +66,19 @@ buildLinux:
     - ./gradlew clean --console=rich
     - ./gradlew assemble --console=rich
     - ./gradlew artifactoryPublish --console=rich
-    - ./gradlew -x lint check --console=rich
-    - ./gradlew -x lint jacocoTestReport --console=rich
-    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' qmobileapi/build/reports/jacoco/jacocoTestReport/jacocoTestReport.csv
   tags:
     - linux
   artifacts:
     paths:
      - qmobileapi/build/outputs/aar/
+
+unitTests:
+  stage: test
+  script:
+    - rm -fr build
+    - ./gradlew clean --console=rich
+    - ./gradlew -x lint check --console=rich
+    - ./gradlew -x lint jacocoTestReport --console=rich
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' qmobileapi/build/reports/jacoco/jacocoTestReport/jacocoTestReport.csv
+  tags:
+    - linux
