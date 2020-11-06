@@ -78,5 +78,5 @@ unitTests:
     - ./gradlew -x lint check --console=rich
   tags:
     - linux
-    #- ./gradlew jacocoTestReport
-    #- awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' qmobileapi/build/reports/jacoco/jacocoTestReport/jacocoTestReport.csv
+    - ./gradlew jacocoTestReport
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' qmobileapi/build/reports/jacoco/jacocoTestReport/jacocoTestReport.csv

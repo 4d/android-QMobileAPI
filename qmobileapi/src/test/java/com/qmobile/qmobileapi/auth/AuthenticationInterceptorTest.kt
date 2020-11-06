@@ -14,8 +14,10 @@ import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.network.LoginApiService
 import com.qmobile.qmobileapi.utils.UNIT_TEST_TOKEN
+import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -32,14 +34,17 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import retrofit2.Call
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
+import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])
 class AuthenticationInterceptorTest {
 
     private var mockWebServer = MockWebServer()
-    private lateinit var apiService: ApiService
 
     @Mock
     lateinit var mockedCall: Call<AuthResponse>
@@ -53,14 +58,6 @@ class AuthenticationInterceptorTest {
     @Before
     fun setup() {
         MockitoAnnotations.openMocks(this)
-
-        ApiClient.clearApiClients()
-        apiService = ApiClient.getApiService(
-            ApplicationProvider.getApplicationContext(),
-            mockWebServer.url("/").toString(),
-            loginApiService,
-            loginRequiredCallback
-        )
     }
 
     @After
@@ -68,10 +65,37 @@ class AuthenticationInterceptorTest {
         mockWebServer.shutdown()
     }
 
+    private fun buildApiService(authInfoHelper: AuthInfoHelper): ApiService {
+        val okHttpClientBuilder = OkHttpClient().newBuilder()
+            .connectTimeout(ApiClient.REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .readTimeout(ApiClient.REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .writeTimeout(ApiClient.REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
+
+        okHttpClientBuilder.addInterceptor(
+            HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.BODY)
+        )
+
+        val authenticationInterceptor =
+            AuthenticationInterceptor(authInfoHelper, loginApiService, loginRequiredCallback)
+        okHttpClientBuilder.addInterceptor(authenticationInterceptor)
+
+        val newOkHttpClient = okHttpClientBuilder.build()
+
+        val newRetrofit = Retrofit.Builder()
+            .baseUrl(mockWebServer.url("/").toString())
+            .client(newOkHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+
+        return newRetrofit.create(ApiService::class.java)
+    }
+
     @Test
     fun `errorQuery placeholder is missing or null`() {
 
-        val authInfoHelper = AuthInfoHelper.getInstance(ApplicationProvider.getApplicationContext())
+        val authInfoHelper = AuthInfoHelper(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
 
         // response
@@ -113,7 +137,10 @@ class AuthenticationInterceptorTest {
                         val responseCode =
                             MockResponse().setResponseCode(HttpURLConnection.HTTP_OK)
                         if (firstTime) {
-//                            Assert.assertEquals(null, request.headers[ApiClient.AUTHORIZATION_HEADER_KEY])
+                            Assert.assertEquals(
+                                null,
+                                request.headers[ApiClient.AUTHORIZATION_HEADER_KEY]
+                            )
                             responseCode.setBody(
                                 "{\"success\": false, \"__ERRORS\": [{\"message\":\"wrong request\", \"componentSignature\":\"\", \"errCode\":1279}]}"
                             )
@@ -131,6 +158,8 @@ class AuthenticationInterceptorTest {
             }
         }
 
+        val apiService = buildApiService(authInfoHelper)
+
         mockWebServer.dispatcher = dispatcher
         val response: Response<ResponseBody> =
             apiService.getEntity(dataClassName = "Event", key = "12").blockingGet()
@@ -143,7 +172,7 @@ class AuthenticationInterceptorTest {
     @Test
     fun `header with session token`() {
 
-        val authInfoHelper = AuthInfoHelper.getInstance(ApplicationProvider.getApplicationContext())
+        val authInfoHelper = AuthInfoHelper(ApplicationProvider.getApplicationContext())
         authInfoHelper.sessionToken = UNIT_TEST_TOKEN
 
         val dispatcher = object : Dispatcher() {
@@ -174,6 +203,8 @@ class AuthenticationInterceptorTest {
             }
         }
 
+        val apiService = buildApiService(authInfoHelper)
+
         mockWebServer.dispatcher = dispatcher
         val response = apiService.getEntity(dataClassName = "Event", key = "12").blockingGet()
         Assert.assertNotNull(response.body())
@@ -185,7 +216,7 @@ class AuthenticationInterceptorTest {
     @Test
     fun `http forbidden refreshAuth fails`() {
 
-        val authInfoHelper = AuthInfoHelper.getInstance(ApplicationProvider.getApplicationContext())
+        val authInfoHelper = AuthInfoHelper(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
 
         Mockito.`when`(loginApiService.syncAuthenticate(Mockito.any(RequestBody::class.java)))
@@ -215,13 +246,18 @@ class AuthenticationInterceptorTest {
 
                         val responseCode =
                             MockResponse().setResponseCode(HttpURLConnection.HTTP_UNAUTHORIZED)
-//                        Assert.assertEquals(null, request.headers[ApiClient.AUTHORIZATION_HEADER_KEY])
+                        Assert.assertEquals(
+                            null,
+                            request.headers[ApiClient.AUTHORIZATION_HEADER_KEY]
+                        )
                         return responseCode
                     }
                     else -> MockResponse().setResponseCode(HttpURLConnection.HTTP_NOT_FOUND)
                 }
             }
         }
+
+        val apiService = buildApiService(authInfoHelper)
 
         mockWebServer.dispatcher = dispatcher
         val response: Response<ResponseBody> =
@@ -233,7 +269,7 @@ class AuthenticationInterceptorTest {
     @Test
     fun `http forbidden refreshAuth success`() {
 
-        val authInfoHelper = AuthInfoHelper.getInstance(ApplicationProvider.getApplicationContext())
+        val authInfoHelper = AuthInfoHelper(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
 
         // response
@@ -294,6 +330,8 @@ class AuthenticationInterceptorTest {
                 }
             }
         }
+
+        val apiService = buildApiService(authInfoHelper)
 
         mockWebServer.dispatcher = dispatcher
         val response: Response<ResponseBody> =

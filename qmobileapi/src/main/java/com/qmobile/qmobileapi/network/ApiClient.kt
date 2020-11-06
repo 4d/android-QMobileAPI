@@ -29,7 +29,7 @@ object ApiClient {
     const val HTTP_PREFIX = "http://"
     const val HTTPS_PREFIX = "https://"
     private const val SERVER_ENDPOINT = "/mobileapp/"
-    private const val REQUEST_TIMEOUT = 30
+    const val REQUEST_TIMEOUT = 30
 
     private var retrofitLogin: Retrofit? = null
     var retrofit: Retrofit? = null
