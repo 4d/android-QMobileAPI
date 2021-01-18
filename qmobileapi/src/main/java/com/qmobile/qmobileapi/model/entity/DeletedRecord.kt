@@ -6,6 +6,7 @@
 
 package com.qmobile.qmobileapi.model.entity
 
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.qmobile.qmobileapi.auth.AuthInfoHelper
 import com.qmobile.qmobileapi.repository.RestRepository
@@ -40,6 +41,7 @@ data class DeletedRecord(
             gson: Gson,
             restRepository: RestRepository,
             authInfoHelper: AuthInfoHelper,
+            toastMessage: MutableLiveData<String>,
             onResult: (entities: Entities<DeletedRecord>?) -> Unit
         ) {
             val predicate = buildStampPredicate(authInfoHelper.deletedRecordsStamp)
@@ -59,7 +61,7 @@ data class DeletedRecord(
                         }
                     }
                 } else {
-                    RequestErrorHelper.handleError(error)
+                    RequestErrorHelper.handleError(error, toastMessage)
                 }
             }
         }
