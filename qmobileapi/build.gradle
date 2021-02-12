@@ -43,7 +43,7 @@ dependencies {
 
 def libraryGroupId = 'com.qmobile.qmobileapi'
 def libraryArtifactId = 'qmobileapi'
-def libraryVersion = '0.0.1'
+def libraryVersion = Versions.qmobileapi + '-' + gitBranch()
 def buildVariant = 'release'
 
 publishing {
