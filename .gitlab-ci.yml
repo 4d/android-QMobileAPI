@@ -20,6 +20,8 @@ cache:
 lint:
   stage: lint
   script:
+    - echo CI_COMMIT_REF_NAME = $CI_COMMIT_REF_NAME
+    - echo CI_COMMIT_BRANCH = $CI_COMMIT_BRANCH
     - rm -fr build
     - ./gradlew ktlintFormat --console=rich
     - ./gradlew detekt --console=rich
