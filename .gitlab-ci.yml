@@ -30,8 +30,7 @@ lint:
     paths:
     - qmobileapi/build/reports/
 
-.build_sdk: &build_sdk |
-  echo "Starting build_sdk"
+.prepare_sdk: &prepare_sdk |
   export ANDROID_HOME=$PWD/../android-sdk
   export ANDROID_SDK_HOME=$PWD/../android-sdk
   export ANDROID_SDK_ROOT=$PWD/../android-sdk
@@ -43,9 +42,10 @@ lint:
 buildLinux:
   stage: build
   script:
-    - *build_sdk
+    - *prepare_sdk
     - ./gradlew clean --console=rich
     - ./gradlew assemble --console=rich
+    - ./gradlew artifactoryPublish --console=rich
   tags:
     - linux
   artifacts:
@@ -55,7 +55,7 @@ buildLinux:
 unitTests:
   stage: test
   script:
-    - *build_sdk
+    - *prepare_sdk
     - ./gradlew -x lint jacocoTestReport --console=rich
     - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' qmobileapi/build/reports/jacoco/jacocoTestReport/jacocoTestReport.csv
   tags:
