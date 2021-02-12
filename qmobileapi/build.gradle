@@ -43,14 +43,15 @@ dependencies {
 
 def libraryGroupId = 'com.qmobile.qmobileapi'
 def libraryArtifactId = 'qmobileapi'
-def libraryVersion = Versions.qmobileapi + '-' + gitBranch()
+def libraryVersion = Versions.qmobileapi
 def buildVariant = 'release'
 
 publishing {
     publications {
         aar(MavenPublication) {
             groupId libraryGroupId
-            version libraryVersion
+            def branchName = System.getenv('CI_COMMIT_REF_NAME')
+            version libraryVersion + '-' + branchName
 
             artifactId libraryArtifactId
             artifact("$buildDir/outputs/aar/${artifactId}-${buildVariant}.aar")
