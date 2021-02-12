@@ -51,6 +51,9 @@ publishing {
         aar(MavenPublication) {
             groupId libraryGroupId
             def branchName = System.getenv('CI_COMMIT_REF_NAME')
+            if (branchName != null) {
+                branchName = branchName.replace("/", "_")
+            }
             version libraryVersion + '-' + branchName
 
             artifactId libraryArtifactId
