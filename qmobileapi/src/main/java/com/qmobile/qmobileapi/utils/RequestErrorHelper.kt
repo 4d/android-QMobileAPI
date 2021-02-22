@@ -6,18 +6,15 @@
 
 package com.qmobile.qmobileapi.utils
 
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.qmobile.qmobileapi.model.error.ErrorResponse
-import retrofit2.Response
-import timber.log.Timber
 
 /**
  * Helper class for API errors
  */
 object RequestErrorHelper {
 
-    fun handleError(error: Any?, toastMessage: MutableLiveData<String>) {
+    /*fun handleError(error: Any?, toastMessage: MutableLiveData<String>) {
         Timber.e("Error: $error")
         when (error) {
             is Response<*> -> {
@@ -26,7 +23,7 @@ object RequestErrorHelper {
                 toastMessage.postValue(error.localizedMessage)
             }
         }
-    }
+    }*/
 
     /**
      * Parses error from response

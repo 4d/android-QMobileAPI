@@ -39,13 +39,15 @@ lint:
   export PATH=$PATH:$ANDROID_HOME/tools/bin/
   export PATH=$PATH:$ANDROID_AVD_HOME
 
-buildLinux:
+build:
   stage: build
   script:
     - *prepare_sdk
     - ./gradlew clean --console=rich
     - ./gradlew assemble --console=rich
     - ./gradlew artifactoryPublish --console=rich
+  tags:
+    - osx
   artifacts:
     paths:
      - qmobileapi/build/outputs/aar/
@@ -56,3 +58,5 @@ unitTests:
     - *prepare_sdk
     - ./gradlew -x lint jacocoTestReport --console=rich
     - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' qmobileapi/build/reports/jacoco/jacocoTestReport/jacocoTestReport.csv
+  tags:
+    - osx
