@@ -31,9 +31,9 @@ lint:
     - qmobileapi/build/reports/
 
 .prepare_sdk: &prepare_sdk |
-  export ANDROID_HOME=$PWD/../android-sdk
-  export ANDROID_SDK_HOME=$PWD/../android-sdk
-  export ANDROID_SDK_ROOT=$PWD/../android-sdk
+  export ANDROID_HOME=/Users/4d/builds/khqL5qp1/0/qmobile/android/android-sdk
+  export ANDROID_SDK_HOME=$ANDROID_HOME
+  export ANDROID_SDK_ROOT=$ANDROID_HOME
   export PATH=$PATH:$ANDROID_HOME/platform-tools/
   export PATH=$PATH:$ANDROID_HOME/tools/
   export PATH=$PATH:$ANDROID_HOME/tools/bin/
