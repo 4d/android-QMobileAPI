@@ -6,20 +6,18 @@
 
 package com.qmobile.qmobileapi.auth
 
-import android.annotation.SuppressLint
 import android.content.Context
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.qmobile.qmobileapi.model.auth.AuthResponse
 import com.qmobile.qmobileapi.model.queries.Queries
 import com.qmobile.qmobileapi.utils.SingletonHolder
+import com.qmobile.qmobileapi.utils.UserInfoDateFormatter
 import com.qmobile.qmobileapi.utils.customPrefs
 import com.qmobile.qmobileapi.utils.defaultPrefs
 import com.qmobile.qmobileapi.utils.get
 import com.qmobile.qmobileapi.utils.parseJsonToType
 import com.qmobile.qmobileapi.utils.set
 import org.json.JSONObject
-import java.text.SimpleDateFormat
 import java.util.UUID
 
 /**
@@ -76,7 +74,12 @@ open class AuthInfoHelper(val context: Context) {
             prefs[AUTH_DEVICE] = value
         }
 
-    var userInfo: String? = privatePrefs[USER_INFO]
+    // var userInfo: String? = privatePrefs[USER_INFO]
+    var userInfo: String
+        get() = prefs[USER_INFO] ?: ""
+        set(value) {
+            prefs[USER_INFO] = value
+        }
 
     // Team Info
     var team: JSONObject
@@ -173,24 +176,13 @@ open class AuthInfoHelper(val context: Context) {
      * Gets the sessionToken from $authenticate request response
      */
     fun handleLoginInfo(authResponse: AuthResponse): Boolean {
-        setUserInfo(authResponse.userInfo!!)
+        UserInfoDateFormatter.storeUserInfo(authResponse.userInfo!!, prefs)
         this.sessionId = authResponse.id ?: ""
         authResponse.token?.let {
             this.sessionToken = it
             return true
         }
         return false
-    }
-
-    // Store UserInfo
-    @SuppressLint("SimpleDateFormat")
-    fun setUserInfo(userInfo: JsonObject) {
-        val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
-            userInfo.get("date").toString().split("\"")[1]
-        )
-        val newDateFormat = SimpleDateFormat("yy!MM!dd").format(date!!)
-        userInfo.addProperty("date", newDateFormat)
-        privatePrefs[USER_INFO] = userInfo.toString()
     }
 
     // Table queries
