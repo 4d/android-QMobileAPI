@@ -29,10 +29,10 @@ object UserInfoDateFormatter {
             val key = listOfKeys.elementAt(index)
             try {
                 userInfo.addProperty(
-                    "date",
+                    key,
                     formatDate(userInfo.get(key).toString().split("\"")[1])
                 )
-                cleanJson(userInfo, key)
+                prefs[AuthInfoHelper.USER_INFO] = userInfo.toString()
             } catch (e: Exception) { } // no-opt
         }
     }
@@ -40,10 +40,5 @@ object UserInfoDateFormatter {
     private val formatDate = { valueToParse: String ->
         val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(valueToParse)
         SimpleDateFormat("yy!MM!dd").format(date!!)
-    }
-
-    private fun cleanJson(userInfo: JsonObject, keyToRemove: String) {
-        userInfo.remove(keyToRemove)
-        prefs[AuthInfoHelper.USER_INFO] = userInfo.toString() // store in to shared preference
     }
 }
