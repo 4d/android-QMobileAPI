@@ -39,6 +39,7 @@ open class AuthInfoHelper(val context: Context) {
         const val SESSION_ID = "session_id"
         const val SESSION_TOKEN = "session_token"
         const val DEVICE_UUID = "device_uuid"
+        const val SDK_VERSION = "sdk_version"
 
         const val QUERY_PREFIX = "queries_"
         const val PROPERTIES_PREFIX = "properties_"
@@ -101,6 +102,12 @@ open class AuthInfoHelper(val context: Context) {
         get() = prefs[REMOTE_URL] ?: ""
         set(value) {
             prefs[REMOTE_URL] = value
+        }
+
+    var sdkVersion: String
+        get() = prefs[SDK_VERSION] ?: ""
+        set(value) {
+            prefs[SDK_VERSION] = value
         }
 
     val deviceUUID: String
