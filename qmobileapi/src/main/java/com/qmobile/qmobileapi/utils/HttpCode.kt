@@ -158,7 +158,8 @@ object HttpCode {
             locked -> "The resource is locked."
             notImplemented -> "Request are not available."
             gatewayTimeout -> "Gateway timeout."
-            in 500..600 -> "The server encountered an error and was unable to complete your " +
+            in 500..600 ->
+                "The server encountered an error and was unable to complete your " +
                     "request. Please contact the server administrator."
             else -> null
         }
