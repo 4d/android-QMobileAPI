@@ -59,3 +59,30 @@ fun JSONArray?.getStringList(): List<String> {
     }
     return list
 }
+
+fun JSONArray?.getObjectListAsString(): List<String> {
+    val list = mutableListOf<String>()
+    this?.let {
+        for (i in 0 until this.length()) {
+            val safeObject = this.getSafeObject(i)
+            list.add(safeObject.toString())
+        }
+    }
+    return list
+}
+
+fun JSONArray.getSafeObject(position: Int): JSONObject? {
+    return try {
+        this.getJSONObject(position)
+    } catch (e: JSONException) {
+        return null
+    }
+}
+
+fun retrieveJSONObject(jsonString: String): JSONObject? {
+    return try {
+        JSONObject(jsonString.substring(jsonString.indexOf("{"), jsonString.lastIndexOf("}") + 1))
+    } catch (e: StringIndexOutOfBoundsException) {
+        null
+    }
+}
