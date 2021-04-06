@@ -37,10 +37,10 @@ class ServerAccessibility {
                     socket.connect(socketAddress, timeout)
                     socket.close()
 
-                    Timber.i("Server ping successful to $hostname:$port")
+                    Timber.d("Server ping successful to $hostname:$port")
                     true
                 } catch (e: IOException) {
-                    Timber.i("Server ping unsuccessful")
+                    Timber.d("Server ping unsuccessful")
                     Timber.e(e.localizedMessage)
                     false
                 }
