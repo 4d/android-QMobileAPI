@@ -7,6 +7,7 @@
 package com.qmobile.qmobileapi.utils
 
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.qmobile.qmobileapi.model.error.ErrorResponse
 
 /**
@@ -34,6 +35,10 @@ object RequestErrorHelper {
         val copyResponse = response.peekBody(Long.MAX_VALUE)
         // val responseBody = response.body
         val json = copyResponse.string()
-        return Gson().parseJsonToType(json)
+        return try {
+            Gson().parseJsonToType(json)
+        } catch (e: JsonSyntaxException) {
+            return null
+        }
     }
 }

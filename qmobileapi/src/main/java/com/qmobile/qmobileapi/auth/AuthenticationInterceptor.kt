@@ -67,7 +67,7 @@ class AuthenticationInterceptor(
         }
 
         val request = requestBuilder.build()
-        Timber.d("[ Request = $request ]")
+        // Timber.d("[ Request = $request ]")
 
         var response = chain.proceed(request)
 

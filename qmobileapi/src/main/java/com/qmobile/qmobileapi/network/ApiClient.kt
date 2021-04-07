@@ -53,17 +53,18 @@ object ApiClient {
         context: Context,
         baseUrl: String = "",
         loginApiService: LoginApiService,
-        loginRequiredCallback: LoginRequiredCallback
+        loginRequiredCallback: LoginRequiredCallback,
+        logBody: Boolean = false
     ): ApiService {
         INSTANCE?.let {
             return it
         } ?: kotlin.run {
             val service =
-                getClient(context, baseUrl, loginApiService, loginRequiredCallback).create(
+                getClient(context, baseUrl, loginApiService, loginRequiredCallback, logBody).create(
                     ApiService::class.java
                 )
             INSTANCE = service
-            Timber.i("ApiService created")
+            Timber.v("ApiService created")
             return service
         }
     }
@@ -71,15 +72,19 @@ object ApiClient {
     /**
      * Gets or generates the LoginApiClient
      */
-    fun getLoginApiService(context: Context, baseUrl: String = ""): LoginApiService {
+    fun getLoginApiService(
+        context: Context,
+        baseUrl: String = "",
+        logBody: Boolean = false
+    ): LoginApiService {
         LOGIN_INSTANCE?.let {
             return it
         } ?: kotlin.run {
-            val service = getClientLogin(context, baseUrl).create(
+            val service = getClientLogin(context, baseUrl, logBody).create(
                 LoginApiService::class.java
             )
             LOGIN_INSTANCE = service
-            Timber.i("LoginApiService created")
+            Timber.v("LoginApiService created")
             return service
         }
     }
@@ -91,7 +96,8 @@ object ApiClient {
         context: Context,
         baseUrl: String,
         loginApiService: LoginApiService,
-        loginRequiredCallback: LoginRequiredCallback
+        loginRequiredCallback: LoginRequiredCallback,
+        logBody: Boolean
     ): Retrofit {
         authInfoHelper = AuthInfoHelper.getInstance(context)
 
@@ -108,7 +114,8 @@ object ApiClient {
             .client(
                 okHttpClient ?: initOkHttp(
                     loginApiService,
-                    loginRequiredCallback
+                    loginRequiredCallback,
+                    logBody
                 )
             )
             .addConverterFactory(GsonConverterFactory.create())
@@ -124,7 +131,8 @@ object ApiClient {
      */
     private fun getClientLogin(
         context: Context,
-        baseUrl: String
+        baseUrl: String,
+        logBody: Boolean
     ): Retrofit {
         authInfoHelper = AuthInfoHelper.getInstance(context)
 
@@ -141,7 +149,8 @@ object ApiClient {
             .client(
                 okHttpClientLogin ?: initOkHttp(
                     null,
-                    null
+                    null,
+                    logBody
                 )
             )
             .addConverterFactory(GsonConverterFactory.create())
@@ -169,7 +178,8 @@ object ApiClient {
      */
     private fun initOkHttp(
         loginApiService: LoginApiService?,
-        loginRequiredCallback: LoginRequiredCallback?
+        loginRequiredCallback: LoginRequiredCallback?,
+        logBody: Boolean
     ): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient().newBuilder()
             .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
@@ -178,7 +188,12 @@ object ApiClient {
 
         okHttpClientBuilder.addInterceptor(
             HttpLoggingInterceptor()
-                .setLevel(HttpLoggingInterceptor.Level.BODY)
+                .setLevel(
+                    if (logBody)
+                        HttpLoggingInterceptor.Level.BODY
+                    else
+                        HttpLoggingInterceptor.Level.BASIC
+                )
         )
 
         // Adds authentication interceptor

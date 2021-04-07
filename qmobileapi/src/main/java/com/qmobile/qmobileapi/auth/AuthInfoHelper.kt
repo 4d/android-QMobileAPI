@@ -9,12 +9,15 @@ package com.qmobile.qmobileapi.auth
 import android.content.Context
 import com.google.gson.Gson
 import com.qmobile.qmobileapi.model.auth.AuthResponse
-import com.qmobile.qmobileapi.model.queries.Queries
+import com.qmobile.qmobileapi.model.queries.Query
 import com.qmobile.qmobileapi.utils.SingletonHolder
 import com.qmobile.qmobileapi.utils.UserInfoDateFormatter
 import com.qmobile.qmobileapi.utils.customPrefs
 import com.qmobile.qmobileapi.utils.defaultPrefs
 import com.qmobile.qmobileapi.utils.get
+import com.qmobile.qmobileapi.utils.getObjectListAsString
+import com.qmobile.qmobileapi.utils.getSafeArray
+import com.qmobile.qmobileapi.utils.getSafeString
 import com.qmobile.qmobileapi.utils.parseJsonToType
 import com.qmobile.qmobileapi.utils.set
 import org.json.JSONObject
@@ -40,6 +43,7 @@ open class AuthInfoHelper(val context: Context) {
         const val SESSION_ID = "session_id"
         const val SESSION_TOKEN = "session_token"
         const val DEVICE_UUID = "device_uuid"
+        const val SDK_VERSION = "sdk_version"
 
         const val QUERY_PREFIX = "queries_"
         const val PROPERTIES_PREFIX = "properties_"
@@ -111,6 +115,12 @@ open class AuthInfoHelper(val context: Context) {
         get() = prefs[REMOTE_URL] ?: ""
         set(value) {
             prefs[REMOTE_URL] = value
+        }
+
+    var sdkVersion: String
+        get() = prefs[SDK_VERSION] ?: ""
+        set(value) {
+            prefs[SDK_VERSION] = value
         }
 
     val deviceUUID: String
@@ -185,15 +195,26 @@ open class AuthInfoHelper(val context: Context) {
         return false
     }
 
+    fun handleLoginInfo(authResponseJson: JSONObject): Boolean {
+        this.sessionId = authResponseJson.getSafeString("id") ?: ""
+        authResponseJson.getSafeString("token")?.let {
+            this.sessionToken = it
+            return true
+        }
+        return false
+    }
+
     // Table queries
     fun getQuery(tableName: String): String = prefs["$QUERY_PREFIX$tableName"] ?: ""
 
     fun setQueries(queriesJSONObject: JSONObject) {
-        val queriesObject = Gson().parseJsonToType<Queries>(queriesJSONObject.toString())
-        queriesObject?.let {
-            for (query in queriesObject.queries) {
-                if (query.tableName.isNullOrEmpty().not() && query.value.isNullOrEmpty().not())
-                    prefs["$QUERY_PREFIX${query.tableName}"] = query.value
+        queriesJSONObject.getSafeArray("queries")?.getObjectListAsString()?.let { queryList ->
+            for (queryString in queryList) {
+                val query = Gson().parseJsonToType<Query>(queryString)
+                query?.let {
+                    if (query.tableName.isNullOrEmpty().not() && query.value.isNullOrEmpty().not())
+                        prefs["$QUERY_PREFIX${query.tableName}"] = query.value
+                }
             }
         }
     }

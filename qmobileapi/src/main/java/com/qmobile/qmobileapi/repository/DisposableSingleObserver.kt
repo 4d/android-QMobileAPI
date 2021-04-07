@@ -18,7 +18,7 @@ class DisposableSingleObserver(
         if (response.isSuccessful) {
             onResult(true, response, null)
         } else {
-            onResult(false, null, response)
+            onResult(false, response, null)
         }
     }
 
