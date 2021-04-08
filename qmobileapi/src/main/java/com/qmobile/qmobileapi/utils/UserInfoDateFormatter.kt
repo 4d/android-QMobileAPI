@@ -14,13 +14,11 @@ import java.text.SimpleDateFormat
 
 object UserInfoDateFormatter {
 
-    private lateinit var prefs: SharedPreferences
-
     // Store UserInfo
     @SuppressLint("SimpleDateFormat")
     fun storeUserInfo(userInfo: JsonObject, preferences: SharedPreferences) {
-        prefs = preferences
         userInfoIterator(userInfo)
+        preferences[AuthInfoHelper.USER_INFO] = userInfo.toString()
     }
 
     private fun userInfoIterator(userInfo: JsonObject) {
@@ -32,7 +30,6 @@ object UserInfoDateFormatter {
                     key,
                     formatDate(userInfo.get(key).toString().split("\"")[1])
                 )
-                prefs[AuthInfoHelper.USER_INFO] = userInfo.toString()
             } catch (e: Exception) { } // no-opt
         }
     }
