@@ -6,6 +6,7 @@
 
 package com.qmobile.qmobileapi.repository
 
+import com.google.gson.JsonObject
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.utils.APP_JSON
 import com.qmobile.qmobileapi.utils.UTF8_CHARSET
@@ -17,6 +18,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
+import retrofit2.http.Headers
 
 class RestRepository(private val tableName: String, private val apiService: ApiService) {
 
@@ -67,6 +69,35 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
                 .subscribeWith(DisposableSingleObserver(onResult))
         )
     }
+
+    /**
+     * Performs getEntitiesExtendedAttributesWithParams request
+     */
+    fun getEntitiesExtendedAttributes(
+        jsonRequestBody: JSONObject,
+        tableName: String = this.tableName,
+        filter: String,
+        params: String,
+        onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
+    ) {
+
+        val body = jsonRequestBody.toString()
+            .toRequestBody("$APP_JSON; $UTF8_CHARSET".toMediaTypeOrNull())
+
+        disposable.add(
+            apiService.getEntitiesExtendedAttributes(
+                body = body,
+                dataClassName = tableName,
+                filter = filter,
+                params = params
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(DisposableSingleObserver(onResult))
+
+        )
+    }
+
 }
 
 /*class RetryWithDelay2(private val MAX_RETRIES: Int, private val DELAY_DURATION_IN_SECONDS: Long)

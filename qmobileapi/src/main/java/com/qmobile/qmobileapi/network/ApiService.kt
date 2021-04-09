@@ -6,12 +6,15 @@
 
 package com.qmobile.qmobileapi.network
 
+import com.google.gson.JsonObject
 import io.reactivex.Single
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -102,4 +105,26 @@ interface ApiService {
         @Query("\$extendedAttributes", encoded = true) extendedAttributes: Boolean = true,
         @Query("\$limit", encoded = true) limit: Int = 100000
     ): Single<Response<ResponseBody>>
+
+    /**
+     * Returns all the data (by default the first 100 entities) for a specific datastore class
+     * (e.g., Company)
+     * [body] contains data such as wanted attributes, or queries on related attributes
+     * [dataClassName] table name
+     * [filter] specifies a filter on entity set
+     * [params] specifies a params on entity set
+     * [extendedAttributes] true, to ensure that we get filtered related entities, and reading
+     * request body
+     */
+    @POST("{dataClassName}")
+    fun getEntitiesExtendedAttributes(
+        @Body body: RequestBody,
+        @Path("dataClassName") dataClassName: String,
+        @Query("\$filter", encoded = true) filter: String? = null,
+        @Query("\$extendedAttributes", encoded = true) extendedAttributes: Boolean = true,
+        @Query("\$params", encoded = true) params: String? = null,
+        @Query("\$limit", encoded = true) limit: Int = 100000
+    ): Single<Response<ResponseBody>>
+
+
 }

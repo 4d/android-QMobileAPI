@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import com.qmobile.qmobileapi.model.auth.AuthResponse
 import com.qmobile.qmobileapi.model.queries.Query
 import com.qmobile.qmobileapi.utils.SingletonHolder
+import com.qmobile.qmobileapi.utils.UserInfoDateFormatter
 import com.qmobile.qmobileapi.utils.customPrefs
 import com.qmobile.qmobileapi.utils.defaultPrefs
 import com.qmobile.qmobileapi.utils.get
@@ -53,6 +54,8 @@ open class AuthInfoHelper(val context: Context) {
         const val COOKIE = "Cookie"
 
         const val PRIVATE_PREF_NAME = "4D_QMOBILE_PRIVATE"
+
+        const val USER_INFO = "userInfo"
     }
 
     val prefs =
@@ -73,6 +76,13 @@ open class AuthInfoHelper(val context: Context) {
         get() = JSONObject(prefs[AUTH_DEVICE] ?: "{}")
         set(value) {
             prefs[AUTH_DEVICE] = value
+        }
+
+    // var userInfo: String? = privatePrefs[USER_INFO]
+    var userInfo: String
+        get() = prefs[USER_INFO] ?: ""
+        set(value) {
+            prefs[USER_INFO] = value
         }
 
     // Team Info
@@ -176,6 +186,7 @@ open class AuthInfoHelper(val context: Context) {
      * Gets the sessionToken from $authenticate request response
      */
     fun handleLoginInfo(authResponse: AuthResponse): Boolean {
+        UserInfoDateFormatter.storeUserInfo(authResponse.userInfo!!, prefs)
         this.sessionId = authResponse.id ?: ""
         authResponse.token?.let {
             this.sessionToken = it
