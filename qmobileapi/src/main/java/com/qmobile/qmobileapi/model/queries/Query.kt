@@ -16,5 +16,8 @@ data class Query(
 ) {
     companion object {
         const val QUERY_PROPERTY = "__Query"
+        const val QUERY_STRING_PROPERTY = "queryString"
+        const val SETTINGS = "settings"
+        const val PARAMETERS = "parameters"
     }
 }
