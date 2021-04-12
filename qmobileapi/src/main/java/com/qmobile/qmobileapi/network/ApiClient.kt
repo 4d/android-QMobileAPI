@@ -33,8 +33,10 @@ object ApiClient {
 
     private var retrofitLogin: Retrofit? = null
     var retrofit: Retrofit? = null
+    private var retrofitAccessibility: Retrofit? = null
     private var okHttpClientLogin: OkHttpClient? = null
     private var okHttpClient: OkHttpClient? = null
+    private var okHttpClientAccessibility: OkHttpClient? = null
 
     private lateinit var authInfoHelper: AuthInfoHelper
     private lateinit var authenticationInterceptor: AuthenticationInterceptor
@@ -45,6 +47,9 @@ object ApiClient {
 
     @Volatile
     var INSTANCE: ApiService? = null
+
+    @Volatile
+    var ACCESSIBILITY_INSTANCE: AccessibilityApiService? = null
 
     /**
      * Gets or generates the ApiClient
@@ -85,6 +90,24 @@ object ApiClient {
             )
             LOGIN_INSTANCE = service
             Timber.v("LoginApiService created")
+            return service
+        }
+    }
+
+    fun getAccessibilityApiService(
+        context: Context,
+        baseUrl: String = "",
+        logBody: Boolean = false
+    ): AccessibilityApiService {
+        ACCESSIBILITY_INSTANCE?.let {
+            return it
+        } ?: kotlin.run {
+            val service =
+                getClientAccessibility(context, baseUrl, logBody).create(
+                    AccessibilityApiService::class.java
+                )
+            ACCESSIBILITY_INSTANCE = service
+            Timber.v("AccessibilityApiService created")
             return service
         }
     }
@@ -161,6 +184,38 @@ object ApiClient {
         return newRetrofit
     }
 
+    private fun getClientAccessibility(
+        context: Context,
+        baseUrl: String,
+        logBody: Boolean
+    ): Retrofit {
+        authInfoHelper = AuthInfoHelper.getInstance(context)
+
+        retrofitAccessibility?.let {
+            return it
+        }
+        val newRetrofit = Retrofit.Builder()
+            .baseUrl(
+                if (baseUrl.isEmpty())
+                    buildUrl(authInfoHelper.remoteUrl)
+                else
+                    baseUrl
+            )
+            .client(
+                okHttpClientAccessibility ?: initOkHttp(
+                    null,
+                    null,
+                    logBody
+                )
+            )
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .build()
+        retrofitAccessibility = newRetrofit
+        return newRetrofit
+    }
+
     /**
      * Clears instances to refresh their build with updated remoteUrl
      */
@@ -171,6 +226,9 @@ object ApiClient {
         retrofitLogin = null
         okHttpClientLogin = null
         LOGIN_INSTANCE = null
+        retrofitAccessibility = null
+        okHttpClientAccessibility = null
+        ACCESSIBILITY_INSTANCE = null
     }
 
     /**
