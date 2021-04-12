@@ -102,16 +102,6 @@ class AuthInfoHelperTest {
     }
 
     @Test
-    fun embeddedData() {
-        Assert.assertEquals(false, authInfoHelper.embeddedData)
-        authInfoHelper.embeddedData = true
-        Assert.assertEquals(
-            true,
-            AuthInfoHelper.getInstance(context).embeddedData
-        )
-    }
-
-    @Test
     fun remoteUrl() {
         Assert.assertEquals("", authInfoHelper.remoteUrl)
         authInfoHelper.remoteUrl = "localhost"

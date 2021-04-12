@@ -38,7 +38,6 @@ open class AuthInfoHelper(val context: Context) {
         const val AUTH_PARAMETERS = "parameters"
 
         const val GUEST_LOGIN = "guest_login"
-        const val EMBEDDED_DATA = "embedded_data"
         const val REMOTE_URL = "remote_url"
         const val SESSION_ID = "session_id"
         const val SESSION_TOKEN = "session_token"
@@ -50,6 +49,8 @@ open class AuthInfoHelper(val context: Context) {
 
         const val GLOBAL_STAMP = "__GlobalStamp"
         const val DELETED_RECORDS_STAMP = "__Stamp"
+        const val INITIAL_GLOBAL_STAMP = "initial_global_stamp"
+        const val DUMPED_TABLES = "dumpedTables"
 
         const val COOKIE = "Cookie"
 
@@ -105,12 +106,6 @@ open class AuthInfoHelper(val context: Context) {
             prefs[GUEST_LOGIN] = value
         }
 
-    var embeddedData: Boolean
-        get() = prefs[EMBEDDED_DATA] ?: false
-        set(value) {
-            prefs[EMBEDDED_DATA] = value
-        }
-
     var remoteUrl: String
         get() = prefs[REMOTE_URL] ?: ""
         set(value) {
@@ -144,21 +139,27 @@ open class AuthInfoHelper(val context: Context) {
 
     // open for unit tests
     open var globalStamp: Int
-        get() {
-            val gs = prefs[GLOBAL_STAMP] ?: -1
-            return if (gs == -1) 0 else gs
-        }
+        get() = prefs[GLOBAL_STAMP] ?: 0
         set(value) {
             prefs[GLOBAL_STAMP] = value
         }
 
     var deletedRecordsStamp: Int
-        get() {
-            val drs = prefs[DELETED_RECORDS_STAMP] ?: -1
-            return if (drs == -1) 0 else drs
-        }
+        get() = prefs[DELETED_RECORDS_STAMP] ?: 0
         set(value) {
             prefs[DELETED_RECORDS_STAMP] = value
+        }
+
+    var dumpedTables: String
+        get() = prefs[DUMPED_TABLES] ?: ""
+        set(value) {
+            prefs[DUMPED_TABLES] = value
+        }
+
+    var initialGlobalStamp: Int
+        get() = prefs[INITIAL_GLOBAL_STAMP] ?: 0
+        set(value) {
+            prefs[INITIAL_GLOBAL_STAMP] = value
         }
 
     var cookie: String
