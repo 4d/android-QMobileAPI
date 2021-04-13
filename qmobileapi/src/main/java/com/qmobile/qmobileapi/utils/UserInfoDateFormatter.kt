@@ -18,6 +18,7 @@ object UserInfoDateFormatter {
     @SuppressLint("SimpleDateFormat")
     fun storeUserInfo(userInfo: JsonObject, preferences: SharedPreferences) {
         userInfoIterator(userInfo)
+        Log.v("Store user info ${userInfo.toString()}")
         preferences[AuthInfoHelper.USER_INFO] = userInfo.toString()
     }
 
