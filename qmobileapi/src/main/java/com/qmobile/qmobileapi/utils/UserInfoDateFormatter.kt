@@ -19,7 +19,7 @@ object UserInfoDateFormatter {
     @SuppressLint("SimpleDateFormat")
     fun storeUserInfo(userInfo: JsonObject, preferences: SharedPreferences) {
         userInfoIterator(userInfo)
-        Timber.v("Store user info ${userInfo.toString()}")
+        Timber.v("Store user info $userInfo")
         preferences[AuthInfoHelper.USER_INFO] = userInfo.toString()
     }
 
