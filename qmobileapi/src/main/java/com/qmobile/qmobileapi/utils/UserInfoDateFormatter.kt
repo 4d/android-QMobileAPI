@@ -10,6 +10,7 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import com.google.gson.JsonObject
 import com.qmobile.qmobileapi.auth.AuthInfoHelper
+import timber.log.Timber
 import java.text.SimpleDateFormat
 
 object UserInfoDateFormatter {
@@ -18,7 +19,7 @@ object UserInfoDateFormatter {
     @SuppressLint("SimpleDateFormat")
     fun storeUserInfo(userInfo: JsonObject, preferences: SharedPreferences) {
         userInfoIterator(userInfo)
-        Log.v("Store user info ${userInfo.toString()}")
+        Timber.v("Store user info ${userInfo.toString()}")
         preferences[AuthInfoHelper.USER_INFO] = userInfo.toString()
     }
 
