@@ -81,7 +81,7 @@ open class AuthInfoHelper(val context: Context) {
 
     // var userInfo: String? = privatePrefs[USER_INFO]
     var userInfo: String
-        get() = prefs[USER_INFO] ?: ""
+        get() = prefs[USER_INFO] ?: "{}"
         set(value) {
             prefs[USER_INFO] = value
         }
