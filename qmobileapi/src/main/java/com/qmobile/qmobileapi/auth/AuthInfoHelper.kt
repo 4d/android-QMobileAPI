@@ -17,7 +17,6 @@ import com.qmobile.qmobileapi.utils.defaultPrefs
 import com.qmobile.qmobileapi.utils.get
 import com.qmobile.qmobileapi.utils.getObjectListAsString
 import com.qmobile.qmobileapi.utils.getSafeArray
-import com.qmobile.qmobileapi.utils.getSafeString
 import com.qmobile.qmobileapi.utils.parseJsonToType
 import com.qmobile.qmobileapi.utils.set
 import org.json.JSONObject
