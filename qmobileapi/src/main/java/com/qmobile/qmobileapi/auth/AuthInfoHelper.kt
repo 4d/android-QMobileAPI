@@ -187,20 +187,13 @@ open class AuthInfoHelper(val context: Context) {
      * Gets the sessionToken from $authenticate request response
      */
     fun handleLoginInfo(authResponse: AuthResponse): Boolean {
-        UserInfoDateFormatter.storeUserInfo(authResponse.userInfo!!, prefs)
+        authResponse.userInfo?.let {
+            UserInfoDateFormatter.storeUserInfo(it, prefs)
+        }
         this.sessionId = authResponse.id ?: ""
         authResponse.token?.let {
             this.sessionToken = it
-            return true
-        }
-        return false
-    }
-
-    fun handleLoginInfo(authResponseJson: JSONObject): Boolean {
-        this.sessionId = authResponseJson.getSafeString("id") ?: ""
-        authResponseJson.getSafeString("token")?.let {
-            this.sessionToken = it
-            return true
+            return authResponse.success
         }
         return false
     }
