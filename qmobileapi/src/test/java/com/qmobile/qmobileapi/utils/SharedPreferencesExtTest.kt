@@ -51,7 +51,7 @@ class SharedPreferencesExtTest {
         defPref["key"] = 5
 
         Assert.assertEquals(5, defPref.get<Int>("key"))
-        Assert.assertEquals(-1, defPref.get<Int>("wrongKey"))
+        Assert.assertEquals(0, defPref.get<Int>("wrongKey"))
     }
 
     @Test

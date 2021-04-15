@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
 import retrofit2.Response
 
-class AccessibilityRepository(private val accessibilityApiService: AccessibilityApiService) {
+open class AccessibilityRepository(private val accessibilityApiService: AccessibilityApiService) {
 
     var disposable: CompositeDisposable = CompositeDisposable()
 
