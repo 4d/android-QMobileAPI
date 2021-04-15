@@ -42,6 +42,7 @@ open class AuthInfoHelper(val context: Context) {
         const val SESSION_TOKEN = "session_token"
         const val DEVICE_UUID = "device_uuid"
         const val SDK_VERSION = "sdk_version"
+        const val RELATION_AVAILABLE = "relations"
 
         const val QUERY_PREFIX = "queries_"
         const val PROPERTIES_PREFIX = "properties_"
@@ -134,6 +135,12 @@ open class AuthInfoHelper(val context: Context) {
         get() = privatePrefs[SESSION_TOKEN] ?: ""
         set(value) {
             privatePrefs[SESSION_TOKEN] = value
+        }
+
+    var relationAvailable: Boolean
+        get() = prefs[RELATION_AVAILABLE] ?: true
+        set(value) {
+            prefs[RELATION_AVAILABLE] = value
         }
 
     // open for unit tests
