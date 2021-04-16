@@ -17,6 +17,6 @@ interface AccessibilityApiService {
      * SERVER ACCESSIBILITY
      */
 
-    @GET("/")
+    @GET("/mobileapp/")
     fun checkAccessibility(): Single<Response<ResponseBody>>
 }
