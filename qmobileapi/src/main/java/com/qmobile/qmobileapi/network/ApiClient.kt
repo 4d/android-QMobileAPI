@@ -26,10 +26,10 @@ object ApiClient {
     const val CONTENT_TYPE_HEADER_VALUE = "application/json"
     const val X_QMOBILE_HEADER_KEY = "X-QMobile"
     const val X_QMOBILE_HEADER_VALUE = "1"
-    const val HTTP_PREFIX = "http://"
-    const val HTTPS_PREFIX = "https://"
+    private const val HTTP_PREFIX = "http://"
+    private const val HTTPS_PREFIX = "https://"
     private const val SERVER_ENDPOINT = "/mobileapp/"
-    const val REQUEST_TIMEOUT = 30
+    const val REQUEST_TIMEOUT = 15
 
     private var retrofitLogin: Retrofit? = null
     var retrofit: Retrofit? = null
