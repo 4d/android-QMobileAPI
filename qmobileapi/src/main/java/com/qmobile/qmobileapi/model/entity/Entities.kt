@@ -6,10 +6,6 @@
 
 package com.qmobile.qmobileapi.model.entity
 
-import com.google.gson.Gson
-import com.qmobile.qmobileapi.utils.parseJsonToType
-import okhttp3.ResponseBody
-
 @Suppress("ConstructorParameterNaming")
 data class Entities<T : EntityModel>(
     val __COUNT: Int?,
@@ -20,27 +16,4 @@ data class Entities<T : EntityModel>(
     val __DATACLASS: String?,
     val __entityModel: String?, // filled in Entities response
     val __ENTITYSET: String? // filled in one-to-many relations
-) {
-
-    companion object {
-        /**
-         * Retrieves data from response, retrieve Entities object
-         */
-        fun <T : EntityModel> decodeEntities(
-            gson: Gson,
-            responseBody: ResponseBody,
-            onResult: (entities: Entities<T>?) -> Unit
-        ) {
-            val json = responseBody.string()
-            val entities: Entities<T>? = parseEntities(gson, json)
-            onResult(entities)
-        }
-
-        /**
-         * Parse Entities from json String
-         */
-        fun <T : EntityModel> parseEntities(gson: Gson, json: String): Entities<T>? {
-            return gson.parseJsonToType(json)
-        }
-    }
-}
+)

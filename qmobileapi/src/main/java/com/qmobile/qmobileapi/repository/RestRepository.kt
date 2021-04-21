@@ -74,7 +74,7 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
     fun getEntitiesExtendedAttributes(
         jsonRequestBody: JSONObject,
         tableName: String = this.tableName,
-        filter: String,
+        filter: String?,
         params: String,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
