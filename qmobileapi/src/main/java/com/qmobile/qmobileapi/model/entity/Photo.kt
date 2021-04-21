@@ -6,7 +6,10 @@
 
 package com.qmobile.qmobileapi.model.entity
 
+import com.dslplatform.json.CompiledJson
+
 @Suppress("ConstructorParameterNaming")
+@CompiledJson
 data class Photo(
     val __deferred: Deferred?
 )
