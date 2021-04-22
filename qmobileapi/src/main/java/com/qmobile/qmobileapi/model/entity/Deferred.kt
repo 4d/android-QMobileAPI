@@ -6,9 +6,6 @@
 
 package com.qmobile.qmobileapi.model.entity
 
-import com.dslplatform.json.CompiledJson
-
-@CompiledJson
 data class Deferred(
     val image: Boolean?,
     val uri: String?

@@ -28,10 +28,8 @@ dependencies {
     implementation Libs.retrofit_adapter_rxjava2
     implementation Libs.retrofit_converter_gson
 
-    // DSL-JSON
-    implementation Libs.dsl_json
-    kapt Libs.dsl_json
-    annotationProcessor Libs.dsl_json
+    // Jackson
+    implementation Libs.jackson
 
     // Utils
     implementation Libs.androidx_preference_ktx

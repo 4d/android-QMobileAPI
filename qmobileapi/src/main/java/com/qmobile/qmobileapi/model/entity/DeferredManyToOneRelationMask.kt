@@ -6,10 +6,7 @@
 
 package com.qmobile.qmobileapi.model.entity
 
-import com.dslplatform.json.CompiledJson
-
 @Suppress("ConstructorParameterNaming")
-@CompiledJson
 data class DeferredManyToOneRelationMask(
     val uri: String?,
     val __KEY: String?
