@@ -20,7 +20,7 @@ import retrofit2.Response
 
 class RestRepository(private val tableName: String, private val apiService: ApiService) {
 
-    private var disposable: CompositeDisposable = CompositeDisposable()
+    var disposable: CompositeDisposable = CompositeDisposable()
 
     /**
      * Performs getEntities request
@@ -71,11 +71,14 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
     /**
      * Performs getEntitiesExtendedAttributesWithParams request
      */
+    @Suppress("LongParameterList")
     fun getEntitiesExtendedAttributes(
         jsonRequestBody: JSONObject,
         tableName: String = this.tableName,
         filter: String?,
-        params: String,
+        paramsEncoded: String,
+        iter: Int,
+        limit: Int,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
 
@@ -87,12 +90,13 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
                 body = body,
                 dataClassName = tableName,
                 filter = filter,
-                params = params
+                params = paramsEncoded,
+                skip = iter * limit,
+                limit = limit
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(DisposableSingleObserver(onResult))
-
         )
     }
 }
