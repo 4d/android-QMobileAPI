@@ -113,6 +113,7 @@ interface ApiService {
      * [extendedAttributes] true, to ensure that we get filtered related entities, and reading
      * request body
      */
+    @Suppress("LongParameterList")
     @POST("{dataClassName}")
     fun getEntitiesExtendedAttributes(
         @Body body: RequestBody,
@@ -120,6 +121,7 @@ interface ApiService {
         @Query("\$filter", encoded = true) filter: String? = null,
         @Query("\$extendedAttributes", encoded = true) extendedAttributes: Boolean = true,
         @Query("\$params", encoded = true) params: String? = null,
+        @Query("\$skip", encoded = true) skip: Int? = null,
         @Query("\$limit", encoded = true) limit: Int = 100000
     ): Single<Response<ResponseBody>>
 }
