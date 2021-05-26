@@ -50,6 +50,20 @@ fun JSONObject.getSafeArray(key: String): JSONArray? {
     }
 }
 
+fun JSONObject.toStringMap(): Map<String, String> {
+    val map: MutableMap<String, String> = mutableMapOf()
+
+    this.names()?.let { keysIndex ->
+        for (i in 0 until keysIndex.length()) {
+            val key = keysIndex.getString(i)
+            this.getSafeString(key)?.let { value ->
+                map[key] = value
+            }
+        }
+    }
+    return map
+}
+
 fun JSONArray?.getStringList(): List<String> {
     val list = mutableListOf<String>()
     this?.let {
@@ -58,6 +72,14 @@ fun JSONArray?.getStringList(): List<String> {
         }
     }
     return list
+}
+
+fun JSONArray.getSafeString(position: Int): String? {
+    return try {
+        this.getString(position)
+    } catch (e: JSONException) {
+        return null
+    }
 }
 
 fun JSONArray?.getObjectListAsString(): List<String> {
