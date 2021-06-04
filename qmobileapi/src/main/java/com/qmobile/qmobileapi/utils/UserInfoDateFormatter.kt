@@ -32,7 +32,9 @@ object UserInfoDateFormatter {
                     key,
                     formatDate(userInfo.get(key).toString().split("\"")[1])
                 )
-            } catch (e: Exception) { } // no-opt
+            } catch (e: Exception) { // no-opt
+                Timber.d("Exception in userInfoIterator, error: ${e.localizedMessage}")
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 /*
- * Created by Quentin Marciset on 24/9/2020.
+ * Created by Quentin Marciset on 4/6/2021.
  * 4D SAS
- * Copyright (c) 2020 Quentin Marciset. All rights reserved.
+ * Copyright (c) 2021 Quentin Marciset. All rights reserved.
  */
 
 package com.qmobile.qmobileapi.utils
@@ -62,49 +62,4 @@ fun JSONObject.toStringMap(): Map<String, String> {
         }
     }
     return map
-}
-
-fun JSONArray?.getStringList(): List<String> {
-    val list = mutableListOf<String>()
-    this?.let {
-        for (i in 0 until this.length()) {
-            list.add(this.getString(i).toString())
-        }
-    }
-    return list
-}
-
-fun JSONArray.getSafeString(position: Int): String? {
-    return try {
-        this.getString(position)
-    } catch (e: JSONException) {
-        return null
-    }
-}
-
-fun JSONArray?.getObjectListAsString(): List<String> {
-    val list = mutableListOf<String>()
-    this?.let {
-        for (i in 0 until this.length()) {
-            val safeObject = this.getSafeObject(i)
-            list.add(safeObject.toString())
-        }
-    }
-    return list
-}
-
-fun JSONArray.getSafeObject(position: Int): JSONObject? {
-    return try {
-        this.getJSONObject(position)
-    } catch (e: JSONException) {
-        return null
-    }
-}
-
-fun retrieveJSONObject(jsonString: String): JSONObject? {
-    return try {
-        JSONObject(jsonString.substring(jsonString.indexOf("{"), jsonString.lastIndexOf("}") + 1))
-    } catch (e: StringIndexOutOfBoundsException) {
-        null
-    }
 }
