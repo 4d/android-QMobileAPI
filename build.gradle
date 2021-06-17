@@ -9,12 +9,11 @@ buildscript {
     }
     repositories {
         google()
-        jcenter()
     }
 }
 
 plugins {
-    id "com.github.ben-manes.versions" version "0.33.0"
+    id "com.github.ben-manes.versions" version "0.39.0"
 }
 
 allprojects {
@@ -22,7 +21,6 @@ allprojects {
     apply plugin: "com.jfrog.artifactory"
     repositories {
         google()
-        jcenter()
     }
 }
 
@@ -83,8 +81,8 @@ subprojects {
                 kotlinOptions {
                     jvmTarget = "1.8"
                 }
-                dataBinding {
-                    enabled = true
+                buildFeatures {
+                    dataBinding true
                 }
                 lintOptions {
                     warning 'InvalidPackage'

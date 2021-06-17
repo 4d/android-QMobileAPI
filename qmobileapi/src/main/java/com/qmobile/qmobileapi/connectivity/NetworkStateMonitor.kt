@@ -10,16 +10,13 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import timber.log.Timber
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 open class NetworkStateMonitor(private val connectivityManager: ConnectivityManager) :
     LiveData<NetworkStateEnum>() {
 
-    val networkStateObject = object : ConnectivityManager.NetworkCallback() {
+    private val networkStateObject = object : ConnectivityManager.NetworkCallback() {
         override fun onLost(network: Network) {
             super.onLost(network)
             postValue(NetworkStateEnum.CONNECTION_LOST)
