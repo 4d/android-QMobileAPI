@@ -244,7 +244,7 @@ class AuthInfoHelperTest {
         queryList.add(Query("Service", "numberOfEmployees>50"))
         val queriesObject = Queries(queryList)
 
-        for (query in queriesObject.queries) {
+        queriesObject.queries.forEach { query ->
             query.tableName?.let {
                 Assert.assertEquals("", authInfoHelper.getQuery(it))
             } ?: kotlin.run { Assert.fail() }

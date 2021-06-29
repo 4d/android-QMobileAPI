@@ -208,14 +208,16 @@ open class AuthInfoHelper(val context: Context) {
     fun getQuery(tableName: String): String = prefs["$QUERY_PREFIX$tableName"] ?: ""
 
     fun setQueries(queriesJSONObject: JSONObject) {
-        queriesJSONObject.getSafeArray("queries")?.getObjectListAsString()?.let { queryList ->
-            for (queryString in queryList) {
-                val query = Gson().parseJsonToType<Query>(queryString)
-                query?.let {
-                    if (query.tableName.isNullOrEmpty().not() && query.value.isNullOrEmpty().not())
-                        prefs["$QUERY_PREFIX${query.tableName}"] = query.value
-                }
-            }
+        queriesJSONObject.getSafeArray("queries")?.getObjectListAsString()?.forEach { queryString ->
+            setQuery(queryString)
+        }
+    }
+
+    private fun setQuery(queryString: String) {
+        val query = Gson().parseJsonToType<Query>(queryString)
+        query?.let {
+            if (query.tableName.isNullOrEmpty().not() && query.value.isNullOrEmpty().not())
+                prefs["$QUERY_PREFIX${query.tableName}"] = query.value
         }
     }
 

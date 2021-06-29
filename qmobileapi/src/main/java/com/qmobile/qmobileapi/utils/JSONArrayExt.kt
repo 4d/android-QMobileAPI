@@ -14,7 +14,7 @@ fun JSONArray?.getStringList(): List<String> {
     val list = mutableListOf<String>()
     this?.let {
         for (i in 0 until this.length()) {
-            list.add(this.getString(i).toString())
+            this.getSafeString(i)?.let { list.add(it) }
         }
     }
     return list
@@ -24,7 +24,7 @@ fun JSONArray.getSafeString(position: Int): String? {
     return try {
         this.getString(position)
     } catch (e: JSONException) {
-        return null
+        null
     }
 }
 
@@ -43,6 +43,6 @@ fun JSONArray.getSafeObject(position: Int): JSONObject? {
     return try {
         this.getJSONObject(position)
     } catch (e: JSONException) {
-        return null
+        null
     }
 }

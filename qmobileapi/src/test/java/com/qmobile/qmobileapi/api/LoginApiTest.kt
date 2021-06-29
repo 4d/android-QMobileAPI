@@ -113,8 +113,7 @@ class LoginApiTest {
         val authResponse = gson.parseJsonToType<AuthResponse>(json)
         assertEquals("REGLAZRERGHKLG", authResponse?.id)
         assertEquals("ZAGHEGRJRLA", authResponse?.token)
-
-        val userInfo = gson.parseJsonToType<UserInfo>(authResponse?.userInfo)
+        val userInfo = gson.parseJsonToType<UserInfo>(authResponse?.userInfo.toString())
         assertEquals("azeaze", userInfo?.name)
         assertEquals("azezeaearaze", userInfo?.email)
     }
@@ -148,8 +147,7 @@ class LoginApiTest {
         val authResponse = response.body()
         assertEquals("REGLAZRERGHKLG", authResponse?.id)
         assertEquals("ZAGHEGRJRLA", authResponse?.token)
-
-        val userInfo = gson.parseJsonToType<UserInfo>(authResponse?.userInfo)
+        val userInfo = gson.parseJsonToType<UserInfo>(authResponse?.userInfo.toString())
         assertEquals("azeaze", userInfo?.name)
         assertEquals("azezeaearaze", userInfo?.email)
     }

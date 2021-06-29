@@ -24,22 +24,20 @@ object UserInfoDateFormatter {
     }
 
     private fun userInfoIterator(userInfo: JsonObject) {
-        val listOfKeys = userInfo.keySet()
-        for (index in 0 until listOfKeys.size) {
-            val key = listOfKeys.elementAt(index)
-            try {
-                userInfo.addProperty(
-                    key,
-                    formatDate(userInfo.get(key).toString().split("\"")[1])
-                )
-            } catch (e: Exception) { // no-opt
-                Timber.d("Exception in userInfoIterator, error: ${e.localizedMessage}")
+        userInfo.keySet().forEach { key ->
+            userInfo.get(key).toString().let { value ->
+                formatDate(value.split("\"").getOrNull(1))?.let { formattedDated ->
+                    userInfo.addProperty(key, formattedDated)
+                }
             }
         }
     }
 
-    private val formatDate = { valueToParse: String ->
-        val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(valueToParse)
-        SimpleDateFormat("yy!MM!dd").format(date!!)
+    @SuppressLint("SimpleDateFormat")
+    private val formatDate: (String?) -> String? = { dateString: String? ->
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        dateFormat.safeParse(dateString)?.let { date ->
+            SimpleDateFormat("yy!MM!dd").format(date).toString()
+        }
     }
 }

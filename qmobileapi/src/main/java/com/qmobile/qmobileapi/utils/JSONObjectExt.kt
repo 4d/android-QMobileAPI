@@ -14,7 +14,7 @@ fun JSONObject.getSafeObject(key: String): JSONObject? {
     return try {
         this.getJSONObject(key)
     } catch (e: JSONException) {
-        return null
+        null
     }
 }
 
@@ -22,7 +22,7 @@ fun JSONObject.getSafeString(key: String): String? {
     return try {
         this.getString(key)
     } catch (e: JSONException) {
-        return null
+        null
     }
 }
 
@@ -30,7 +30,7 @@ fun JSONObject.getSafeInt(key: String): Int? {
     return try {
         this.getInt(key)
     } catch (e: JSONException) {
-        return null
+        null
     }
 }
 
@@ -38,7 +38,7 @@ fun JSONObject.getSafeBoolean(key: String): Boolean? {
     return try {
         this.getBoolean(key)
     } catch (e: JSONException) {
-        return null
+        null
     }
 }
 
@@ -46,19 +46,16 @@ fun JSONObject.getSafeArray(key: String): JSONArray? {
     return try {
         this.getJSONArray(key)
     } catch (e: JSONException) {
-        return null
+        null
     }
 }
 
 fun JSONObject.toStringMap(): Map<String, String> {
     val map: MutableMap<String, String> = mutableMapOf()
 
-    this.names()?.let { keysIndex ->
-        for (i in 0 until keysIndex.length()) {
-            val key = keysIndex.getString(i)
-            this.getSafeString(key)?.let { value ->
-                map[key] = value
-            }
+    this.keys().forEach { key ->
+        this.getSafeString(key)?.let { value ->
+            map[key] = value
         }
     }
     return map

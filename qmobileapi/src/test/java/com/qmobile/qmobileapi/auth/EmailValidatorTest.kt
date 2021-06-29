@@ -65,10 +65,10 @@ class EmailValidatorTest {
             "email@[123.123.123.123]"
         )
 
-        for (email in validEmailList) {
+        validEmailList.forEach { email ->
             Assert.assertTrue(email.isEmailValid())
         }
-        for (email in invalidEmailList) {
+        invalidEmailList.forEach { email ->
             Assert.assertFalse(email.isEmailValid())
         }
     }
