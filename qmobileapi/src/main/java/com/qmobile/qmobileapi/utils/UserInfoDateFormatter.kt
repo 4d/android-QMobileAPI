@@ -25,7 +25,7 @@ object UserInfoDateFormatter {
 
     private fun userInfoIterator(userInfo: JsonObject) {
         userInfo.keySet().forEach { key ->
-            userInfo.get(key).toString().let { value ->
+            userInfo.get(key)?.toString()?.let { value ->
                 formatDate(value.split("\"").getOrNull(1))?.let { formattedDated ->
                     userInfo.addProperty(key, formattedDated)
                 }
