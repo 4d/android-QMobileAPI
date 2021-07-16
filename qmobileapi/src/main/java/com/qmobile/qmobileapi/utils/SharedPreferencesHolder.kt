@@ -1,33 +1,22 @@
 /*
- * Created by Quentin Marciset on 7/2/2020.
+ * Created by qmarciset on 13/7/2021.
  * 4D SAS
- * Copyright (c) 2020 Quentin Marciset. All rights reserved.
+ * Copyright (c) 2021 qmarciset. All rights reserved.
  */
 
-package com.qmobile.qmobileapi.auth
+package com.qmobile.qmobileapi.utils
 
 import android.content.Context
-import com.google.gson.Gson
 import com.qmobile.qmobileapi.model.auth.AuthResponse
-import com.qmobile.qmobileapi.model.queries.Query
-import com.qmobile.qmobileapi.utils.SingletonHolder
-import com.qmobile.qmobileapi.utils.UserInfoDateFormatter
-import com.qmobile.qmobileapi.utils.customPrefs
-import com.qmobile.qmobileapi.utils.defaultPrefs
-import com.qmobile.qmobileapi.utils.get
-import com.qmobile.qmobileapi.utils.getObjectListAsString
-import com.qmobile.qmobileapi.utils.getSafeArray
-import com.qmobile.qmobileapi.utils.parseJsonToType
-import com.qmobile.qmobileapi.utils.set
 import org.json.JSONObject
 import java.util.UUID
 
 /**
  * Helper class to store authentication information into SharedPreferences
  */
-open class AuthInfoHelper(val context: Context) {
+open class SharedPreferencesHolder(val context: Context) {
 
-    companion object : SingletonHolder<AuthInfoHelper, Context>(::AuthInfoHelper) {
+    companion object : SingletonHolder<SharedPreferencesHolder, Context>(::SharedPreferencesHolder) {
         const val AUTH_EMAIL = "email"
         const val AUTH_PASSWORD = "password"
         const val AUTH_APPLICATION = "application"
@@ -41,22 +30,22 @@ open class AuthInfoHelper(val context: Context) {
         const val SESSION_ID = "session_id"
         const val SESSION_TOKEN = "session_token"
         const val DEVICE_UUID = "device_uuid"
-        const val SDK_VERSION = "sdk_version"
-        const val RELATION_AVAILABLE = "relations"
-
-        const val QUERY_PREFIX = "queries_"
-        const val PROPERTIES_PREFIX = "properties_"
 
         const val GLOBAL_STAMP = "__GlobalStamp"
         const val DELETED_RECORDS_STAMP = "__Stamp"
-        const val INITIAL_GLOBAL_STAMP = "initial_global_stamp"
-        const val DUMPED_TABLES = "dumpedTables"
 
         const val COOKIE = "Cookie"
 
         const val PRIVATE_PREF_NAME = "4D_QMOBILE_PRIVATE"
 
         const val USER_INFO = "userInfo"
+    }
+
+    fun init(applicationId: String, versionName: String, versionCode: Int) {
+        appInfo = AuthInfoHolder.buildAppInfo(applicationId, versionName, versionCode)
+        device = DeviceInfo.build(context)
+        team = AuthInfoHolder.buildTeam(context)
+        language = LanguageInfo.build()
     }
 
     val prefs =
@@ -79,13 +68,6 @@ open class AuthInfoHelper(val context: Context) {
             prefs[AUTH_DEVICE] = value
         }
 
-    // var userInfo: String? = privatePrefs[USER_INFO]
-    var userInfo: String
-        get() = prefs[USER_INFO] ?: "{}"
-        set(value) {
-            prefs[USER_INFO] = value
-        }
-
     // Team Info
     var team: JSONObject
         get() = JSONObject(prefs[AUTH_TEAM] ?: "{}")
@@ -106,16 +88,16 @@ open class AuthInfoHelper(val context: Context) {
             prefs[GUEST_LOGIN] = value
         }
 
+    var userInfo: String
+        get() = prefs[USER_INFO] ?: "{}"
+        set(value) {
+            prefs[USER_INFO] = value
+        }
+
     var remoteUrl: String
         get() = prefs[REMOTE_URL] ?: ""
         set(value) {
             prefs[REMOTE_URL] = value
-        }
-
-    var sdkVersion: String
-        get() = prefs[SDK_VERSION] ?: ""
-        set(value) {
-            prefs[SDK_VERSION] = value
         }
 
     val deviceUUID: String
@@ -137,12 +119,6 @@ open class AuthInfoHelper(val context: Context) {
             privatePrefs[SESSION_TOKEN] = value
         }
 
-    var relationAvailable: Boolean
-        get() = prefs[RELATION_AVAILABLE] ?: true
-        set(value) {
-            prefs[RELATION_AVAILABLE] = value
-        }
-
     // open for unit tests
     open var globalStamp: Int
         get() = prefs[GLOBAL_STAMP] ?: 0
@@ -154,18 +130,6 @@ open class AuthInfoHelper(val context: Context) {
         get() = prefs[DELETED_RECORDS_STAMP] ?: 0
         set(value) {
             prefs[DELETED_RECORDS_STAMP] = value
-        }
-
-    var dumpedTables: String
-        get() = prefs[DUMPED_TABLES] ?: ""
-        set(value) {
-            prefs[DUMPED_TABLES] = value
-        }
-
-    var initialGlobalStamp: Int
-        get() = prefs[INITIAL_GLOBAL_STAMP] ?: 0
-        set(value) {
-            prefs[INITIAL_GLOBAL_STAMP] = value
         }
 
     var cookie: String
@@ -194,7 +158,7 @@ open class AuthInfoHelper(val context: Context) {
      */
     fun handleLoginInfo(authResponse: AuthResponse): Boolean {
         authResponse.userInfo?.let {
-            UserInfoDateFormatter.storeUserInfo(it, prefs)
+            UserInfoDateFormatter.storeUserInfo(it, this)
         }
         this.sessionId = authResponse.id ?: ""
         authResponse.token?.let {
@@ -202,29 +166,5 @@ open class AuthInfoHelper(val context: Context) {
             return authResponse.success
         }
         return false
-    }
-
-    // Table queries
-    fun getQuery(tableName: String): String = prefs["$QUERY_PREFIX$tableName"] ?: ""
-
-    fun setQueries(queriesJSONObject: JSONObject) {
-        queriesJSONObject.getSafeArray("queries")?.getObjectListAsString()?.forEach { queryString ->
-            setQuery(queryString)
-        }
-    }
-
-    private fun setQuery(queryString: String) {
-        val query = Gson().parseJsonToType<Query>(queryString)
-        query?.let {
-            if (query.tableName.isNullOrEmpty().not() && query.value.isNullOrEmpty().not())
-                prefs["$QUERY_PREFIX${query.tableName}"] = query.value
-        }
-    }
-
-    // Table properties
-    fun getProperties(tableName: String): String = prefs["$PROPERTIES_PREFIX$tableName"] ?: ""
-
-    fun setProperties(tableName: String, properties: String) {
-        prefs["$PROPERTIES_PREFIX$tableName"] = properties
     }
 }

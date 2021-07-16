@@ -7,9 +7,9 @@
 package com.qmobile.qmobileapi.network
 
 import android.content.Context
-import com.qmobile.qmobileapi.auth.AuthInfoHelper
 import com.qmobile.qmobileapi.auth.AuthenticationInterceptor
 import com.qmobile.qmobileapi.auth.LoginRequiredCallback
+import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -38,7 +38,7 @@ object ApiClient {
     private var okHttpClient: OkHttpClient? = null
     private var okHttpClientAccessibility: OkHttpClient? = null
 
-    private lateinit var authInfoHelper: AuthInfoHelper
+    private lateinit var sharedPreferencesHolder: SharedPreferencesHolder
     private lateinit var authenticationInterceptor: AuthenticationInterceptor
 
     // For Singleton instantiation
@@ -122,7 +122,7 @@ object ApiClient {
         loginRequiredCallback: LoginRequiredCallback,
         logBody: Boolean
     ): Retrofit {
-        authInfoHelper = AuthInfoHelper.getInstance(context)
+        sharedPreferencesHolder = SharedPreferencesHolder.getInstance(context)
 
         retrofit?.let {
             return it
@@ -130,7 +130,7 @@ object ApiClient {
         val newRetrofit = Retrofit.Builder()
             .baseUrl(
                 if (baseUrl.isEmpty())
-                    buildUrl(authInfoHelper.remoteUrl)
+                    buildUrl(sharedPreferencesHolder.remoteUrl)
                 else
                     baseUrl
             )
@@ -157,7 +157,7 @@ object ApiClient {
         baseUrl: String,
         logBody: Boolean
     ): Retrofit {
-        authInfoHelper = AuthInfoHelper.getInstance(context)
+        sharedPreferencesHolder = SharedPreferencesHolder.getInstance(context)
 
         retrofitLogin?.let {
             return it
@@ -165,7 +165,7 @@ object ApiClient {
         val newRetrofit = Retrofit.Builder()
             .baseUrl(
                 if (baseUrl.isEmpty())
-                    buildUrl(authInfoHelper.remoteUrl)
+                    buildUrl(sharedPreferencesHolder.remoteUrl)
                 else
                     baseUrl
             )
@@ -189,7 +189,7 @@ object ApiClient {
         baseUrl: String,
         logBody: Boolean
     ): Retrofit {
-        authInfoHelper = AuthInfoHelper.getInstance(context)
+        sharedPreferencesHolder = SharedPreferencesHolder.getInstance(context)
 
         retrofitAccessibility?.let {
             return it
@@ -197,7 +197,7 @@ object ApiClient {
         val newRetrofit = Retrofit.Builder()
             .baseUrl(
                 if (baseUrl.isEmpty())
-                    buildUrl(authInfoHelper.remoteUrl)
+                    buildUrl(sharedPreferencesHolder.remoteUrl)
                 else
                     baseUrl
             )
@@ -256,7 +256,7 @@ object ApiClient {
 
         // Adds authentication interceptor
         authenticationInterceptor =
-            AuthenticationInterceptor(authInfoHelper, loginApiService, loginRequiredCallback)
+            AuthenticationInterceptor(sharedPreferencesHolder, loginApiService, loginRequiredCallback)
         okHttpClientBuilder.addInterceptor(authenticationInterceptor)
 
         val newOkHttpClient = okHttpClientBuilder.build()

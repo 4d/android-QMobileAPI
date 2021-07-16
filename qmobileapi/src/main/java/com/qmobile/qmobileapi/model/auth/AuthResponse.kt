@@ -8,7 +8,6 @@ package com.qmobile.qmobileapi.model.auth
 
 import com.google.gson.JsonObject
 
-@Suppress("ConstructorParameterNaming")
 data class AuthResponse(
     val id: String?,
     val statusText: String?,

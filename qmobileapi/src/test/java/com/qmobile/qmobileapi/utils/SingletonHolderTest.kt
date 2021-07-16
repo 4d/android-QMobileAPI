@@ -8,7 +8,6 @@ package com.qmobile.qmobileapi.utils
 
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.qmobile.qmobileapi.auth.AuthInfoHelper
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,11 +21,11 @@ class SingletonHolderTest {
     @Test
     fun `verify really is a singleton`() {
         val authInfoHelperSingleton1 =
-            AuthInfoHelper.getInstance(ApplicationProvider.getApplicationContext())
+            SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
         val authInfoHelperSingleton2 =
-            AuthInfoHelper.getInstance(ApplicationProvider.getApplicationContext())
-        val authInfoHelper1 = AuthInfoHelper(ApplicationProvider.getApplicationContext())
-        val authInfoHelper2 = AuthInfoHelper(ApplicationProvider.getApplicationContext())
+            SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
+        val authInfoHelper1 = SharedPreferencesHolder(ApplicationProvider.getApplicationContext())
+        val authInfoHelper2 = SharedPreferencesHolder(ApplicationProvider.getApplicationContext())
 
         Assert.assertTrue(authInfoHelperSingleton1 === authInfoHelperSingleton2)
         Assert.assertFalse(authInfoHelperSingleton1 === authInfoHelper1)

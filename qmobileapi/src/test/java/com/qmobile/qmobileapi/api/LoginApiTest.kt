@@ -9,13 +9,13 @@ package com.qmobile.qmobileapi.api
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.google.gson.Gson
-import com.qmobile.qmobileapi.auth.AuthInfoHelper
 import com.qmobile.qmobileapi.model.auth.AuthResponse
 import com.qmobile.qmobileapi.model.auth.LogoutResponse
 import com.qmobile.qmobileapi.model.auth.UserInfo
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.LoginApiService
 import com.qmobile.qmobileapi.utils.APP_JSON
+import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import com.qmobile.qmobileapi.utils.UTF8_CHARSET
 import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
@@ -98,8 +98,8 @@ class LoginApiTest {
     fun `post authenticate`() {
         // Action /$authenticate
         val jsonRequest = JSONObject().apply {
-            put(AuthInfoHelper.AUTH_EMAIL, "azeaze")
-            put(AuthInfoHelper.AUTH_PASSWORD, "azezeaearaze")
+            put(SharedPreferencesHolder.AUTH_EMAIL, "azeaze")
+            put(SharedPreferencesHolder.AUTH_PASSWORD, "azezeaearaze")
         }
         val body = jsonRequest.toString()
             .toRequestBody("$APP_JSON; $UTF8_CHARSET".toMediaTypeOrNull())
@@ -136,8 +136,8 @@ class LoginApiTest {
     fun `post synchronous authenticate`() {
         // Action /$authenticate
         val jsonRequest = JSONObject().apply {
-            put(AuthInfoHelper.AUTH_EMAIL, "azeaze")
-            put(AuthInfoHelper.AUTH_PASSWORD, "azezeaearaze")
+            put(SharedPreferencesHolder.AUTH_EMAIL, "azeaze")
+            put(SharedPreferencesHolder.AUTH_PASSWORD, "azezeaearaze")
         }
         val body = jsonRequest.toString()
             .toRequestBody("$APP_JSON; $UTF8_CHARSET".toMediaTypeOrNull())

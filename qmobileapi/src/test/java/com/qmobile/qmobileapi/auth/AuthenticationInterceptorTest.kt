@@ -13,6 +13,7 @@ import com.qmobile.qmobileapi.model.auth.AuthResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.network.LoginApiService
+import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import com.qmobile.qmobileapi.utils.UNIT_TEST_TOKEN
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -65,7 +66,7 @@ class AuthenticationInterceptorTest {
         mockWebServer.shutdown()
     }
 
-    private fun buildApiService(authInfoHelper: AuthInfoHelper): ApiService {
+    private fun buildApiService(sharedPreferencesHolder: SharedPreferencesHolder): ApiService {
         val okHttpClientBuilder = OkHttpClient().newBuilder()
             .connectTimeout(ApiClient.REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .readTimeout(ApiClient.REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
@@ -77,7 +78,7 @@ class AuthenticationInterceptorTest {
         )
 
         val authenticationInterceptor =
-            AuthenticationInterceptor(authInfoHelper, loginApiService, loginRequiredCallback)
+            AuthenticationInterceptor(sharedPreferencesHolder, loginApiService, loginRequiredCallback)
         okHttpClientBuilder.addInterceptor(authenticationInterceptor)
 
         val newOkHttpClient = okHttpClientBuilder.build()
@@ -95,7 +96,7 @@ class AuthenticationInterceptorTest {
     @Test
     fun `errorQuery placeholder is missing or null`() {
 
-        val authInfoHelper = AuthInfoHelper(ApplicationProvider.getApplicationContext())
+        val authInfoHelper = SharedPreferencesHolder(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
 
         // response
@@ -172,7 +173,7 @@ class AuthenticationInterceptorTest {
     @Test
     fun `header with session token`() {
 
-        val authInfoHelper = AuthInfoHelper(ApplicationProvider.getApplicationContext())
+        val authInfoHelper = SharedPreferencesHolder(ApplicationProvider.getApplicationContext())
         authInfoHelper.sessionToken = UNIT_TEST_TOKEN
 
         val dispatcher = object : Dispatcher() {
@@ -216,7 +217,7 @@ class AuthenticationInterceptorTest {
     @Test
     fun `http forbidden refreshAuth fails`() {
 
-        val authInfoHelper = AuthInfoHelper(ApplicationProvider.getApplicationContext())
+        val authInfoHelper = SharedPreferencesHolder(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
 
         Mockito.`when`(loginApiService.syncAuthenticate(Mockito.any(RequestBody::class.java)))
@@ -269,7 +270,7 @@ class AuthenticationInterceptorTest {
     @Test
     fun `http forbidden refreshAuth success`() {
 
-        val authInfoHelper = AuthInfoHelper(ApplicationProvider.getApplicationContext())
+        val authInfoHelper = SharedPreferencesHolder(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
 
         // response

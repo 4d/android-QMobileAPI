@@ -12,6 +12,7 @@ import com.qmobile.qmobileapi.network.LoginApiService
 import com.qmobile.qmobileapi.repository.AuthRepository
 import com.qmobile.qmobileapi.utils.RequestErrorHelper
 import com.qmobile.qmobileapi.utils.RestErrorCode
+import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -21,13 +22,13 @@ import java.net.HttpURLConnection
 import java.util.concurrent.atomic.AtomicBoolean
 
 class AuthenticationInterceptor(
-    mAuthInfoHelper: AuthInfoHelper,
+    mSharedPreferencesHolder: SharedPreferencesHolder,
     mLoginApiService: LoginApiService?,
     mLoginRequiredCallback: LoginRequiredCallback?
 ) : Interceptor {
 
     private var loginApiService: LoginApiService? = null
-    private var authInfoHelper: AuthInfoHelper
+    private var sharedPreferencesHolder: SharedPreferencesHolder
     private var loginRequiredCallback: LoginRequiredCallback? = null
 
     private var hasAuthBeenRefreshed = AtomicBoolean(false)
@@ -35,7 +36,7 @@ class AuthenticationInterceptor(
 
     init {
         this.loginApiService = mLoginApiService
-        this.authInfoHelper = mAuthInfoHelper
+        this.sharedPreferencesHolder = mSharedPreferencesHolder
         this.loginRequiredCallback = mLoginRequiredCallback
     }
 
@@ -54,13 +55,13 @@ class AuthenticationInterceptor(
             )
 
         // If a token is stored in sharedPreferences, we add it in header
-        if (authInfoHelper.sessionToken.isNotEmpty()) {
-            Timber.d("[SessionToken retrieved in SharedPreferences : ${authInfoHelper.sessionToken}]")
+        if (sharedPreferencesHolder.sessionToken.isNotEmpty()) {
+            Timber.d("[SessionToken retrieved in SharedPreferences : ${sharedPreferencesHolder.sessionToken}]")
             requestBuilder
                 .removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)
                 .addHeader(
                     ApiClient.AUTHORIZATION_HEADER_KEY,
-                    "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${authInfoHelper.sessionToken}"
+                    "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${sharedPreferencesHolder.sessionToken}"
                 )
         } else {
             Timber.d("[No sessionToken retrieved in SharedPreferences]")
@@ -108,7 +109,7 @@ class AuthenticationInterceptor(
         requestBuilder: Request.Builder
     ): Response? {
         if (!isAuthInProgress.getAndSet(true) && !hasAuthBeenRefreshed.get()) {
-            if (authInfoHelper.guestLogin) {
+            if (sharedPreferencesHolder.guestLogin) {
                 loginApiService?.let { loginApiService ->
                     // Closing the current active response before building a new one
                     response.closeQuietly()
@@ -117,7 +118,7 @@ class AuthenticationInterceptor(
                 }
             } else {
                 // We ask to go back to the login page as this is not a guest authenticated session
-                authInfoHelper.sessionToken = ""
+                sharedPreferencesHolder.sessionToken = ""
                 loginRequiredCallback?.loginRequired()
             }
         }
@@ -129,14 +130,14 @@ class AuthenticationInterceptor(
      */
     private fun Request.Builder.refreshAuthentication(loginApiService: LoginApiService) {
         val authRepository = AuthRepository(loginApiService)
-        val authRequestBody = authInfoHelper.buildAuthRequestBody("", "")
+        val authRequestBody = sharedPreferencesHolder.buildAuthRequestBody("", "")
         val authResponse = authRepository.syncAuthenticate(authRequestBody)
         if (authResponse != null) {
-            if (authInfoHelper.handleLoginInfo(authResponse)) {
+            if (sharedPreferencesHolder.handleLoginInfo(authResponse)) {
                 this.removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)
                     .addHeader(
                         ApiClient.AUTHORIZATION_HEADER_KEY,
-                        "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${authInfoHelper.sessionToken}"
+                        "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${sharedPreferencesHolder.sessionToken}"
                     )
                 hasAuthBeenRefreshed.set(true)
             } else {
