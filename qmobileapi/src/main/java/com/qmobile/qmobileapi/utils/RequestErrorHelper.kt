@@ -15,17 +15,6 @@ import com.qmobile.qmobileapi.model.error.ErrorResponse
  */
 object RequestErrorHelper {
 
-    /*fun handleError(error: Any?, toastMessage: MutableLiveData<String>) {
-        Timber.e("Error: $error")
-        when (error) {
-            is Response<*> -> {
-            }
-            is Throwable -> {
-                toastMessage.postValue(error.localizedMessage)
-            }
-        }
-    }*/
-
     /**
      * Parses error from response
      */
