@@ -6,6 +6,7 @@
 
 package com.qmobile.qmobileapi.repository
 
+import com.qmobile.qmobileapi.model.action.ActionContent
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.utils.APP_JSON
 import com.qmobile.qmobileapi.utils.UTF8_CHARSET
@@ -99,6 +100,23 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
                 .subscribeWith(DisposableSingleObserver(onResult))
         )
     }
+
+    fun sendAction(
+        actionName: String,
+        onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
+    ) {
+        disposable.add(
+            apiService.sendAction(
+                actionName,
+                ActionContent(mapOf(Pair("dataClass", tableName)))
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(DisposableSingleObserver(onResult))
+        )
+    }
+
+
 }
 
 /*class RetryWithDelay2(private val MAX_RETRIES: Int, private val DELAY_DURATION_IN_SECONDS: Long)
