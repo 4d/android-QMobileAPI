@@ -10,13 +10,11 @@ import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.google.gson.Gson
 import com.qmobile.qmobileapi.auth.LoginRequiredCallback
-import com.qmobile.qmobileapi.model.action.ActionResponse
 import com.qmobile.qmobileapi.model.action.ActionContent
-import com.qmobile.qmobileapi.model.entity.Entities
+import com.qmobile.qmobileapi.model.action.ActionResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.network.LoginApiService
-import com.qmobile.qmobileapi.utils.EventApiTest
 import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
 import com.qmobile.qmobileapi.utils.mockResponse
@@ -27,8 +25,6 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
 import org.junit.After
-import org.junit.Assert
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull

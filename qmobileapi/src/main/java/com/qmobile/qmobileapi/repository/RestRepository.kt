@@ -115,8 +115,6 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
                 .subscribeWith(DisposableSingleObserver(onResult))
         )
     }
-
-
 }
 
 /*class RetryWithDelay2(private val MAX_RETRIES: Int, private val DELAY_DURATION_IN_SECONDS: Long)
