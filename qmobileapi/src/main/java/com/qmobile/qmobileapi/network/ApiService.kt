@@ -126,6 +126,9 @@ interface ApiService {
         @Query("\$limit", encoded = true) limit: Int = 100000
     ): Single<Response<ResponseBody>>
 
+    /**
+     * Execute 4D code from Android app
+     */
     @POST("\$action/{actionName}")
     fun sendAction(
         @Path("actionName") actionName: String,

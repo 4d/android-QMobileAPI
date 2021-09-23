@@ -104,9 +104,9 @@ class ActionTest {
         assertNotNull(json)
         assertResponseSuccessful(response)
         val actionResponse = gson.parseJsonToType<ActionResponse>(json)
-        actionResponse?.let { actionResponse ->
-            assertTrue(actionResponse.success)
-            assertNull(actionResponse.statusText)
+        actionResponse?.let {
+            assertTrue(it.success)
+            assertNull(it.statusText)
         }
     }
 
@@ -118,10 +118,10 @@ class ActionTest {
         assertNotNull(json)
         assertResponseSuccessful(response)
         val actionResponse = gson.parseJsonToType<ActionResponse>(json)
-        actionResponse?.let { actionResponse ->
-            assertFalse(actionResponse.success)
-            assertNotNull(actionResponse.statusText)
-            assertNotEquals("", actionResponse.statusText)
+        actionResponse?.let {
+            assertFalse(it.success)
+            assertNotNull(it.statusText)
+            assertNotEquals("", it.statusText)
         }
     }
 }
