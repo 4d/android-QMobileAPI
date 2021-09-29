@@ -103,14 +103,14 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
 
     fun sendAction(
         actionName: String,
+        actionContent: ActionContent,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
         disposable.add(
             apiService.sendAction(
                 actionName,
-                ActionContent(mapOf(Pair("dataClass", tableName)))
-            )
-                .subscribeOn(Schedulers.io())
+                actionContent
+            ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(DisposableSingleObserver(onResult))
         )
