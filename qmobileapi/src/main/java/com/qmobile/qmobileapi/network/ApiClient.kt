@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.network
 
-import android.content.Context
 import com.qmobile.qmobileapi.auth.AuthenticationInterceptor
 import com.qmobile.qmobileapi.auth.LoginRequiredCallback
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
@@ -38,7 +37,6 @@ object ApiClient {
     private var okHttpClient: OkHttpClient? = null
     private var okHttpClientAccessibility: OkHttpClient? = null
 
-    private lateinit var sharedPreferencesHolder: SharedPreferencesHolder
     private lateinit var authenticationInterceptor: AuthenticationInterceptor
 
     // For Singleton instantiation
@@ -55,17 +53,17 @@ object ApiClient {
      * Gets or generates the ApiClient
      */
     fun getApiService(
-        context: Context,
         baseUrl: String = "",
         loginApiService: LoginApiService,
         loginRequiredCallback: LoginRequiredCallback,
+        sharedPreferencesHolder: SharedPreferencesHolder,
         logBody: Boolean = false
     ): ApiService {
         INSTANCE?.let {
             return it
         } ?: kotlin.run {
             val service =
-                getClient(context, baseUrl, loginApiService, loginRequiredCallback, logBody).create(
+                getClient(baseUrl, loginApiService, loginRequiredCallback, sharedPreferencesHolder, logBody).create(
                     ApiService::class.java
                 )
             INSTANCE = service
@@ -78,14 +76,14 @@ object ApiClient {
      * Gets or generates the LoginApiClient
      */
     fun getLoginApiService(
-        context: Context,
         baseUrl: String = "",
+        sharedPreferencesHolder: SharedPreferencesHolder,
         logBody: Boolean = false
     ): LoginApiService {
         LOGIN_INSTANCE?.let {
             return it
         } ?: kotlin.run {
-            val service = getClientLogin(context, baseUrl, logBody).create(
+            val service = getClientLogin(baseUrl, sharedPreferencesHolder, logBody).create(
                 LoginApiService::class.java
             )
             LOGIN_INSTANCE = service
@@ -95,15 +93,15 @@ object ApiClient {
     }
 
     fun getAccessibilityApiService(
-        context: Context,
         baseUrl: String = "",
+        sharedPreferencesHolder: SharedPreferencesHolder,
         logBody: Boolean = false
     ): AccessibilityApiService {
         ACCESSIBILITY_INSTANCE?.let {
             return it
         } ?: kotlin.run {
             val service =
-                getClientAccessibility(context, baseUrl, logBody).create(
+                getClientAccessibility(baseUrl, sharedPreferencesHolder, logBody).create(
                     AccessibilityApiService::class.java
                 )
             ACCESSIBILITY_INSTANCE = service
@@ -116,13 +114,12 @@ object ApiClient {
      * Builds a retrofit client for ApiService
      */
     private fun getClient(
-        context: Context,
         baseUrl: String,
         loginApiService: LoginApiService,
         loginRequiredCallback: LoginRequiredCallback,
+        sharedPreferencesHolder: SharedPreferencesHolder,
         logBody: Boolean
     ): Retrofit {
-        sharedPreferencesHolder = SharedPreferencesHolder.getInstance(context)
 
         retrofit?.let {
             return it
@@ -138,6 +135,7 @@ object ApiClient {
                 okHttpClient ?: initOkHttp(
                     loginApiService,
                     loginRequiredCallback,
+                    sharedPreferencesHolder,
                     logBody
                 )
             )
@@ -153,11 +151,10 @@ object ApiClient {
      * Builds a retrofit client for LoginApiService
      */
     private fun getClientLogin(
-        context: Context,
         baseUrl: String,
+        sharedPreferencesHolder: SharedPreferencesHolder,
         logBody: Boolean
     ): Retrofit {
-        sharedPreferencesHolder = SharedPreferencesHolder.getInstance(context)
 
         retrofitLogin?.let {
             return it
@@ -173,6 +170,7 @@ object ApiClient {
                 okHttpClientLogin ?: initOkHttp(
                     null,
                     null,
+                    sharedPreferencesHolder,
                     logBody
                 )
             )
@@ -185,11 +183,10 @@ object ApiClient {
     }
 
     private fun getClientAccessibility(
-        context: Context,
         baseUrl: String,
+        sharedPreferencesHolder: SharedPreferencesHolder,
         logBody: Boolean
     ): Retrofit {
-        sharedPreferencesHolder = SharedPreferencesHolder.getInstance(context)
 
         retrofitAccessibility?.let {
             return it
@@ -205,6 +202,7 @@ object ApiClient {
                 okHttpClientAccessibility ?: initOkHttp(
                     null,
                     null,
+                    sharedPreferencesHolder,
                     logBody
                 )
             )
@@ -237,6 +235,7 @@ object ApiClient {
     private fun initOkHttp(
         loginApiService: LoginApiService?,
         loginRequiredCallback: LoginRequiredCallback?,
+        sharedPreferencesHolder: SharedPreferencesHolder,
         logBody: Boolean
     ): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient().newBuilder()

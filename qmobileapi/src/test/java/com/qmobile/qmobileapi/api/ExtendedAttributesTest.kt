@@ -16,6 +16,7 @@ import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.network.LoginApiService
 import com.qmobile.qmobileapi.utils.APP_JSON
 import com.qmobile.qmobileapi.utils.ServiceExtendedAttributes
+import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import com.qmobile.qmobileapi.utils.UTF8_CHARSET
 import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
@@ -64,10 +65,10 @@ class ExtendedAttributesTest {
         synchronized(ApplicationProvider.getApplicationContext()) {
             ApiClient.clearApiClients()
             apiService = ApiClient.getApiService(
-                ApplicationProvider.getApplicationContext(),
                 mockWebServer.url("/").toString(),
                 loginApiService,
-                loginRequiredCallback
+                loginRequiredCallback,
+                SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
             )
         }
     }
