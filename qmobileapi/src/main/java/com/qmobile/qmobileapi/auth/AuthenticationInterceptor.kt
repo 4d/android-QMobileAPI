@@ -140,12 +140,8 @@ class AuthenticationInterceptor(
                         "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${sharedPreferencesHolder.sessionToken}"
                     )
                 hasAuthBeenRefreshed.set(true)
-            } else {
-                // No sessionToken could be retrieved
-            }
-        } else {
-            // Login request failed
-        }
+            } // else : No sessionToken could be retrieved
+        } // else : Login request failed
         isAuthInProgress.set(false)
     }
 

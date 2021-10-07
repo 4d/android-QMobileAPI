@@ -8,6 +8,7 @@ jacoco {
 
 tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
 }
 
 task jacocoTestReport(type:JacocoReport, dependsOn: "check") {
@@ -15,9 +16,9 @@ task jacocoTestReport(type:JacocoReport, dependsOn: "check") {
     description = "Generate Jacoco coverage reports for Debug build"
 
     reports {
-        html.enabled = true
-        xml.enabled = true
-        csv.enabled = true
+        html.required.set(true)
+        xml.required.set(true)
+        csv.required.set(true)
     }
 
     def excludes = [
