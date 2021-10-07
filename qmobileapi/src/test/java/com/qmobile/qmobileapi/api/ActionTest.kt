@@ -15,10 +15,6 @@ import com.qmobile.qmobileapi.model.action.ActionResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.network.LoginApiService
-import com.qmobile.qmobileapi.utils.assertRequest
-import com.qmobile.qmobileapi.utils.assertResponseSuccessful
-import com.qmobile.qmobileapi.utils.mockResponse
-import com.qmobile.qmobileapi.utils.parseJsonToType
 import okhttp3.ResponseBody
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -61,10 +57,10 @@ class ActionTest {
         synchronized(ApplicationProvider.getApplicationContext()) {
             ApiClient.clearApiClients()
             apiService = ApiClient.getApiService(
-                ApplicationProvider.getApplicationContext(),
                 mockWebServer.url("/").toString(),
                 loginApiService,
-                loginRequiredCallback
+                loginRequiredCallback,
+                SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
             )
         }
     }
