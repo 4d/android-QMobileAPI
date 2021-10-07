@@ -9,6 +9,7 @@ package com.qmobile.qmobileapi.network
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.qmobile.qmobileapi.auth.LoginRequiredCallback
+import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -37,10 +38,10 @@ class ApiClientTest {
     @Test
     fun `getLoginApiService success`() {
         val loginApiService =
-            ApiClient.getLoginApiService(ApplicationProvider.getApplicationContext(), "")
+            ApiClient.getLoginApiService("", SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()))
         Assert.assertNotNull(loginApiService)
         val anotherLoginApiService =
-            ApiClient.getLoginApiService(ApplicationProvider.getApplicationContext(), "http://anything")
+            ApiClient.getLoginApiService("http://anything", SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()))
         Assert.assertNotNull(anotherLoginApiService)
         Assert.assertTrue(loginApiService === anotherLoginApiService)
     }
@@ -48,7 +49,7 @@ class ApiClientTest {
     @Test(expected = IllegalArgumentException::class)
     fun `getLoginApiService fail`() {
         val loginApiService =
-            ApiClient.getLoginApiService(ApplicationProvider.getApplicationContext(), "localhost")
+            ApiClient.getLoginApiService("localhost", SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()))
         Assert.fail()
     }
 
@@ -56,19 +57,19 @@ class ApiClientTest {
     fun `getApiService success`() {
         Assert.assertNull(ApiClient.retrofit)
         val apiService = ApiClient.getApiService(
-            context = ApplicationProvider.getApplicationContext(),
             baseUrl = "https://anything",
             loginApiService = loginApiServiceMock,
-            loginRequiredCallback = loginRequiredCallbackMock
+            loginRequiredCallback = loginRequiredCallbackMock,
+            sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
         )
         Assert.assertNotNull(apiService)
         Assert.assertNotNull(ApiClient.retrofit)
         val saveRetrofitRef = ApiClient.retrofit
         val anotherApiService = ApiClient.getApiService(
-            context = ApplicationProvider.getApplicationContext(),
             baseUrl = "",
             loginApiService = loginApiServiceMock,
-            loginRequiredCallback = loginRequiredCallbackMock
+            loginRequiredCallback = loginRequiredCallbackMock,
+            sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
         )
         Assert.assertNotNull(anotherApiService)
         Assert.assertTrue(apiService === anotherApiService)
@@ -81,13 +82,13 @@ class ApiClientTest {
         val loginApiServiceInstance = ApiClient.LOGIN_INSTANCE
         Assert.assertNull(loginApiServiceInstance)
         val loginApiService =
-            ApiClient.getLoginApiService(ApplicationProvider.getApplicationContext(), "")
+            ApiClient.getLoginApiService("", SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()))
 
         val loginApiServiceInstance1 = ApiClient.LOGIN_INSTANCE
         Assert.assertNotNull(loginApiServiceInstance1)
 
         val anotherLoginApiService =
-            ApiClient.getLoginApiService(ApplicationProvider.getApplicationContext(), "http://anything")
+            ApiClient.getLoginApiService("http://anything", SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()))
 
         val loginApiServiceInstance2 = ApiClient.LOGIN_INSTANCE
         Assert.assertNotNull(loginApiServiceInstance2)

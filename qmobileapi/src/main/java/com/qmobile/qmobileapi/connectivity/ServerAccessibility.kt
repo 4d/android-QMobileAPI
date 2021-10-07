@@ -17,7 +17,7 @@ import java.net.Socket
 
 class ServerAccessibility {
 
-    var disposable: CompositeDisposable = CompositeDisposable()
+    private var disposable: CompositeDisposable = CompositeDisposable()
 
     /**
      * Pings server

@@ -15,6 +15,7 @@ import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.network.LoginApiService
 import com.qmobile.qmobileapi.utils.EventApiTest
+import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
 import com.qmobile.qmobileapi.utils.mockResponse
@@ -60,10 +61,10 @@ class ApiEntitiesTest {
         synchronized(ApplicationProvider.getApplicationContext()) {
             ApiClient.clearApiClients()
             apiService = ApiClient.getApiService(
-                ApplicationProvider.getApplicationContext(),
                 mockWebServer.url("/").toString(),
                 loginApiService,
-                loginRequiredCallback
+                loginRequiredCallback,
+                SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
             )
         }
     }

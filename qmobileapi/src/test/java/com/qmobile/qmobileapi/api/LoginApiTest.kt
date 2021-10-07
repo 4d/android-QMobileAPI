@@ -60,8 +60,8 @@ class LoginApiTest {
             ApiClient.clearApiClients()
             loginApiService =
                 ApiClient.getLoginApiService(
-                    ApplicationProvider.getApplicationContext(),
-                    mockWebServer.url("/").toString()
+                    mockWebServer.url("/").toString(),
+                    SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
                 )
         }
     }
