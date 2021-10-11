@@ -6,12 +6,10 @@
 
 package com.qmobile.qmobileapi.model.auth
 
-import com.google.gson.JsonObject
-
 data class AuthResponse(
     val id: String?,
     val statusText: String?,
     val success: Boolean,
     val token: String?,
-    val userInfo: JsonObject?
+    val userInfo: Map<String, Any>?
 )

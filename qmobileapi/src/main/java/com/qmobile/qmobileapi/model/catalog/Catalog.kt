@@ -6,8 +6,10 @@
 
 package com.qmobile.qmobileapi.model.catalog
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 @Suppress("ConstructorParameterNaming")
 data class Catalog(
-    val __UNIQID: String?,
-    val dataClasses: ArrayList<DataClass>?
+    @JsonProperty val __UNIQID: String? = null,
+    @JsonProperty val dataClasses: ArrayList<DataClass>? = null
 )

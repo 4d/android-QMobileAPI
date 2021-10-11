@@ -8,7 +8,9 @@ package com.qmobile.qmobileapi.auth
 
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.google.gson.JsonObject
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.qmobile.qmobileapi.model.auth.AuthResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
@@ -77,8 +79,11 @@ class AuthenticationInterceptorTest {
                 .setLevel(HttpLoggingInterceptor.Level.BODY)
         )
 
+        val mapper = ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .registerKotlinModule()
         val authenticationInterceptor =
-            AuthenticationInterceptor(sharedPreferencesHolder, loginApiService, loginRequiredCallback)
+            AuthenticationInterceptor(sharedPreferencesHolder, loginApiService, loginRequiredCallback, mapper)
         okHttpClientBuilder.addInterceptor(authenticationInterceptor)
 
         val newOkHttpClient = okHttpClientBuilder.build()
@@ -105,7 +110,7 @@ class AuthenticationInterceptorTest {
             statusText = "",
             success = true,
             token = UNIT_TEST_TOKEN,
-            userInfo = JsonObject()
+            userInfo = mapOf()
         )
 
         Mockito.`when`(loginApiService.syncAuthenticate(Mockito.any(RequestBody::class.java)))
@@ -279,7 +284,7 @@ class AuthenticationInterceptorTest {
             statusText = "",
             success = true,
             token = UNIT_TEST_TOKEN,
-            userInfo = JsonObject()
+            userInfo = mapOf()
         )
 
         Mockito.`when`(loginApiService.syncAuthenticate(Mockito.any(RequestBody::class.java)))

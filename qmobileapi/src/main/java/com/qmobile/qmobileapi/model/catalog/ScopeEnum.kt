@@ -6,15 +6,18 @@
 
 package com.qmobile.qmobileapi.model.catalog
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 enum class ScopeEnum {
-    @SerializedName("public")
+    @JsonProperty("public")
     PUBLIC,
-    @SerializedName("public on server")
+
+    @JsonProperty("public on server")
     PUBLIC_ON_SERVER,
-    @SerializedName("protected")
+
+    @JsonProperty("protected")
     PROTECTED,
-    @SerializedName("private")
+
+    @JsonProperty("private")
     PRIVATE
 }

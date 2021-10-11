@@ -10,7 +10,6 @@ import android.content.Context
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
-import com.google.gson.JsonObject
 import com.qmobile.qmobileapi.model.auth.AuthResponse
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder.Companion.AUTH_APPLICATION
@@ -192,7 +191,7 @@ class SharedPreferencesHolderTest {
             statusText = "",
             success = true,
             token = "token",
-            userInfo = JsonObject()
+            userInfo = mapOf()
         )
 
         Assert.assertEquals("", sharedPreferencesHolder.sessionId)
@@ -217,7 +216,7 @@ class SharedPreferencesHolderTest {
             statusText = "",
             success = true,
             token = null,
-            userInfo = JsonObject()
+            userInfo = mapOf()
         )
 
         Assert.assertEquals("", sharedPreferencesHolder.sessionId)
