@@ -6,15 +6,21 @@
 
 package com.qmobile.qmobileapi.model.catalog
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 enum class KindEnum {
-    @SerializedName("storage")
+    @JsonProperty("storage")
     STORAGE,
-    @SerializedName("calculated")
+
+    @JsonProperty("calculated")
     CALCULATED,
-    @SerializedName("related entity")
+
+    @JsonProperty("relatedEntity")
     RELATED_ENTITY,
-    @SerializedName("alias")
+
+    @JsonProperty("relatedEntities")
+    RELATED_ENTITIES,
+
+    @JsonProperty("alias")
     ALIAS
 }

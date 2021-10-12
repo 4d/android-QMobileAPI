@@ -8,7 +8,9 @@ package com.qmobile.qmobileapi.api
 
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.qmobile.qmobileapi.auth.LoginRequiredCallback
 import com.qmobile.qmobileapi.model.entity.Entities
 import com.qmobile.qmobileapi.network.ApiClient
@@ -19,7 +21,7 @@ import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
 import com.qmobile.qmobileapi.utils.mockResponse
-import com.qmobile.qmobileapi.utils.parseJsonToType
+import com.qmobile.qmobileapi.utils.parseToType
 import okhttp3.ResponseBody
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -46,7 +48,9 @@ class ApiEntitiesTest {
     private var mockWebServer = MockWebServer()
     private lateinit var apiService: ApiService
     private lateinit var dispatcher: Dispatcher
-    private var gson = Gson()
+    private val mapper = ObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .registerKotlinModule()
 
     @Before
     fun setup() {
@@ -61,10 +65,11 @@ class ApiEntitiesTest {
         synchronized(ApplicationProvider.getApplicationContext()) {
             ApiClient.clearApiClients()
             apiService = ApiClient.getApiService(
-                mockWebServer.url("/").toString(),
-                loginApiService,
-                loginRequiredCallback,
-                SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
+                baseUrl = mockWebServer.url("/").toString(),
+                loginApiService = loginApiService,
+                loginRequiredCallback = loginRequiredCallback,
+                sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+                mapper = mapper
             )
         }
     }
@@ -129,7 +134,7 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
+        val entities = mapper.parseToType<Entities<EventApiTest>>(json)
         assertEquals(3, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
@@ -148,7 +153,7 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
+        val entities = mapper.parseToType<Entities<EventApiTest>>(json)
         assertEquals(3, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
@@ -172,7 +177,7 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
+        val entities = mapper.parseToType<Entities<EventApiTest>>(json)
         assertEquals(3, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
@@ -204,7 +209,7 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
+        val entities = mapper.parseToType<Entities<EventApiTest>>(json)
         assertEquals(3, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
@@ -235,7 +240,7 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
+        val entities = mapper.parseToType<Entities<EventApiTest>>(json)
         assertEquals(2, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
@@ -257,7 +262,7 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
+        val entities = mapper.parseToType<Entities<EventApiTest>>(json)
         assertEquals(2, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 
@@ -281,7 +286,7 @@ class ApiEntitiesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities<EventApiTest>>(json)
+        val entities = mapper.parseToType<Entities<EventApiTest>>(json)
         assertEquals(2, entities?.__COUNT)
         assertEquals("Event", entities?.__entityModel)
 

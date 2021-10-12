@@ -1,0 +1,25 @@
+/*
+ * Created by qmarciset on 8/10/2021.
+ * 4D SAS
+ * Copyright (c) 2021 qmarciset. All rights reserved.
+ */
+
+package com.qmobile.qmobileapi.utils
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+
+/**
+ * Utility method to parse a Json string to type
+ */
+inline fun <reified T : Any> ObjectMapper.parseToType(json: String?): T? {
+    if (json.isNullOrEmpty())
+        return null
+    return this.readValue<T>(json)
+}
+
+/**
+ * Utility method to parse an object to Json string
+ */
+fun <T> ObjectMapper.parseToString(entity: T): String =
+    if (entity == null) "" else this.writeValueAsString(entity)

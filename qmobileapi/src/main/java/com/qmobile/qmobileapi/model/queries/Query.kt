@@ -6,15 +6,11 @@
 
 package com.qmobile.qmobileapi.model.queries
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.qmobile.qmobileapi.utils.getObjectListAsString
 import com.qmobile.qmobileapi.utils.getSafeArray
-import com.qmobile.qmobileapi.utils.parseJsonToType
+import com.qmobile.qmobileapi.utils.parseToType
 import org.json.JSONObject
-
-data class Queries(
-    val queries: List<Query>
-)
 
 data class Query(
     val tableName: String?,
@@ -27,10 +23,10 @@ data class Query(
         const val PARAMETERS = "parameters"
         const val QUERY_PREFIX = "queries"
 
-        fun buildQueries(queryJsonObj: JSONObject): Map<String, String> {
+        fun buildQueries(mapper: ObjectMapper, queryJsonObj: JSONObject): Map<String, String> {
             val map = mutableMapOf<String, String>()
             queryJsonObj.getSafeArray("queries")?.getObjectListAsString()?.forEach { queryString ->
-                Gson().parseJsonToType<Query>(queryString)?.let { query ->
+                mapper.parseToType<Query>(queryString)?.let { query ->
                     if (!query.tableName.isNullOrEmpty() && !query.value.isNullOrEmpty())
                         map["${QUERY_PREFIX}_${query.tableName}"] = query.value
                 }

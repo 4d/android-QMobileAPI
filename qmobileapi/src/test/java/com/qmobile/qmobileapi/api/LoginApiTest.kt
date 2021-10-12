@@ -8,10 +8,11 @@ package com.qmobile.qmobileapi.api
 
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.qmobile.qmobileapi.model.auth.AuthResponse
 import com.qmobile.qmobileapi.model.auth.LogoutResponse
-import com.qmobile.qmobileapi.model.auth.UserInfo
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.LoginApiService
 import com.qmobile.qmobileapi.utils.APP_JSON
@@ -20,7 +21,7 @@ import com.qmobile.qmobileapi.utils.UTF8_CHARSET
 import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
 import com.qmobile.qmobileapi.utils.mockResponse
-import com.qmobile.qmobileapi.utils.parseJsonToType
+import com.qmobile.qmobileapi.utils.parseToType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
@@ -47,7 +48,9 @@ class LoginApiTest {
     private var mockWebServer = MockWebServer()
     private lateinit var loginApiService: LoginApiService
     private lateinit var dispatcher: Dispatcher
-    private var gson = Gson()
+    private val mapper = ObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .registerKotlinModule()
 
     @Before
     fun setup() {
@@ -60,8 +63,9 @@ class LoginApiTest {
             ApiClient.clearApiClients()
             loginApiService =
                 ApiClient.getLoginApiService(
-                    mockWebServer.url("/").toString(),
-                    SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
+                    baseUrl = mockWebServer.url("/").toString(),
+                    sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+                    mapper = mapper
                 )
         }
     }
@@ -110,12 +114,11 @@ class LoginApiTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val authResponse = gson.parseJsonToType<AuthResponse>(json)
+        val authResponse = mapper.parseToType<AuthResponse>(json)
         assertEquals("REGLAZRERGHKLG", authResponse?.id)
         assertEquals("ZAGHEGRJRLA", authResponse?.token)
-        val userInfo = gson.parseJsonToType<UserInfo>(authResponse?.userInfo.toString())
-        assertEquals("azeaze", userInfo?.name)
-        assertEquals("azezeaearaze", userInfo?.email)
+        assertEquals("azeaze", authResponse?.userInfo?.get("name"))
+        assertEquals("azezeaearaze", authResponse?.userInfo?.get("email"))
     }
 
     @Test
@@ -128,7 +131,7 @@ class LoginApiTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val logoutResponse = gson.parseJsonToType<LogoutResponse>(json)
+        val logoutResponse = mapper.parseToType<LogoutResponse>(json)
         assertEquals(true, logoutResponse?.ok)
     }
 
@@ -147,9 +150,8 @@ class LoginApiTest {
         val authResponse = response.body()
         assertEquals("REGLAZRERGHKLG", authResponse?.id)
         assertEquals("ZAGHEGRJRLA", authResponse?.token)
-        val userInfo = gson.parseJsonToType<UserInfo>(authResponse?.userInfo.toString())
-        assertEquals("azeaze", userInfo?.name)
-        assertEquals("azezeaearaze", userInfo?.email)
+        assertEquals("azeaze", authResponse?.userInfo?.get("name"))
+        assertEquals("azezeaearaze", authResponse?.userInfo?.get("email"))
     }
 
     @Test

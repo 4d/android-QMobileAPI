@@ -33,7 +33,7 @@ import java.util.concurrent.TimeoutException
 @Config(sdk = [Build.VERSION_CODES.P])
 class AuthRepositoryTest {
 
-    lateinit var authRepository: AuthRepository
+    private lateinit var authRepository: AuthRepository
 
     @Mock
     lateinit var mockedApiService: LoginApiService

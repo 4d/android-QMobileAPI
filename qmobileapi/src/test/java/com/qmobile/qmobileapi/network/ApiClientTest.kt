@@ -8,6 +8,9 @@ package com.qmobile.qmobileapi.network
 
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.qmobile.qmobileapi.auth.LoginRequiredCallback
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import org.junit.Assert
@@ -29,6 +32,10 @@ class ApiClientTest {
     @Mock
     lateinit var loginApiServiceMock: LoginApiService
 
+    private val mapper = ObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .registerKotlinModule()
+
     @Before
     fun setup() {
         MockitoAnnotations.openMocks(this)
@@ -38,10 +45,18 @@ class ApiClientTest {
     @Test
     fun `getLoginApiService success`() {
         val loginApiService =
-            ApiClient.getLoginApiService("", SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()))
+            ApiClient.getLoginApiService(
+                baseUrl = "",
+                sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+                mapper = mapper
+            )
         Assert.assertNotNull(loginApiService)
         val anotherLoginApiService =
-            ApiClient.getLoginApiService("http://anything", SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()))
+            ApiClient.getLoginApiService(
+                baseUrl = "http://anything",
+                sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+                mapper = mapper
+            )
         Assert.assertNotNull(anotherLoginApiService)
         Assert.assertTrue(loginApiService === anotherLoginApiService)
     }
@@ -49,7 +64,11 @@ class ApiClientTest {
     @Test(expected = IllegalArgumentException::class)
     fun `getLoginApiService fail`() {
         val loginApiService =
-            ApiClient.getLoginApiService("localhost", SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()))
+            ApiClient.getLoginApiService(
+                baseUrl = "localhost",
+                sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+                mapper = mapper
+            )
         Assert.fail()
     }
 
@@ -60,7 +79,8 @@ class ApiClientTest {
             baseUrl = "https://anything",
             loginApiService = loginApiServiceMock,
             loginRequiredCallback = loginRequiredCallbackMock,
-            sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
+            sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+            mapper = mapper
         )
         Assert.assertNotNull(apiService)
         Assert.assertNotNull(ApiClient.retrofit)
@@ -69,7 +89,8 @@ class ApiClientTest {
             baseUrl = "",
             loginApiService = loginApiServiceMock,
             loginRequiredCallback = loginRequiredCallbackMock,
-            sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
+            sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+            mapper = mapper
         )
         Assert.assertNotNull(anotherApiService)
         Assert.assertTrue(apiService === anotherApiService)
@@ -82,13 +103,21 @@ class ApiClientTest {
         val loginApiServiceInstance = ApiClient.LOGIN_INSTANCE
         Assert.assertNull(loginApiServiceInstance)
         val loginApiService =
-            ApiClient.getLoginApiService("", SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()))
+            ApiClient.getLoginApiService(
+                baseUrl = "",
+                sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+                mapper = mapper
+            )
 
         val loginApiServiceInstance1 = ApiClient.LOGIN_INSTANCE
         Assert.assertNotNull(loginApiServiceInstance1)
 
         val anotherLoginApiService =
-            ApiClient.getLoginApiService("http://anything", SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()))
+            ApiClient.getLoginApiService(
+                baseUrl = "http://anything",
+                sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+                mapper = mapper
+            )
 
         val loginApiServiceInstance2 = ApiClient.LOGIN_INSTANCE
         Assert.assertNotNull(loginApiServiceInstance2)

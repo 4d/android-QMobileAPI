@@ -6,6 +6,7 @@
 
 package com.qmobile.qmobileapi.auth
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.qmobile.qmobileapi.model.error.ErrorResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.LoginApiService
@@ -24,7 +25,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 class AuthenticationInterceptor(
     mSharedPreferencesHolder: SharedPreferencesHolder,
     mLoginApiService: LoginApiService?,
-    mLoginRequiredCallback: LoginRequiredCallback?
+    mLoginRequiredCallback: LoginRequiredCallback?,
+    private val mapper: ObjectMapper
 ) : Interceptor {
 
     private var loginApiService: LoginApiService? = null
@@ -72,7 +74,7 @@ class AuthenticationInterceptor(
 
         var response = chain.proceed(request)
 
-        val parsedError: ErrorResponse? = RequestErrorHelper.tryToParseError(response)
+        val parsedError: ErrorResponse? = RequestErrorHelper.tryToParseError(mapper, response)
         parsedError?.__ERRORS?.let { errors ->
             if (errors.any { errorReason ->
                 errorReason.errCode == RestErrorCode.query_placeholder_is_missing_or_null

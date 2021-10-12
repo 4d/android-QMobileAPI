@@ -6,6 +6,7 @@
 
 package com.qmobile.qmobileapi.network
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.qmobile.qmobileapi.auth.AuthenticationInterceptor
 import com.qmobile.qmobileapi.auth.LoginRequiredCallback
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
@@ -57,13 +58,21 @@ object ApiClient {
         loginApiService: LoginApiService,
         loginRequiredCallback: LoginRequiredCallback,
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean = false
+        logBody: Boolean = false,
+        mapper: ObjectMapper
     ): ApiService {
         INSTANCE?.let {
             return it
         } ?: kotlin.run {
             val service =
-                getClient(baseUrl, loginApiService, loginRequiredCallback, sharedPreferencesHolder, logBody).create(
+                getClient(
+                    baseUrl,
+                    loginApiService,
+                    loginRequiredCallback,
+                    sharedPreferencesHolder,
+                    logBody,
+                    mapper
+                ).create(
                     ApiService::class.java
                 )
             INSTANCE = service
@@ -78,12 +87,13 @@ object ApiClient {
     fun getLoginApiService(
         baseUrl: String = "",
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean = false
+        logBody: Boolean = false,
+        mapper: ObjectMapper
     ): LoginApiService {
         LOGIN_INSTANCE?.let {
             return it
         } ?: kotlin.run {
-            val service = getClientLogin(baseUrl, sharedPreferencesHolder, logBody).create(
+            val service = getClientLogin(baseUrl, sharedPreferencesHolder, logBody, mapper).create(
                 LoginApiService::class.java
             )
             LOGIN_INSTANCE = service
@@ -95,13 +105,14 @@ object ApiClient {
     fun getAccessibilityApiService(
         baseUrl: String = "",
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean = false
+        logBody: Boolean = false,
+        mapper: ObjectMapper
     ): AccessibilityApiService {
         ACCESSIBILITY_INSTANCE?.let {
             return it
         } ?: kotlin.run {
             val service =
-                getClientAccessibility(baseUrl, sharedPreferencesHolder, logBody).create(
+                getClientAccessibility(baseUrl, sharedPreferencesHolder, logBody, mapper).create(
                     AccessibilityApiService::class.java
                 )
             ACCESSIBILITY_INSTANCE = service
@@ -118,7 +129,8 @@ object ApiClient {
         loginApiService: LoginApiService,
         loginRequiredCallback: LoginRequiredCallback,
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean
+        logBody: Boolean,
+        mapper: ObjectMapper
     ): Retrofit {
 
         retrofit?.let {
@@ -136,7 +148,8 @@ object ApiClient {
                     loginApiService,
                     loginRequiredCallback,
                     sharedPreferencesHolder,
-                    logBody
+                    logBody,
+                    mapper
                 )
             )
             .addConverterFactory(GsonConverterFactory.create())
@@ -153,7 +166,8 @@ object ApiClient {
     private fun getClientLogin(
         baseUrl: String,
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean
+        logBody: Boolean,
+        mapper: ObjectMapper
     ): Retrofit {
 
         retrofitLogin?.let {
@@ -171,7 +185,8 @@ object ApiClient {
                     null,
                     null,
                     sharedPreferencesHolder,
-                    logBody
+                    logBody,
+                    mapper
                 )
             )
             .addConverterFactory(GsonConverterFactory.create())
@@ -185,7 +200,8 @@ object ApiClient {
     private fun getClientAccessibility(
         baseUrl: String,
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean
+        logBody: Boolean,
+        mapper: ObjectMapper
     ): Retrofit {
 
         retrofitAccessibility?.let {
@@ -203,7 +219,8 @@ object ApiClient {
                     null,
                     null,
                     sharedPreferencesHolder,
-                    logBody
+                    logBody,
+                    mapper
                 )
             )
             .addConverterFactory(GsonConverterFactory.create())
@@ -236,7 +253,8 @@ object ApiClient {
         loginApiService: LoginApiService?,
         loginRequiredCallback: LoginRequiredCallback?,
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean
+        logBody: Boolean,
+        mapper: ObjectMapper
     ): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient().newBuilder()
             .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
@@ -255,7 +273,12 @@ object ApiClient {
 
         // Adds authentication interceptor
         authenticationInterceptor =
-            AuthenticationInterceptor(sharedPreferencesHolder, loginApiService, loginRequiredCallback)
+            AuthenticationInterceptor(
+                sharedPreferencesHolder,
+                loginApiService,
+                loginRequiredCallback,
+                mapper
+            )
         okHttpClientBuilder.addInterceptor(authenticationInterceptor)
 
         val newOkHttpClient = okHttpClientBuilder.build()
