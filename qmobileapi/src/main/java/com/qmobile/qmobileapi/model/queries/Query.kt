@@ -12,10 +12,6 @@ import com.qmobile.qmobileapi.utils.getSafeArray
 import com.qmobile.qmobileapi.utils.parseToType
 import org.json.JSONObject
 
-data class Queries(
-    val queries: List<Query>
-)
-
 data class Query(
     val tableName: String?,
     val value: String?
