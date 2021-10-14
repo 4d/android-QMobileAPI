@@ -8,18 +8,18 @@ package com.qmobile.qmobileapi.api
 
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.qmobile.qmobileapi.auth.LoginRequiredCallback
 import com.qmobile.qmobileapi.model.action.ActionContent
 import com.qmobile.qmobileapi.model.action.ActionResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.network.LoginApiService
-import com.qmobile.qmobileapi.utils.assertRequest
-import com.qmobile.qmobileapi.utils.mockResponse
-import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
-import com.qmobile.qmobileapi.utils.assertResponseSuccessful
-import com.qmobile.qmobileapi.utils.parseJsonToType
+import com.qmobile.qmobileapi.utils.*
 import okhttp3.ResponseBody
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -38,6 +38,7 @@ import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import retrofit2.Response
+import timber.log.Timber
 import java.net.HttpURLConnection
 
 @RunWith(RobolectricTestRunner::class)
@@ -47,8 +48,9 @@ class ActionTest {
     private var mockWebServer = MockWebServer()
     private lateinit var apiService: ApiService
     private lateinit var dispatcher: Dispatcher
-    private var gson = Gson()
-
+    private val mapper = ObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .registerKotlinModule()
     @Before
     fun setup() {
         initDispatcher()
@@ -65,7 +67,8 @@ class ActionTest {
                 mockWebServer.url("/").toString(),
                 loginApiService,
                 loginRequiredCallback,
-                SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
+                SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+                mapper =mapper
             )
         }
     }
@@ -104,7 +107,14 @@ class ActionTest {
         val json = response.body()?.string()
         assertNotNull(json)
         assertResponseSuccessful(response)
-        val actionResponse = gson.parseJsonToType<ActionResponse>(json)
+        val actionResponse =
+            try {
+                mapper.parseToType<ActionResponse>(json.toString())
+            } catch (e: JsonSyntaxException) {
+                Timber.w("Failed to decode auth response ${e.localizedMessage}: ${json.toString()}")
+                null
+            }
+
         actionResponse?.let {
             assertTrue(it.success)
             assertNull(it.statusText)
@@ -118,7 +128,13 @@ class ActionTest {
         val json = response.body()?.string()
         assertNotNull(json)
         assertResponseSuccessful(response)
-        val actionResponse = gson.parseJsonToType<ActionResponse>(json)
+        val actionResponse =
+            try {
+                mapper.parseToType<ActionResponse>(json.toString())
+            } catch (e: JsonSyntaxException) {
+                Timber.w("Failed to decode auth response ${e.localizedMessage}: ${json.toString()}")
+                null
+            }
         actionResponse?.let {
             assertFalse(it.success)
             assertNotNull(it.statusText)
