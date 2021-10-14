@@ -8,7 +8,9 @@ package com.qmobile.qmobileapi.api
 
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.qmobile.qmobileapi.auth.LoginRequiredCallback
 import com.qmobile.qmobileapi.model.catalog.Catalog
 import com.qmobile.qmobileapi.model.catalog.KindEnum
@@ -21,7 +23,7 @@ import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
 import com.qmobile.qmobileapi.utils.mockResponse
-import com.qmobile.qmobileapi.utils.parseJsonToType
+import com.qmobile.qmobileapi.utils.parseToType
 import junit.framework.TestCase
 import okhttp3.ResponseBody
 import okhttp3.mockwebserver.Dispatcher
@@ -47,7 +49,9 @@ class ApiTest {
     private var mockWebServer = MockWebServer()
     private lateinit var apiService: ApiService
     private lateinit var dispatcher: Dispatcher
-    private var gson = Gson()
+    private val mapper = ObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .registerKotlinModule()
 
     @Before
     fun setup() {
@@ -62,10 +66,11 @@ class ApiTest {
         synchronized(ApplicationProvider.getApplicationContext()) {
             ApiClient.clearApiClients()
             apiService = ApiClient.getApiService(
-                mockWebServer.url("/").toString(),
-                loginApiService,
-                loginRequiredCallback,
-                SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
+                baseUrl = mockWebServer.url("/").toString(),
+                loginApiService = loginApiService,
+                loginRequiredCallback = loginRequiredCallback,
+                sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+                mapper = mapper
             )
         }
     }
@@ -116,7 +121,7 @@ class ApiTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val catalog = gson.parseJsonToType<Catalog>(json)
+        val catalog = mapper.parseToType<Catalog>(json)
         assertEquals(4, catalog?.dataClasses?.size)
         assertEquals("__DeletedRecords", catalog?.dataClasses?.get(0)?.name)
     }
@@ -131,7 +136,7 @@ class ApiTest {
         val json = responseBody?.string()
         TestCase.assertNotNull(json)
 
-        val catalog = gson.parseJsonToType<Catalog>(json)
+        val catalog = mapper.parseToType<Catalog>(json)
         assertEquals(4, catalog?.dataClasses?.size)
         assertEquals("__DeletedRecords", catalog?.dataClasses?.get(0)?.name)
         assertEquals(ScopeEnum.PUBLIC, catalog?.dataClasses?.get(0)?.scope)
@@ -147,7 +152,7 @@ class ApiTest {
         val json = responseBody?.string()
         TestCase.assertNotNull(json)
 
-        val catalog = gson.parseJsonToType<Catalog>(json)
+        val catalog = mapper.parseToType<Catalog>(json)
         assertEquals("Employee", catalog?.dataClasses?.get(0)?.name)
         assertEquals("EmployeeSelection", catalog?.dataClasses?.get(0)?.collectionName)
         assertEquals(ScopeEnum.PUBLIC, catalog?.dataClasses?.get(0)?.scope)
@@ -165,7 +170,7 @@ class ApiTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val info = gson.parseJsonToType<Info>(json)
+        val info = mapper.parseToType<Info>(json)
         assertEquals(0, info?.entitySetCount)
         assertEquals(3, info?.ProgressInfo?.size)
         assertEquals("indexProgressIndicator", info?.ProgressInfo?.get(0)?.UserInfo)

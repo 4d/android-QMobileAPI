@@ -36,7 +36,7 @@ class RestRepositoryTest {
     private val predicate = "\"__GlobalStamp >= 0\""
     private val tableName = "Employee"
 
-    lateinit var restRepository: RestRepository
+    private lateinit var restRepository: RestRepository
 
     @Mock
     lateinit var mockedApiService: ApiService

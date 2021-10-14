@@ -6,75 +6,83 @@
 
 package com.qmobile.qmobileapi.utils
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.qmobile.qmobileapi.model.entity.Entities
 import com.qmobile.qmobileapi.model.entity.EntityModel
 
 data class EventApiTest(
-    val cancellable: Boolean? = null,
-    val count: Int? = null,
-    val id: Int? = null,
-    val json: Any? = null,
-    val picture: Any? = null,
-    val timeStamp: String? = null,
-    val title: String? = null,
-    val location: LocationApiTest? = null,
-    val guests: Entities<EmployeeApiTest>? = null,
-    val organizer: EmployeeApiTest? = null,
-    override val __GlobalStamp: Int?,
-    override val __KEY: String?,
-    override val __STAMP: Int?,
-    override val __TIMESTAMP: String?
-) : EntityModel
+    @JsonProperty val cancellable: Boolean? = null,
+    @JsonProperty val count: Int? = null,
+    @JsonProperty val id: Int? = null,
+    @JsonProperty val json: Any? = null,
+    @JsonProperty val picture: Any? = null,
+    @JsonProperty val timeStamp: String? = null,
+    @JsonProperty val title: String? = null,
+    @JsonProperty val location: LocationApiTest? = null,
+    @JsonProperty val guests: Entities<EmployeeApiTest>? = null,
+    @JsonProperty val organizer: EmployeeApiTest? = null,
+    override val __GlobalStamp: Int? = null,
+    override val __KEY: String,
+    override val __STAMP: Int? = null,
+    override val __TIMESTAMP: String? = null
+) : EntityModel {
+    @JsonCreator
+    private constructor() : this(__KEY = "")
+}
 
 data class LocationApiTest(
-    val name: String? = null,
-    val zipCode: String? = null,
-    override val __GlobalStamp: Int?,
-    override val __KEY: String?,
-    override val __STAMP: Int?,
-    override val __TIMESTAMP: String?
+    @JsonProperty val name: String? = null,
+    @JsonProperty val zipCode: String? = null,
+    override val __GlobalStamp: Int? = null,
+    override val __KEY: String,
+    override val __STAMP: Int? = null,
+    override val __TIMESTAMP: String? = null
 ) : EntityModel
 
 data class EmployeeApiTest(
-    val firstName: String? = null,
-    val lastName: String? = null,
-    val organizedEvent: EventApiTest? = null,
-    val participatedEvents: Entities<EventApiTest>? = null,
-    override val __GlobalStamp: Int?,
-    override val __KEY: String?,
-    override val __STAMP: Int?,
-    override val __TIMESTAMP: String?
+    @JsonProperty val firstName: String? = null,
+    @JsonProperty val lastName: String? = null,
+    @JsonProperty val organizedEvent: EventApiTest? = null,
+    @JsonProperty val participatedEvents: Entities<EventApiTest>? = null,
+    override val __GlobalStamp: Int? = null,
+    override val __KEY: String,
+    override val __STAMP: Int? = null,
+    override val __TIMESTAMP: String? = null
 ) : EntityModel
 
 data class EmployeeExtendedAttributes(
-    val ID: Int? = null,
-    val Address: String? = null,
-    val Company: String? = null,
-    val Email: String? = null,
-    var FirstName: String? = null,
-    val Job: String? = null,
-    var LastName: String? = null,
-    val Location: String? = null,
-    val Notes: String? = null,
-    val Phone: String? = null,
-    val service: ServiceExtendedAttributes? = null,
-    val serviceManaged: Entities<ServiceExtendedAttributes>? = null,
-    override val __GlobalStamp: Int?,
-    override val __KEY: String?,
-    override val __STAMP: Int?,
-    override val __TIMESTAMP: String?
+    @JsonProperty val ID: Int? = null,
+    @JsonProperty val Address: String? = null,
+    @JsonProperty val Company: String? = null,
+    @JsonProperty val Email: String? = null,
+    @JsonProperty var FirstName: String? = null,
+    @JsonProperty val Job: String? = null,
+    @JsonProperty var LastName: String? = null,
+    @JsonProperty val Location: String? = null,
+    @JsonProperty val Notes: String? = null,
+    @JsonProperty val Phone: String? = null,
+    @JsonProperty val service: ServiceExtendedAttributes? = null,
+    @JsonProperty val serviceManaged: Entities<ServiceExtendedAttributes>? = null,
+    override val __KEY: String,
+    override val __GlobalStamp: Int? = null,
+    override val __STAMP: Int? = null,
+    override val __TIMESTAMP: String? = null
 ) : EntityModel
 
 data class ServiceExtendedAttributes(
-    val ID: Int? = null,
-    val name: String,
-    val comment: String? = null,
-    val employeeNumber: Int? = null,
-    val budget: String? = null,
-    val manager: EmployeeExtendedAttributes? = null,
-    val employees: Entities<EmployeeExtendedAttributes>? = null,
+    @JsonProperty val ID: Int? = null,
+    @JsonProperty val name: String,
+    @JsonProperty val comment: String? = null,
+    @JsonProperty val employeeNumber: Int? = null,
+    @JsonProperty val budget: String? = null,
+    @JsonProperty val manager: EmployeeExtendedAttributes? = null,
+    @JsonProperty val employees: Entities<EmployeeExtendedAttributes>? = null,
     override val __KEY: String,
     override val __STAMP: Int? = null,
     override val __GlobalStamp: Int? = null,
     override val __TIMESTAMP: String? = null
-) : EntityModel
+) : EntityModel {
+    @JsonCreator
+    private constructor() : this(name = "", __KEY = "")
+}

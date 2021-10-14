@@ -7,7 +7,6 @@
 package com.qmobile.qmobileapi.utils
 
 import android.annotation.SuppressLint
-import com.google.gson.JsonObject
 import timber.log.Timber
 import java.text.SimpleDateFormat
 
@@ -15,20 +14,20 @@ object UserInfoDateFormatter {
 
     // Store UserInfo
     @SuppressLint("SimpleDateFormat")
-    fun storeUserInfo(userInfo: JsonObject, sharedPreferencesHolder: SharedPreferencesHolder) {
-        userInfoIterator(userInfo)
-        Timber.v("Store user info $userInfo")
-        sharedPreferencesHolder.userInfo = userInfo.toString()
+    fun storeUserInfo(userInfo: Map<String, Any>, sharedPreferencesHolder: SharedPreferencesHolder) {
+        val formattedUserInfo = formatDateValues(userInfo)
+        Timber.v("Store user info $formattedUserInfo")
+        sharedPreferencesHolder.userInfo = formattedUserInfo.toString()
     }
 
-    private fun userInfoIterator(userInfo: JsonObject) {
-        userInfo.keySet().forEach { key ->
-            userInfo.get(key)?.toString()?.let { value ->
-                formatDate(value.split("\"").getOrNull(1))?.let { formattedDated ->
-                    userInfo.addProperty(key, formattedDated)
-                }
+    private fun formatDateValues(userInfo: Map<String, Any>): Map<String, Any> {
+        val mutableUserInfo = userInfo.toMutableMap()
+        for ((key, value) in mutableUserInfo) {
+            formatDate(value.toString().split("\"").getOrNull(1))?.let { formattedDated ->
+                mutableUserInfo[key] = formattedDated
             }
         }
+        return mutableUserInfo
     }
 
     @SuppressLint("SimpleDateFormat")

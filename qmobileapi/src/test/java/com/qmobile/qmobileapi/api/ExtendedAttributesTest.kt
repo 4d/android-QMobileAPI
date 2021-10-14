@@ -8,7 +8,9 @@ package com.qmobile.qmobileapi.api
 
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.qmobile.qmobileapi.auth.LoginRequiredCallback
 import com.qmobile.qmobileapi.model.entity.Entities
 import com.qmobile.qmobileapi.network.ApiClient
@@ -21,7 +23,7 @@ import com.qmobile.qmobileapi.utils.UTF8_CHARSET
 import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
 import com.qmobile.qmobileapi.utils.mockResponse
-import com.qmobile.qmobileapi.utils.parseJsonToType
+import com.qmobile.qmobileapi.utils.parseToType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
@@ -50,7 +52,9 @@ class ExtendedAttributesTest {
     private var mockWebServer = MockWebServer()
     private lateinit var apiService: ApiService
     private lateinit var dispatcher: Dispatcher
-    private var gson = Gson()
+    private val mapper = ObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .registerKotlinModule()
 
     @Before
     fun setup() {
@@ -65,10 +69,11 @@ class ExtendedAttributesTest {
         synchronized(ApplicationProvider.getApplicationContext()) {
             ApiClient.clearApiClients()
             apiService = ApiClient.getApiService(
-                mockWebServer.url("/").toString(),
-                loginApiService,
-                loginRequiredCallback,
-                SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext())
+                baseUrl = mockWebServer.url("/").toString(),
+                loginApiService = loginApiService,
+                loginRequiredCallback = loginRequiredCallback,
+                sharedPreferencesHolder = SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
+                mapper = mapper
             )
         }
     }
@@ -117,12 +122,9 @@ class ExtendedAttributesTest {
         val json = responseBody?.string()
         assertNotNull(json)
 
-        val entities = gson.parseJsonToType<Entities<ServiceExtendedAttributes>>(json)
+        val entities = mapper.parseToType<Entities<ServiceExtendedAttributes>>(json)
         assertEquals("Service", entities?.__entityModel)
-
-        val services = entities?.__ENTITIES
-        assertEquals(1, services?.size)
-        val service = services?.get(0)
+        val service = entities?.__ENTITIES?.get(0)
         assertNull(service?.employeeNumber)
         assertNotNull(service?.manager)
         assertNotNull(service?.employees)
