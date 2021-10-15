@@ -103,19 +103,13 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
 
     fun sendAction(
         actionName: String,
-        selectedActionId: String?,
+        actionContent: ActionContent,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
-        val actionContext = mutableMapOf<String, Any>(Pair("dataClass", tableName))
-        if (selectedActionId != null) {
-            actionContext["entity"] = mapOf(Pair("primaryKey", selectedActionId))
-        }
         disposable.add(
             apiService.sendAction(
                 actionName,
-                ActionContent(
-                    actionContext
-                )
+                actionContent
             ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(DisposableSingleObserver(onResult))
