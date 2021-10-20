@@ -6,6 +6,7 @@
 
 package com.qmobile.qmobileapi.network
 
+import com.qmobile.qmobileapi.model.action.ActionContent
 import io.reactivex.Single
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -123,5 +124,14 @@ interface ApiService {
         @Query("\$params", encoded = true) params: String? = null,
         @Query("\$skip", encoded = true) skip: Int? = null,
         @Query("\$limit", encoded = true) limit: Int = 100000
+    ): Single<Response<ResponseBody>>
+
+    /**
+     * Execute 4D code from Android app
+     */
+    @POST("\$action/{actionName}")
+    fun sendAction(
+        @Path("actionName") actionName: String,
+        @Body body: ActionContent
     ): Single<Response<ResponseBody>>
 }
