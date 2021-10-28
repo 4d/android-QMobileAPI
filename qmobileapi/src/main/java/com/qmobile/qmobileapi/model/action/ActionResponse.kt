@@ -6,4 +6,4 @@
 
 package com.qmobile.qmobileapi.model.action
 
-data class ActionResponse(val success: Boolean, val statusText: String?, val dataSynchro :Boolean?)
+data class ActionResponse(val success: Boolean, val statusText: String?, val dataSynchro: Boolean?)

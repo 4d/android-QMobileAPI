@@ -18,12 +18,11 @@ import com.qmobile.qmobileapi.model.action.ActionResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.network.LoginApiService
-import com.qmobile.qmobileapi.utils.assertRequest
-import com.qmobile.qmobileapi.utils.mockResponse
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
+import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
+import com.qmobile.qmobileapi.utils.mockResponse
 import com.qmobile.qmobileapi.utils.parseToType
-
 import okhttp3.ResponseBody
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -72,7 +71,7 @@ class ActionTest {
                 loginApiService,
                 loginRequiredCallback,
                 SharedPreferencesHolder.getInstance(ApplicationProvider.getApplicationContext()),
-                mapper =mapper
+                mapper = mapper
             )
         }
     }
@@ -115,7 +114,7 @@ class ActionTest {
             try {
                 mapper.parseToType<ActionResponse>(json.toString())
             } catch (e: JsonSyntaxException) {
-                Timber.w("Failed to decode auth response ${e.localizedMessage}: ${json.toString()}")
+                Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
                 null
             }
 
@@ -136,7 +135,7 @@ class ActionTest {
             try {
                 mapper.parseToType<ActionResponse>(json.toString())
             } catch (e: JsonSyntaxException) {
-                Timber.w("Failed to decode auth response ${e.localizedMessage}: ${json.toString()}")
+                Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
                 null
             }
         actionResponse?.let {
