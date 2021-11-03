@@ -7,6 +7,7 @@
 package com.qmobile.qmobileapi.utils
 
 import android.annotation.SuppressLint
+import com.fasterxml.jackson.databind.ObjectMapper
 import timber.log.Timber
 import java.text.SimpleDateFormat
 
@@ -17,7 +18,7 @@ object UserInfoDateFormatter {
     fun storeUserInfo(userInfo: Map<String, Any>, sharedPreferencesHolder: SharedPreferencesHolder) {
         val formattedUserInfo = formatDateValues(userInfo)
         Timber.v("Store user info $formattedUserInfo")
-        sharedPreferencesHolder.userInfo = formattedUserInfo.toString()
+        sharedPreferencesHolder.userInfo = ObjectMapper().parseToString(formattedUserInfo)
     }
 
     private fun formatDateValues(userInfo: Map<String, Any>): Map<String, Any> {
