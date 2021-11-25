@@ -11,7 +11,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import com.qmobile.qmobileapi.auth.LoginRequiredCallback
+import com.qmobile.qmobileapi.utils.LoginRequiredCallback
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import org.junit.Assert
 import org.junit.Before

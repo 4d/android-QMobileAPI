@@ -12,12 +12,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.google.gson.JsonSyntaxException
-import com.qmobile.qmobileapi.auth.LoginRequiredCallback
 import com.qmobile.qmobileapi.model.action.ActionContent
 import com.qmobile.qmobileapi.model.action.ActionResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.network.LoginApiService
+import com.qmobile.qmobileapi.utils.LoginRequiredCallback
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
@@ -54,6 +54,7 @@ class ActionTest {
     private val mapper = ObjectMapper()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .registerKotlinModule()
+
     @Before
     fun setup() {
         initDispatcher()
@@ -61,8 +62,7 @@ class ActionTest {
         mockWebServer.start()
 
         val loginApiService: LoginApiService = Mockito.mock(LoginApiService::class.java)
-        val loginRequiredCallback: LoginRequiredCallback =
-            Mockito.mock(LoginRequiredCallback::class.java)
+        val loginRequiredCallback: LoginRequiredCallback = {}
 
         synchronized(ApplicationProvider.getApplicationContext()) {
             ApiClient.clearApiClients()

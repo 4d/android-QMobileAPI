@@ -11,6 +11,7 @@ import com.qmobile.qmobileapi.model.error.ErrorResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.LoginApiService
 import com.qmobile.qmobileapi.repository.AuthRepository
+import com.qmobile.qmobileapi.utils.LoginRequiredCallback
 import com.qmobile.qmobileapi.utils.RequestErrorHelper
 import com.qmobile.qmobileapi.utils.RestErrorCode
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
@@ -121,7 +122,7 @@ class AuthenticationInterceptor(
             } else {
                 // We ask to go back to the login page as this is not a guest authenticated session
                 sharedPreferencesHolder.sessionToken = ""
-                loginRequiredCallback?.loginRequired()
+                loginRequiredCallback?.invoke()
             }
         }
         return null
