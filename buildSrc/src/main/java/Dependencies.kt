@@ -22,24 +22,23 @@ object Versions {
     const val espresso_contrib = "3.0.2"
     const val glide = "4.12.0"
     const val glide_transformations = "4.3.0"
-    const val jackson = "2.12.3"
+    const val jackson = "2.13.0"
     const val json = "20210307"
     const val junit = "4.13.2"
     const val kotlin = "1.5.31"
     const val kotlin_coroutines = "1.5.2"
     const val leakcanary = "2.0"
-    const val lifecycle = "2.3.1"
-    const val mockito = "3.12.4"
-    const val mockk = "1.12.0"
+    const val lifecycle = "2.4.0"
+    const val mockito = "4.1.0"
+    const val mockk = "1.12.1"
     const val multidex = "2.0.1"
     const val navigation = "2.3.5"
     const val okhttp = "5.0.0-alpha.2"
-    const val paging = "2.1.2"
     const val paging3 = "3.0.1"
     const val preference = "1.1.1"
     const val retrofit = "2.9.0"
-    const val robolectric = "4.6.1"
-    const val room = "2.4.0-alpha04"
+    const val robolectric = "4.7.2"
+    const val room = "2.4.0-beta02"
     const val room_compiler = "2.3.0"
     const val rules = "1.3.0"
     const val runner = "1.3.0"
@@ -55,9 +54,9 @@ object Versions {
 
 object Config {
     const val buildTools = "30.0.2"
-    const val compileSdk = 30
+    const val compileSdk = 31
     const val minSdk = 21
-    const val targetSdk = 30
+    const val targetSdk = 31
 }
 
 object Tools {
