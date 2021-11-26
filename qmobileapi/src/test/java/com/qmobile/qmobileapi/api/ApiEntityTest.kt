@@ -11,11 +11,11 @@ import androidx.test.core.app.ApplicationProvider
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import com.qmobile.qmobileapi.auth.LoginRequiredCallback
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.network.LoginApiService
 import com.qmobile.qmobileapi.utils.EventApiTest
+import com.qmobile.qmobileapi.utils.LoginRequiredCallback
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
@@ -58,8 +58,7 @@ class ApiEntityTest {
         mockWebServer.start()
 
         val loginApiService: LoginApiService = Mockito.mock(LoginApiService::class.java)
-        val loginRequiredCallback: LoginRequiredCallback =
-            Mockito.mock(LoginRequiredCallback::class.java)
+        val loginRequiredCallback: LoginRequiredCallback = {}
 
         synchronized(ApplicationProvider.getApplicationContext()) {
             ApiClient.clearApiClients()

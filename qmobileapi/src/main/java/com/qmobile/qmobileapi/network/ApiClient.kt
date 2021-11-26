@@ -8,7 +8,7 @@ package com.qmobile.qmobileapi.network
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.qmobile.qmobileapi.auth.AuthenticationInterceptor
-import com.qmobile.qmobileapi.auth.LoginRequiredCallback
+import com.qmobile.qmobileapi.utils.LoginRequiredCallback
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

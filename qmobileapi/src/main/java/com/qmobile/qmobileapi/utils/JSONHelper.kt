@@ -15,3 +15,12 @@ fun retrieveJSONObject(jsonString: String): JSONObject? {
         null
     }
 }
+
+fun String.extractJSON(): String? {
+    val start = this.indexOf("{")
+    val end = this.lastIndexOf("}")
+    if (start >= 0 && end >= 0) {
+        return this.substring(start, end + 1)
+    }
+    return null
+}
