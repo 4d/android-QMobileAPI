@@ -28,7 +28,7 @@ object Versions {
     const val kotlin = "1.5.31"
     const val kotlin_coroutines = "1.5.2"
     const val leakcanary = "2.0"
-    const val lifecycle = "2.4.0"
+    const val lifecycle = "2.3.1"
     const val mockito = "4.1.0"
     const val mockk = "1.12.1"
     const val multidex = "2.0.1"
@@ -38,7 +38,7 @@ object Versions {
     const val preference = "1.1.1"
     const val retrofit = "2.9.0"
     const val robolectric = "4.7.2"
-    const val room = "2.4.0-beta02"
+    const val room = "2.4.0-alpha04"
     const val room_compiler = "2.3.0"
     const val rules = "1.3.0"
     const val runner = "1.3.0"
@@ -54,11 +54,10 @@ object Versions {
 
 object Config {
     const val buildTools = "30.0.2"
-    const val compileSdk = 31
+    const val compileSdk = 30
     const val minSdk = 21
-    const val targetSdk = 31
+    const val targetSdk = 30
 }
-
 object Tools {
     const val artifactory = "org.jfrog.buildinfo:build-info-extractor-gradle:${Versions.artifactory}"
     const val gradle = "com.android.tools.build:gradle:${Versions.android_gradle_plugin}"
