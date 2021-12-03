@@ -6,4 +6,4 @@
 
 package com.qmobile.qmobileapi.model.action
 
-data class ActionContent(val context: Map<String, Any>)
+data class ActionContent(val context: Map<String, Any>, val parameters: Map<String, Any>?, val metadata: Metadata)

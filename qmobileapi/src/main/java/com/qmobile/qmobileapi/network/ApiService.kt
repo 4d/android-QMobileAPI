@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.network
 
-import com.qmobile.qmobileapi.model.action.ActionContent
 import io.reactivex.Single
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -132,6 +131,6 @@ interface ApiService {
     @POST("\$action/{actionName}")
     fun sendAction(
         @Path("actionName") actionName: String,
-        @Body body: ActionContent
+        @Body body: MutableMap<String, Any>
     ): Single<Response<ResponseBody>>
 }
