@@ -6,6 +6,7 @@
 
 package com.qmobile.qmobileapi.connectivity
 
+import com.qmobile.qmobileapi.repository.ServerAccessibility
 import com.qmobile.qmobileapi.utils.PING_TIMEOUT
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
