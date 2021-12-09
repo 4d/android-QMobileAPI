@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.repository
 
-import com.qmobile.qmobileapi.model.action.ActionContent
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.utils.APP_JSON
 import com.qmobile.qmobileapi.utils.UTF8_CHARSET
@@ -103,7 +102,7 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
 
     fun sendAction(
         actionName: String,
-        actionContent: ActionContent,
+        actionContent: MutableMap<String, Any>,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
         disposable.add(
