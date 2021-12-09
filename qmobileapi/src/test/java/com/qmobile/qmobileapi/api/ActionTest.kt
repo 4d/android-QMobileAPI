@@ -106,7 +106,7 @@ class ActionTest {
     @Test
     fun `send action success`() {
         val response: Response<ResponseBody> =
-            apiService.sendAction("action1", ActionContent(mapOf(Pair("", "")))).blockingGet()
+            apiService.sendAction("action1", mutableMapOf()).blockingGet()
         val json = response.body()?.string()
         assertNotNull(json)
         assertResponseSuccessful(response)
@@ -127,7 +127,7 @@ class ActionTest {
     @Test
     fun `send action fail`() {
         val response: Response<ResponseBody> =
-            apiService.sendAction("action2", ActionContent(mapOf(Pair("", "")))).blockingGet()
+            apiService.sendAction("action2",  mutableMapOf()).blockingGet()
         val json = response.body()?.string()
         assertNotNull(json)
         assertResponseSuccessful(response)
