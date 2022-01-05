@@ -112,7 +112,7 @@ class ActionTest {
                 Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
                 null
             }
-
+        assertNotNull(actionResponse)
         actionResponse?.let {
             assertTrue(it.success)
             assertNull(it.statusText)
@@ -133,6 +133,7 @@ class ActionTest {
                 Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
                 null
             }
+        assertNotNull(actionResponse)
         actionResponse?.let {
             assertFalse(it.success)
             assertNotNull(it.statusText)
@@ -155,7 +156,7 @@ class ActionTest {
                 Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
                 null
             }
-
+        assertNotNull(actionResponse)
         actionResponse?.let {
             assertTrue(it.success)
             assertNull(it.statusText)
@@ -176,6 +177,7 @@ class ActionTest {
                 Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
                 null
             }
+        assertNotNull(actionResponse)
         actionResponse?.let {
             assertFalse(it.success)
             assertNotNull(it.statusText)
