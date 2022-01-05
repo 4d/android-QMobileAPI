@@ -98,13 +98,8 @@ class ActionTest {
         }
     }
 
-    @After
-    fun teardown() {
-        mockWebServer.shutdown()
-    }
-
     @Test
-    fun `send action success`() {
+    fun `send action without params success`() {
         val response: Response<ResponseBody> =
             apiService.sendAction("action1", mutableMapOf()).blockingGet()
         val json = response.body()?.string()
@@ -117,7 +112,7 @@ class ActionTest {
                 Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
                 null
             }
-
+        assertNotNull(actionResponse)
         actionResponse?.let {
             assertTrue(it.success)
             assertNull(it.statusText)
@@ -125,7 +120,7 @@ class ActionTest {
     }
 
     @Test
-    fun `send action fail`() {
+    fun `send action without params fail`() {
         val response: Response<ResponseBody> =
             apiService.sendAction("action2",  mutableMapOf()).blockingGet()
         val json = response.body()?.string()
@@ -138,10 +133,82 @@ class ActionTest {
                 Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
                 null
             }
+        assertNotNull(actionResponse)
         actionResponse?.let {
             assertFalse(it.success)
             assertNotNull(it.statusText)
             assertNotEquals("", it.statusText)
         }
+    }
+
+
+    @Test
+    fun `send action with params success`() {
+        val response: Response<ResponseBody> =
+            apiService.sendAction("action1", createActionContent()).blockingGet()
+        val json = response.body()?.string()
+        assertNotNull(json)
+        assertResponseSuccessful(response)
+        val actionResponse =
+            try {
+                mapper.parseToType<ActionResponse>(json.toString())
+            } catch (e: JsonSyntaxException) {
+                Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
+                null
+            }
+        assertNotNull(actionResponse)
+        actionResponse?.let {
+            assertTrue(it.success)
+            assertNull(it.statusText)
+        }
+    }
+
+    @Test
+    fun `send action with params fail`() {
+        val response: Response<ResponseBody> =
+            apiService.sendAction("action2",  createActionContent()).blockingGet()
+        val json = response.body()?.string()
+        assertNotNull(json)
+        assertResponseSuccessful(response)
+        val actionResponse =
+            try {
+                mapper.parseToType<ActionResponse>(json.toString())
+            } catch (e: JsonSyntaxException) {
+                Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
+                null
+            }
+        assertNotNull(actionResponse)
+        actionResponse?.let {
+            assertFalse(it.success)
+            assertNotNull(it.statusText)
+            assertNotEquals("", it.statusText)
+        }
+    }
+
+    @After
+    fun teardown() {
+        mockWebServer.shutdown()
+    }
+
+    private fun createActionContent(): MutableMap<String, Any> {
+        val map: MutableMap<String, Any> = mutableMapOf()
+        val actionContext = mutableMapOf<String, Any>(
+            "dataClass" to
+                    "Employee"
+        )
+        map["context"] = actionContext
+
+        val parameters = HashMap<String,Any>()
+        parameters["Text param"] = "azerty"
+        parameters["Boolean param"] = false
+        parameters["Number param"] = 4.0F
+        parameters["Date param"] = "10!6!2000"
+        map["parameters"] = parameters
+
+        val metadata = HashMap<String,Any>()
+        metadata["parameters"] = hashMapOf("Date param" to "simpleDate")
+        map["metadata"] = metadata
+
+        return map
     }
 }
