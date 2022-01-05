@@ -4,7 +4,7 @@
  * Copyright (c) 2020 Quentin Marciset. All rights reserved.
  */
 
-package com.qmobile.qmobileapi.connectivity
+package com.qmobile.qmobileapi.repository
 
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -1,6 +1,4 @@
-
 package com.qmobile.qmobileapi.model.entity
-
 
 import java.util.Locale
 import kotlin.reflect.KProperty1
