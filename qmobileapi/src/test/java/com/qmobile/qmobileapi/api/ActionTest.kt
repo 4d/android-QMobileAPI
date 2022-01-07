@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.google.gson.JsonSyntaxException
-import com.qmobile.qmobileapi.model.action.ActionContent
 import com.qmobile.qmobileapi.model.action.ActionResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
@@ -122,7 +121,7 @@ class ActionTest {
     @Test
     fun `send action without params fail`() {
         val response: Response<ResponseBody> =
-            apiService.sendAction("action2",  mutableMapOf()).blockingGet()
+            apiService.sendAction("action2", mutableMapOf()).blockingGet()
         val json = response.body()?.string()
         assertNotNull(json)
         assertResponseSuccessful(response)
@@ -140,7 +139,6 @@ class ActionTest {
             assertNotEquals("", it.statusText)
         }
     }
-
 
     @Test
     fun `send action with params success`() {
@@ -166,7 +164,7 @@ class ActionTest {
     @Test
     fun `send action with params fail`() {
         val response: Response<ResponseBody> =
-            apiService.sendAction("action2",  createActionContent()).blockingGet()
+            apiService.sendAction("action2", createActionContent()).blockingGet()
         val json = response.body()?.string()
         assertNotNull(json)
         assertResponseSuccessful(response)
@@ -194,18 +192,18 @@ class ActionTest {
         val map: MutableMap<String, Any> = mutableMapOf()
         val actionContext = mutableMapOf<String, Any>(
             "dataClass" to
-                    "Employee"
+                "Employee"
         )
         map["context"] = actionContext
 
-        val parameters = HashMap<String,Any>()
+        val parameters = HashMap<String, Any>()
         parameters["Text param"] = "azerty"
         parameters["Boolean param"] = false
         parameters["Number param"] = 4.0F
         parameters["Date param"] = "10!6!2000"
         map["parameters"] = parameters
 
-        val metadata = HashMap<String,Any>()
+        val metadata = HashMap<String, Any>()
         metadata["parameters"] = hashMapOf("Date param" to "simpleDate")
         map["metadata"] = metadata
 
