@@ -12,9 +12,12 @@ import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface ApiService {
 
@@ -132,5 +135,12 @@ interface ApiService {
     fun sendAction(
         @Path("actionName") actionName: String,
         @Body body: MutableMap<String, Any>
+    ): Single<Response<ResponseBody>>
+
+    @PUT
+    fun uploadImage(
+        @Header("Content-Type") mime: String,
+        @Url url: String,
+        @Body body: RequestBody
     ): Single<Response<ResponseBody>>
 }

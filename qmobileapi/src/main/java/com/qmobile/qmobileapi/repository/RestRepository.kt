@@ -9,10 +9,12 @@ package com.qmobile.qmobileapi.repository
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.utils.APP_JSON
 import com.qmobile.qmobileapi.utils.UTF8_CHARSET
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -112,6 +114,35 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
             ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(DisposableSingleObserver(onResult))
+        )
+    }
+
+    fun uploadImage(
+        imagesToUpload: List<Pair<String, RequestBody?>>,
+        onImageUploaded: (parameterName: String, response: Response<ResponseBody>) -> Unit,
+        onAllUploadFinished: () -> Unit
+    ) {
+        disposable.add(
+            Observable.just(imagesToUpload)
+                .flatMapIterable { it }
+                .concatMapSingle {
+                    val paramNameTmp = it.first
+                    it.second?.let { it1 ->
+                        apiService.uploadImage("image/png", "\$upload?\$rawPict=true", it1)
+                            .map { response ->
+                                paramNameTmp to response
+                            }.doOnError {
+                            }
+                    }
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete {
+                    onAllUploadFinished()
+                }
+                .subscribe {
+                    onImageUploaded(it.first, it.second)
+                }
         )
     }
 }
