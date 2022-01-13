@@ -13,5 +13,13 @@ class EntityHelper private constructor() {
                 } as KProperty1<Any, *>
             return property.get(instance) as R
         }
+
+        fun readInstanceProperty(instance: Any, propertyName: String): String {
+            val property = instance::class.members
+                .first {
+                    it.name.lowercase(Locale.getDefault()) == propertyName.lowercase(Locale.getDefault())
+                } as KProperty1<Any, *>
+            return property.get(instance).toString()
+        }
     }
 }
