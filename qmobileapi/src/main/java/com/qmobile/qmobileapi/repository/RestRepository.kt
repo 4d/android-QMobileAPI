@@ -19,6 +19,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
+import timber.log.Timber
 
 class RestRepository(private val tableName: String, private val apiService: ApiService) {
 
@@ -131,7 +132,6 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
                         apiService.uploadImage("image/png", "\$upload?\$rawPict=true", it1)
                             .map { response ->
                                 paramNameTmp to response
-                            }.doOnError {
                             }
                     }
                 }
@@ -140,9 +140,13 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
                 .doOnComplete {
                     onAllUploadFinished()
                 }
-                .subscribe {
+                .subscribe({
                     onImageUploaded(it.first, it.second)
-                }
+                },
+                    {
+                        Timber.e(it.localizedMessage)
+                    }
+                )
         )
     }
 }
