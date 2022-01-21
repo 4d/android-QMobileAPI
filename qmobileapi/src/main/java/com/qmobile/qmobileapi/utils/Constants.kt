@@ -25,3 +25,12 @@ const val UTF8 = "utf-8"
 
 // 4D server globalStamp property name
 const val GLOBALSTAMP_PROPERTY = "__GlobalStamp"
+
+// Queries constants
+object Query {
+    const val QUERY_PROPERTY = "__Query"
+    const val QUERY_STRING_PROPERTY = "queryString"
+    const val SETTINGS = "settings"
+    const val PARAMETERS = "parameters"
+    const val QUERY_PREFIX = "queries"
+}
