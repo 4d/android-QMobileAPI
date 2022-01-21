@@ -137,7 +137,7 @@ interface ApiService {
         @Body body: MutableMap<String, Any>
     ): Single<Response<ResponseBody>>
 
-    @PUT
+    @POST
     fun uploadImage(
         @Header("Content-Type") mime: String,
         @Url url: String,
