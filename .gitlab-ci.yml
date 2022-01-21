@@ -34,8 +34,8 @@ lint:
   script:
     - *prepare_sdk
 #    - rm -fr build
-    - ./gradlew ktlintFormat --build-cache --gradle-user-home --console=rich
-    - ./gradlew detekt --build-cache --gradle-user-home --console=rich
+    - ./gradlew ktlintFormat --build-cache --gradle-user-home cache/ --console=rich
+    - ./gradlew detekt --build-cache --gradle-user-home cache/ --console=rich
   artifacts:
     name: "reports_${CI_PROJECT_NAME}_${CI_BUILD_REF_NAME}"
     when: on_failure
@@ -47,10 +47,18 @@ lint:
 
 build:
   stage: build
+  cache:
+    key:
+      files:
+        - gradle/wrapper/gradle-wrapper.properties
+    paths:
+    - cache/caches/ 
+    - cache/notifications/ 
+    - cache/wrapper/ 
   script:
     - *prepare_sdk
 #    - ./gradlew clean --console=rich
-    - ./gradlew assemble --console=rich
+    - ./gradlew assemble --build-cache --gradle-user-home cache/ --console=rich
     - ./gradlew artifactoryPublish --console=rich
   tags:
     - osx
@@ -60,9 +68,17 @@ build:
 
 unitTests:
   stage: test
+  cache:
+    key:
+      files:
+        - gradle/wrapper/gradle-wrapper.properties
+    paths:
+    - cache/caches/ 
+    - cache/notifications/ 
+    - cache/wrapper/ 
   script:
     - *prepare_sdk
-    - ./gradlew jacocoTestReport --console=rich
+    - ./gradlew jacocoTestReport --build-cache --gradle-user-home cache/ --console=rich
   #  - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' qmobileapi/build/reports/jacoco/jacocoTestReport/jacocoTestReport.csv
   tags:
     - osx
