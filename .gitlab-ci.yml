@@ -23,11 +23,19 @@ before_script:
   
 lint:
   stage: lint
+  cache:
+    key:
+      files:
+        - gradle/wrapper/gradle-wrapper.properties
+    paths:
+    - cache/caches/ 
+    - cache/notifications/ 
+    - cache/wrapper/ 
   script:
     - *prepare_sdk
-    - rm -fr build
-    - ./gradlew ktlintFormat --console=rich
-    - ./gradlew detekt --console=rich
+#    - rm -fr build
+    - ./gradlew ktlintFormat --build-cache --gradle-user-home --console=rich
+    - ./gradlew detekt --build-cache --gradle-user-home --console=rich
   artifacts:
     name: "reports_${CI_PROJECT_NAME}_${CI_BUILD_REF_NAME}"
     when: on_failure
@@ -41,7 +49,7 @@ build:
   stage: build
   script:
     - *prepare_sdk
-    - ./gradlew clean --console=rich
+#    - ./gradlew clean --console=rich
     - ./gradlew assemble --console=rich
     - ./gradlew artifactoryPublish --console=rich
   tags:
