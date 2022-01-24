@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.model.info
 
-@Suppress("ConstructorParameterNaming")
 data class ProgressInfo(
     val UserInfo: String? = null,
     val percent: Int,

@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.model.entity
 
-@Suppress("ConstructorParameterNaming")
 data class Entities<T : EntityModel>(
     val __COUNT: Int?,
     val __GlobalStamp: Int?,

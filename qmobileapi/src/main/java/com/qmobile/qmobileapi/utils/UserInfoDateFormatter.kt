@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat
 object UserInfoDateFormatter {
 
     // Store UserInfo
-    @SuppressLint("SimpleDateFormat")
     fun storeUserInfo(userInfo: Map<String, Any>, sharedPreferencesHolder: SharedPreferencesHolder) {
         val formattedUserInfo = formatDateValues(userInfo)
         Timber.v("Store user info $formattedUserInfo")
@@ -31,7 +30,7 @@ object UserInfoDateFormatter {
         return mutableUserInfo
     }
 
-    @SuppressLint("SimpleDateFormat")
+//    // @SuppressLint("SimpleDateFormat")
     private val formatDate: (String?) -> String? = { dateString: String? ->
         val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         dateFormat.safeParse(dateString)?.let { date ->

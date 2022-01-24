@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.model.entity
 
-@Suppress("ConstructorParameterNaming")
 data class DeletedRecord(
     override val __KEY: String,
     override val __TIMESTAMP: String? = null,

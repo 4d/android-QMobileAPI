@@ -11,7 +11,7 @@ import android.content.Context
 import android.util.Log
 import java.io.IOException
 
-@SuppressLint("LogNotTimber")
+// @SuppressLint("LogNotTimber")
 fun readContentFromFile(context: Context, fileName: String): String =
     try {
         context.assets.open(fileName).bufferedReader().use {
