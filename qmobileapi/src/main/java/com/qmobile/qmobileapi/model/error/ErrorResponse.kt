@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.model.error
 
-@Suppress("ConstructorParameterNaming")
 data class ErrorResponse(
     val success: Boolean?,
     val __ERRORS: List<ErrorReason>?
