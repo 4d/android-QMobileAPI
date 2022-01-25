@@ -119,16 +119,18 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
     }
 
     fun uploadImage(
-        imagesToUpload: List<Pair<String, RequestBody?>>,
+        imagesToUpload: Map<String, RequestBody?>,
         onImageUploaded: (parameterName: String, response: Response<ResponseBody>) -> Unit,
         onAllUploadFinished: () -> Unit
     ) {
         disposable.add(
-            Observable.just(imagesToUpload)
-                .flatMapIterable { it }
+            Observable.just(imagesToUpload.entries)
+                .flatMapIterable { entries ->
+                    entries
+                }
                 .concatMapSingle {
-                    val paramNameTmp = it.first
-                    it.second?.let { it1 ->
+                    val paramNameTmp = it.key
+                    it.value?.let { it1 ->
                         apiService.uploadImage("image/png", "\$upload?\$rawPict=true", it1)
                             .map { response ->
                                 paramNameTmp to response
