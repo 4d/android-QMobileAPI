@@ -6,10 +6,10 @@
 
 package com.qmobile.qmobileapi.utils
 
-import android.annotation.SuppressLint
 import com.fasterxml.jackson.databind.ObjectMapper
 import timber.log.Timber
 import java.text.SimpleDateFormat
+import java.util.Locale
 
 object UserInfoDateFormatter {
 
@@ -30,11 +30,10 @@ object UserInfoDateFormatter {
         return mutableUserInfo
     }
 
-//    // @SuppressLint("SimpleDateFormat")
     private val formatDate: (String?) -> String? = { dateString: String? ->
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         dateFormat.safeParse(dateString)?.let { date ->
-            SimpleDateFormat("yy!MM!dd").format(date).toString()
+            SimpleDateFormat("yy!MM!dd", Locale.getDefault()).format(date).toString()
         }
     }
 }
