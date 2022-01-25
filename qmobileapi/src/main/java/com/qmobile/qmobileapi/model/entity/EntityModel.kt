@@ -6,7 +6,7 @@
 
 package com.qmobile.qmobileapi.model.entity
 
-@Suppress("VariableNaming", "PropertyName")
+@Suppress("PropertyName")
 interface EntityModel {
     val __GlobalStamp: Int?
     val __KEY: String?

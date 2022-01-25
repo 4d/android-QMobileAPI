@@ -113,7 +113,6 @@ interface ApiService {
      * [extendedAttributes] true, to ensure that we get filtered related entities, and reading
      * request body
      */
-    @Suppress("LongParameterList")
     @POST("{dataClassName}")
     fun getEntitiesExtendedAttributes(
         @Body body: RequestBody,

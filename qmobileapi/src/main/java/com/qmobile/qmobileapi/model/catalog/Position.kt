@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.model.catalog
 
-@Suppress("ConstructorParameterNaming")
 data class Position(
     val X: String,
     val Y: String

@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.model.info
 
-@Suppress("ConstructorParameterNaming")
 data class Info(
     val entitySetCount: Int = 0,
     val ProgressInfo: List<ProgressInfo>? = null,
