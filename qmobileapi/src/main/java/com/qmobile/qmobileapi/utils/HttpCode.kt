@@ -6,7 +6,7 @@
 
 package com.qmobile.qmobileapi.utils
 
-@Suppress("ComplexMethod", "LongMethod", "MagicNumber")
+@Suppress("ComplexMethod", "LongMethod")
 object HttpCode {
 
 // https://en.wikipedia.org/wiki/List_of_HTTP_status_codes

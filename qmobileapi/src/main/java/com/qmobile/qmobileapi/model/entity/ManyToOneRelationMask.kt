@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.model.entity
 
-@Suppress("ConstructorParameterNaming")
 data class ManyToOneRelationMask(
     val __deferred: DeferredManyToOneRelationMask?
 )

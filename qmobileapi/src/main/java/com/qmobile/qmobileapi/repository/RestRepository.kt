@@ -71,7 +71,6 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
     /**
      * Performs getEntitiesExtendedAttributesWithParams request
      */
-    @Suppress("LongParameterList")
     fun getEntitiesExtendedAttributes(
         jsonRequestBody: JSONObject,
         tableName: String = this.tableName,
