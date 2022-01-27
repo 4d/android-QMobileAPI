@@ -60,3 +60,11 @@ fun JSONObject.toStringMap(): Map<String, String> {
     }
     return map
 }
+
+fun JSONObject.getSafeAny(key: String): Any? {
+    return try {
+        this.get(key)
+    } catch (e: JSONException) {
+        null
+    }
+}

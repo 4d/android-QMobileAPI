@@ -20,6 +20,7 @@ const val DELETED_RECORDS = "__DeletedRecords"
 
 // POST request body information
 const val APP_JSON = "application/json"
+const val APP_OCTET = "application/octet"
 const val UTF8_CHARSET = "charset=utf-8"
 const val UTF8 = "utf-8"
 

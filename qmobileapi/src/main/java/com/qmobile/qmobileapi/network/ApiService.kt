@@ -12,6 +12,7 @@ import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -131,5 +132,15 @@ interface ApiService {
     fun sendAction(
         @Path("actionName") actionName: String,
         @Body body: MutableMap<String, Any>
+    ): Single<Response<ResponseBody>>
+
+    /**
+     * Uploads an image on the 4D server
+     */
+    @POST("\$upload")
+    fun uploadImage(
+        @Header("Content-Type") mime: String = "image/png",
+        @Query("\$rawPict", encoded = true) rawPict: Boolean = true,
+        @Body body: RequestBody
     ): Single<Response<ResponseBody>>
 }
