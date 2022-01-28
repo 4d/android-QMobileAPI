@@ -141,9 +141,10 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
                 .doOnComplete {
                     onAllUploadFinished()
                 }
-                .subscribe({
-                    onImageUploaded(it.first, it.second)
-                },
+                .subscribe(
+                    {
+                        onImageUploaded(it.first, it.second)
+                    },
                     {
                         Timber.e(it.localizedMessage)
                     }
