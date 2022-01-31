@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.utils
 
-@Suppress("LongMethod")
 object HttpCode {
 
 // https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
@@ -78,6 +77,7 @@ object HttpCode {
     private const val notExtended = 510
     private const val networkAuthenticationRequired = 511
 
+    @Suppress("LongMethod")
     fun message(code: Int): String =
         when (code) {
             continue_key -> "Continue"
