@@ -54,7 +54,7 @@ object DeviceInfo {
             try {
                 buildVersion = it.getInt(Build.VERSION_CODES::class)
             } catch (e: IllegalArgumentException) {
-                Timber.d("Couldn't get Build.VERSION_CODES")
+                Timber.d("Couldn't get Build.VERSION_CODES : ${e.localizedMessage}")
             }
             buildVersion == Build.VERSION.SDK_INT
         }

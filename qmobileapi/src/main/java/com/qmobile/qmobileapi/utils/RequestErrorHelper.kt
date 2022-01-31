@@ -9,6 +9,7 @@ package com.qmobile.qmobileapi.utils
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.JsonSyntaxException
 import com.qmobile.qmobileapi.model.error.ErrorResponse
+import timber.log.Timber
 
 /**
  * Helper class for API errors
@@ -27,6 +28,7 @@ object RequestErrorHelper {
         return try {
             mapper.parseToType(json)
         } catch (e: JsonSyntaxException) {
+            Timber.d(e.localizedMessage)
             return null
         }
     }
