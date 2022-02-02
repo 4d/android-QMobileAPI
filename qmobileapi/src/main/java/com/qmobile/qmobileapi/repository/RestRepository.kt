@@ -119,7 +119,6 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
         )
     }
 
-
     /**
      * Performs $upload request
      */
