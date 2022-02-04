@@ -124,7 +124,8 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
      */
     fun uploadImage(
         imagesToUpload: Map<String, RequestBody?>,
-        onImageUploaded: (isSuccess: Boolean, parameterName: String, response: Response<ResponseBody>?, error: Any?) -> Unit,
+        onImageUploaded:
+            (isSuccess: Boolean, parameterName: String, response: Response<ResponseBody>?, error: Any?) -> Unit,
         onAllUploadFinished: () -> Unit
     ) {
         disposable.add(
