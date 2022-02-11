@@ -34,7 +34,7 @@ inline fun <reified T : Any> retrieveResponseObject(mapper: ObjectMapper, jsonSt
         return try {
             mapper.parseToType(it)
         } catch (e: JsonSyntaxException) {
-            Timber.w("Failed to decode action response ${e.localizedMessage}: $jsonString")
+            Timber.w("Failed to decode action response ${e.message}: $jsonString")
             null
         }
     }

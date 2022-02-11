@@ -108,7 +108,7 @@ class ActionTest {
             try {
                 mapper.parseToType<ActionResponse>(json.toString())
             } catch (e: JsonSyntaxException) {
-                Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
+                Timber.w("Failed to decode auth response ${e.message}: $json")
                 null
             }
         assertNotNull(actionResponse)
@@ -129,7 +129,7 @@ class ActionTest {
             try {
                 mapper.parseToType<ActionResponse>(json.toString())
             } catch (e: JsonSyntaxException) {
-                Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
+                Timber.w("Failed to decode auth response ${e.message}: $json")
                 null
             }
         assertNotNull(actionResponse)
@@ -151,7 +151,7 @@ class ActionTest {
             try {
                 mapper.parseToType<ActionResponse>(json.toString())
             } catch (e: JsonSyntaxException) {
-                Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
+                Timber.w("Failed to decode auth response ${e.message}: $json")
                 null
             }
         assertNotNull(actionResponse)
@@ -172,7 +172,7 @@ class ActionTest {
             try {
                 mapper.parseToType<ActionResponse>(json.toString())
             } catch (e: JsonSyntaxException) {
-                Timber.w("Failed to decode auth response ${e.localizedMessage}: $json")
+                Timber.w("Failed to decode auth response ${e.message}: $json")
                 null
             }
         assertNotNull(actionResponse)

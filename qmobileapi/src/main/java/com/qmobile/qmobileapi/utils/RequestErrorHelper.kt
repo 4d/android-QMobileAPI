@@ -28,7 +28,7 @@ object RequestErrorHelper {
         return try {
             mapper.parseToType(json)
         } catch (e: JsonSyntaxException) {
-            Timber.d(e.localizedMessage)
+            Timber.d(e.message.orEmpty())
             return null
         }
     }
