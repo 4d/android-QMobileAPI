@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.google.gson.JsonSyntaxException
 import com.qmobile.qmobileapi.model.action.ActionResponse
+import com.qmobile.qmobileapi.model.action.UploadImageResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.network.LoginApiService
@@ -22,6 +23,7 @@ import com.qmobile.qmobileapi.utils.assertRequest
 import com.qmobile.qmobileapi.utils.assertResponseSuccessful
 import com.qmobile.qmobileapi.utils.mockResponse
 import com.qmobile.qmobileapi.utils.parseToType
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -90,6 +92,9 @@ class ActionTest {
                     // `test send action fail`()
                     "/\$action/action2" -> {
                         mockResponse("actionFail.json")
+                    }
+                    "/\$upload?\$rawPict=true" -> {
+                        mockResponse("uploadImageSuccess.json")
                     }
                     else -> MockResponse().setResponseCode(HttpURLConnection.HTTP_NOT_FOUND)
                 }
@@ -180,6 +185,28 @@ class ActionTest {
             assertFalse(it.success)
             assertNotNull(it.statusText)
             assertNotEquals("", it.statusText)
+        }
+    }
+
+    @Test
+    fun `upload image params success`() {
+        val requestBody: RequestBody = Mockito.mock(RequestBody::class.java)
+        val response: Response<ResponseBody> =
+            apiService.uploadImage("image/png", "\$upload?\$rawPict=true", requestBody)
+                .blockingGet()
+        val json = response.body()?.string()
+        assertNotNull(json)
+        assertResponseSuccessful(response)
+        val actionResponse =
+            try {
+                mapper.parseToType<UploadImageResponse>(json.toString())
+            } catch (e: JsonSyntaxException) {
+                Timber.w("Failed to decode response ${e.localizedMessage}: $json")
+                null
+            }
+        assertNotNull(actionResponse)
+        actionResponse?.let {
+            assertNotEquals("", it.id)
         }
     }
 
