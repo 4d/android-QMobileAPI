@@ -31,6 +31,8 @@ open class SharedPreferencesHolder(val context: Context) {
         const val SESSION_TOKEN = "session_token"
         const val DEVICE_UUID = "device_uuid"
 
+        const val LAST_TIME_ACTION_ERROR_DISPLAYED = "lastTimeActionErrorDisplayed"
+
         const val GLOBAL_STAMP = "__GlobalStamp"
         const val DELETED_RECORDS_STAMP = "__Stamp"
 
@@ -117,6 +119,12 @@ open class SharedPreferencesHolder(val context: Context) {
         get() = privatePrefs[SESSION_TOKEN] ?: ""
         set(value) {
             privatePrefs[SESSION_TOKEN] = value
+        }
+
+    var lastTimeActionErrorDisplayed: Long
+        get() = prefs[LAST_TIME_ACTION_ERROR_DISPLAYED] ?: 0
+        set(value) {
+            prefs[LAST_TIME_ACTION_ERROR_DISPLAYED] = value
         }
 
     // open for unit tests
