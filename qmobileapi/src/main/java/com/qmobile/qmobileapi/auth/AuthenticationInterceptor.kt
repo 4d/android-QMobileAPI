@@ -12,7 +12,7 @@ import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.LoginApiService
 import com.qmobile.qmobileapi.repository.AuthRepository
 import com.qmobile.qmobileapi.utils.LoginRequiredCallback
-import com.qmobile.qmobileapi.utils.RequestErrorHelper
+import com.qmobile.qmobileapi.utils.RequestErrorHelper.tryToParseError
 import com.qmobile.qmobileapi.utils.RestErrorCode
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import okhttp3.Interceptor
@@ -75,7 +75,7 @@ class AuthenticationInterceptor(
 
         var response = chain.proceed(request)
 
-        val parsedError: ErrorResponse? = RequestErrorHelper.tryToParseError(mapper, response)
+        val parsedError: ErrorResponse? = response.tryToParseError(mapper)
         parsedError?.__ERRORS?.let { errors ->
             if (errors.any { errorReason ->
                 errorReason.errCode == RestErrorCode.query_placeholder_is_missing_or_null
