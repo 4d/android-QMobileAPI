@@ -6,25 +6,20 @@
 
 package com.qmobile.qmobileapi.utils
 
-import android.content.Context
 import org.json.JSONObject
 
 object AuthInfoHolder {
 
-    fun buildAppInfo(applicationId: String, versionName: String, versionCode: Int) =
+    fun buildAppInfo(appInfoJsonObj: JSONObject) =
         JSONObject().apply {
-            put(
-                "id",
-                applicationId
-            ) // com.qmobile.sample4dapp
-            put("name", versionName) // 1.0
-            put("version", versionCode) // 1
+            appInfoJsonObj.getSafeObject("appData")?.let {
+                put("id", it.getSafeString("id") ?: "")
+                put("name", it.getSafeString("name") ?: "")
+                put("version", it.getSafeString("version") ?: "")
+            }
         }
 
-    fun buildTeam(context: Context) = JSONObject().apply {
-        val appInfoJsonObj = JSONObject(readContentFromFile(context, "app_info.json"))
-        val newTeam = appInfoJsonObj.getSafeObject("team")
-        this.put("id", newTeam?.getSafeString("TeamName") ?: "")
-        this.put("name", newTeam?.getSafeString("TeamID") ?: "")
+    fun buildTeam(appInfoJsonObj: JSONObject) = JSONObject().apply {
+        this.put("id", appInfoJsonObj.getSafeString("teamId") ?: "")
     }
 }

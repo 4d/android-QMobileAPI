@@ -20,11 +20,12 @@ object DeviceInfo {
     private const val OS = "os"
 
     fun build(context: Context) = JSONObject().apply {
+        val isEmulator = isEmulator()
         put(ID, SharedPreferencesHolder.getInstance(context).deviceUUID)
-        put(SIMULATOR, isEmulator()) // false
-        put(DESCRIPTION, Build.MODEL) // SM-G950F
-        put(VERSION, Build.VERSION.SDK_INT) // 28
-        put(OS, getVersionName()) // Android P
+        put(SIMULATOR, isEmulator) // false
+        put(DESCRIPTION, if (isEmulator) "Simulator" else Build.MODEL) // SM-G950F
+        put(VERSION, "${Build.VERSION.SDK_INT} (${getVersionName()})") // 28 (Android P)
+        put(OS, "Android")
     }
 
     @Suppress("ComplexMethod")
