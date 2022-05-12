@@ -41,10 +41,11 @@ open class SharedPreferencesHolder(val context: Context) {
         const val USER_INFO = "userInfo"
     }
 
-    fun init(applicationId: String, versionName: String, versionCode: Int) {
-        appInfo = AuthInfoHolder.buildAppInfo(applicationId, versionName, versionCode)
+    fun init() {
+        val appInfoJsonObj = JSONObject(readContentFromFile(context, "app_info.json"))
+        appInfo = AuthInfoHolder.buildAppInfo(appInfoJsonObj)
         device = DeviceInfo.build(context)
-        team = AuthInfoHolder.buildTeam(context)
+        team = AuthInfoHolder.buildTeam(appInfoJsonObj)
         language = LanguageInfo.build()
     }
 
