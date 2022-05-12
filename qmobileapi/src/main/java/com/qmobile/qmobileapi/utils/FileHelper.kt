@@ -19,7 +19,7 @@ fun readContentFromFile(context: Context, fileName: String): String =
         }
     } catch (e: IOException) {
         Log.e("FileUtilsUp", "Missing file \"$fileName\" in assets")
-        ""
+        "{}"
     }
 
 fun listAssetFiles(context: Context, path: String): List<String> {
