@@ -1,3 +1,9 @@
+/*
+ * Created by qmarciset on 14/3/2022.
+ * 4D SAS
+ * Copyright (c) 2022 qmarciset. All rights reserved.
+ */
+
 package com.qmobile.qmobileapi.model.entity
 
 import java.util.Locale

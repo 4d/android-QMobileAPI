@@ -15,18 +15,21 @@ object Versions {
     const val arch_core = "2.1.0"
     const val artifactory = "4.24.18"
     const val atsl_junit = "1.1.2"
+    const val barcode_scanning = "17.0.2"
+    const val camerax = "1.1.0-beta01"
     const val constraint_layout = "2.1.1"
     const val design = "1.5.0"
     const val dynamic_toasts = "4.1.0"
     const val espresso = "3.2.0"
     const val espresso_contrib = "3.0.2"
+    const val fragment_ktx = "1.4.1"
     const val glide = "4.12.0"
     const val glide_transformations = "4.3.0"
     const val jackson = "2.13.0"
     const val json = "20210307"
     const val junit = "4.13.2"
     const val kotlin = "1.5.31"
-    const val kotlin_coroutines = "1.5.2"
+    const val kotlin_coroutines = "1.6.0"
     const val leakcanary = "2.0"
     const val lifecycle = "2.4.0"
     const val mockito = "4.1.0"
@@ -44,6 +47,7 @@ object Versions {
     const val runner = "1.3.0"
     const val rx_android = "2.1.1"
     const val rxjava2 = "2.2.21"
+    const val signature_pad ="1.3.1"
     const val sqlite = "2.1.0"
     const val sqlite_jdbc = "3.36.0.3"
     const val support = "1.2.0"
@@ -82,6 +86,7 @@ object Libs {
 
     // Common
     const val androidx_appcompat = "androidx.appcompat:appcompat:${Versions.support}"
+    const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:${Versions.fragment_ktx}"
     const val androidx_preference_ktx = "androidx.preference:preference-ktx:${Versions.preference}"
     const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
     const val kotlin_coroutines_android =
@@ -105,6 +110,7 @@ object Libs {
     const val androidx_room_compiler = "androidx.room:room-compiler:${Versions.room_compiler}"
     const val sqlite = "androidx.sqlite:sqlite-ktx:${Versions.sqlite}"
     const val sqlite_jdbc = "org.xerial:sqlite-jdbc:${Versions.sqlite_jdbc}"
+    const val room_paging = "androidx.room:room-paging:${Versions.room}"
 
     // Glide
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
@@ -148,9 +154,16 @@ object Libs {
         "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     const val androidx_navigation_ui = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
 
+    // CameraX
+    const val androidx_camera2 = "androidx.camera:camera-camera2:${Versions.camerax}"
+    const val androidx_camera_lifecycle = "androidx.camera:camera-lifecycle:${Versions.camerax}"
+    const val androidx_camera_view = "androidx.camera:camera-view:${Versions.camerax}"
+    const val barcode_scanning = "com.google.mlkit:barcode-scanning:${Versions.barcode_scanning}"
+
     // Utils
     const val dynamic_toasts = "com.pranavpandey.android:dynamic-toasts:${Versions.dynamic_toasts}"
     const val leakcanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary}"
+    const val signature_pad = "com.github.gcacace:signature-pad:${Versions.signature_pad}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     // Testing - Unit

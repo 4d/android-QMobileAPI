@@ -20,8 +20,18 @@ const val DELETED_RECORDS = "__DeletedRecords"
 
 // POST request body information
 const val APP_JSON = "application/json"
+const val APP_OCTET = "application/octet"
 const val UTF8_CHARSET = "charset=utf-8"
 const val UTF8 = "utf-8"
 
 // 4D server globalStamp property name
 const val GLOBALSTAMP_PROPERTY = "__GlobalStamp"
+
+// Queries constants
+object Query {
+    const val QUERY_PROPERTY = "__Query"
+    const val QUERY_STRING_PROPERTY = "queryString"
+    const val SETTINGS = "settings"
+    const val PARAMETERS = "parameters"
+    const val QUERY_PREFIX = "queries"
+}

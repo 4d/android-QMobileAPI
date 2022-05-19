@@ -41,7 +41,7 @@ class ServerAccessibility {
                     true
                 } catch (e: IOException) {
                     Timber.d("Server ping unsuccessful")
-                    Timber.e(e.localizedMessage)
+                    Timber.e(e.message.orEmpty())
                     false
                 }
             }
