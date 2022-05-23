@@ -19,7 +19,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
-import timber.log.Timber
 
 class RestRepository(private val tableName: String, private val apiService: ApiService) {
 
@@ -102,6 +101,9 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
         )
     }
 
+    /**
+     * Performs $action request
+     */
     fun sendAction(
         actionName: String,
         actionContent: MutableMap<String, Any>,
@@ -117,9 +119,13 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
         )
     }
 
+    /**
+     * Performs $upload request
+     */
     fun uploadImage(
         imagesToUpload: Map<String, RequestBody?>,
-        onImageUploaded: (parameterName: String, response: Response<ResponseBody>) -> Unit,
+        onImageUploaded:
+            (isSuccess: Boolean, parameterName: String, response: Response<ResponseBody>?, error: Any?) -> Unit,
         onAllUploadFinished: () -> Unit
     ) {
         disposable.add(
@@ -128,11 +134,11 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
                     entries
                 }
                 .concatMapSingle {
-                    val paramNameTmp = it.key
-                    it.value?.let { it1 ->
-                        apiService.uploadImage("image/png", "\$upload?\$rawPict=true", it1)
+                    val parameterName = it.key
+                    it.value?.let { requestBody ->
+                        apiService.uploadImage(body = requestBody)
                             .map { response ->
-                                paramNameTmp to response
+                                parameterName to response
                             }
                     }
                 }
@@ -142,17 +148,12 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
                     onAllUploadFinished()
                 }
                 .subscribe(
-                    {
-                        onImageUploaded(it.first, it.second)
-                    },
-                    {
-                        Timber.e(it.localizedMessage)
-                    }
+                    { onImageUploaded(it.second.isSuccessful, it.first, it.second, null) },
+                    { onImageUploaded(false, "", null, it) }
                 )
         )
     }
 }
-
 /*class RetryWithDelay2(private val MAX_RETRIES: Int, private val DELAY_DURATION_IN_SECONDS: Long)
     : Function1<Flowable<out Throwable>, Publisher<*>> {
     private var retryCount = 0

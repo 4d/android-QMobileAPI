@@ -16,4 +16,4 @@ fun String.isEmailValid(): Boolean = Patterns.EMAIL_ADDRESS.toRegex().matches(th
 /**
  * Verifies that the current String is a server address
  */
-fun String.isRemoteUrlValid(): Boolean = Patterns.WEB_URL.toRegex().matches(this)
+fun String.isUrlValid(): Boolean = Patterns.WEB_URL.toRegex().matches(this)

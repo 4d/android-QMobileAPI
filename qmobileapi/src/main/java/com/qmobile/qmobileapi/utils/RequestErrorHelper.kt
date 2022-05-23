@@ -19,16 +19,16 @@ object RequestErrorHelper {
     /**
      * Parses error from response
      */
-    fun tryToParseError(mapper: ObjectMapper, response: okhttp3.Response): ErrorResponse? {
+    fun okhttp3.Response.tryToParseError(mapper: ObjectMapper): ErrorResponse? {
         // If buffer is read here, it won't be readable later to decode the response.
         // Therefore, we use peekBody() to copy the buffer instead of body()
-        val copyResponse = response.peekBody(Long.MAX_VALUE)
+        val copyResponse = this.peekBody(Long.MAX_VALUE)
         // val responseBody = response.body
         val json = copyResponse.string()
         return try {
             mapper.parseToType(json)
         } catch (e: JsonSyntaxException) {
-            Timber.d(e.localizedMessage)
+            Timber.d(e.message.orEmpty())
             return null
         }
     }

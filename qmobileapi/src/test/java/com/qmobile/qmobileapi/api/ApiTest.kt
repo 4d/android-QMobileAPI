@@ -11,9 +11,8 @@ import androidx.test.core.app.ApplicationProvider
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import com.qmobile.qmobileapi.model.catalog.Attribute
 import com.qmobile.qmobileapi.model.catalog.Catalog
-import com.qmobile.qmobileapi.model.catalog.KindEnum
-import com.qmobile.qmobileapi.model.catalog.ScopeEnum
 import com.qmobile.qmobileapi.model.info.Info
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
@@ -138,7 +137,7 @@ class ApiTest {
         val catalog = mapper.parseToType<Catalog>(json)
         assertEquals(4, catalog?.dataClasses?.size)
         assertEquals("__DeletedRecords", catalog?.dataClasses?.get(0)?.name)
-        assertEquals(ScopeEnum.PUBLIC, catalog?.dataClasses?.get(0)?.scope)
+        assertEquals(Attribute.Scope.PUBLIC, catalog?.dataClasses?.get(0)?.scope)
     }
 
     @Test
@@ -154,9 +153,9 @@ class ApiTest {
         val catalog = mapper.parseToType<Catalog>(json)
         assertEquals("Employee", catalog?.dataClasses?.get(0)?.name)
         assertEquals("EmployeeSelection", catalog?.dataClasses?.get(0)?.collectionName)
-        assertEquals(ScopeEnum.PUBLIC, catalog?.dataClasses?.get(0)?.scope)
+        assertEquals(Attribute.Scope.PUBLIC, catalog?.dataClasses?.get(0)?.scope)
         assertEquals("ID", catalog?.dataClasses?.get(0)?.attributes?.get(0)?.name)
-        assertEquals(KindEnum.STORAGE, catalog?.dataClasses?.get(0)?.attributes?.get(0)?.kind)
+        assertEquals(Attribute.Kind.STORAGE, catalog?.dataClasses?.get(0)?.attributes?.get(0)?.kind)
     }
 
     @Test

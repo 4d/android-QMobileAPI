@@ -13,7 +13,7 @@ fun retrieveJSONObject(jsonString: String): JSONObject? {
     return try {
         JSONObject(jsonString.substring(jsonString.indexOf("{"), jsonString.lastIndexOf("}") + 1))
     } catch (e: StringIndexOutOfBoundsException) {
-        Timber.d(e.localizedMessage)
+        Timber.d(e.message.orEmpty())
         null
     }
 }

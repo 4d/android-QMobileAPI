@@ -16,7 +16,6 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
-import retrofit2.http.Url
 
 interface ApiService {
 
@@ -135,10 +134,13 @@ interface ApiService {
         @Body body: MutableMap<String, Any>
     ): Single<Response<ResponseBody>>
 
-    @POST
+    /**
+     * Uploads an image on the 4D server
+     */
+    @POST("\$upload")
     fun uploadImage(
-        @Header("Content-Type") mime: String,
-        @Url url: String,
+        @Header("Content-Type") mime: String = "image/png",
+        @Query("\$rawPict", encoded = true) rawPict: Boolean = true,
         @Body body: RequestBody
     ): Single<Response<ResponseBody>>
 }
