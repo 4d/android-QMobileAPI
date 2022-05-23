@@ -121,7 +121,7 @@ open class SharedPreferencesHolder(val context: Context) {
             privatePrefs[SESSION_TOKEN] = value
         }
 
-   open var lastTimeActionErrorDisplayed: Long
+    open var lastTimeActionErrorDisplayed: Long
         get() = prefs[LAST_TIME_ACTION_ERROR_DISPLAYED] ?: 0
         set(value) {
             prefs[LAST_TIME_ACTION_ERROR_DISPLAYED] = value
