@@ -33,5 +33,4 @@ object Query {
     const val QUERY_STRING_PROPERTY = "queryString"
     const val SETTINGS = "settings"
     const val PARAMETERS = "parameters"
-    const val QUERY_PREFIX = "queries"
 }
