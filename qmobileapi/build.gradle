@@ -11,6 +11,10 @@ apply from: "$rootDir/buildscripts/git-hash.gradle"
 
 dependencies {
 
+    // Common
+    implementation Libs.kotlin_reflect
+    implementation Libs.kotlin_stdlib
+
     // Rx
     implementation Libs.rxandroid
     implementation Libs.rxjava
