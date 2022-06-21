@@ -39,7 +39,7 @@ fun JSONArray?.getObjectListAsString(): List<String> {
     return list
 }
 
-fun JSONArray?.getObjectList(): List<JSONObject> {
+fun JSONArray?.getJSONObjectList(): List<JSONObject> {
     val list = mutableListOf<JSONObject>()
     this?.let {
         for (i in 0 until this.length()) {
