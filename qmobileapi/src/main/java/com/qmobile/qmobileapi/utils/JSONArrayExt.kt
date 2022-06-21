@@ -6,7 +6,6 @@
 
 package com.qmobile.qmobileapi.utils
 
-import com.google.gson.JsonObject
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -40,7 +39,6 @@ fun JSONArray?.getObjectListAsString(): List<String> {
     return list
 }
 
-
 fun JSONArray?.getObjectList(): List<JSONObject> {
     val list = mutableListOf<JSONObject>()
     this?.let {
@@ -51,6 +49,7 @@ fun JSONArray?.getObjectList(): List<JSONObject> {
     }
     return list
 }
+
 fun JSONArray.getSafeObject(position: Int): JSONObject? {
     return try {
         this.getJSONObject(position)
