@@ -34,7 +34,7 @@ open class SharedPreferencesHolder(val context: Context) {
         const val GLOBAL_STAMP = "__GlobalStamp"
         const val DELETED_RECORDS_STAMP = "__Stamp"
 
-        const val COOKIE = "Cookie"
+        const val COOKIES = "Cookie"
 
         const val PRIVATE_PREF_NAME = "4D_QMOBILE_PRIVATE"
 
@@ -133,10 +133,10 @@ open class SharedPreferencesHolder(val context: Context) {
             prefs[DELETED_RECORDS_STAMP] = value
         }
 
-    var cookie: String
-        get() = prefs[COOKIE] ?: ""
+    var cookies: String
+        get() = prefs[COOKIES] ?: ""
         set(value) {
-            prefs[COOKIE] = value
+            prefs[COOKIES] = value
         }
 
     /**

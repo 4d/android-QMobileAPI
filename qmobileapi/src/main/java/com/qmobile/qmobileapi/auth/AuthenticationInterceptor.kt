@@ -82,7 +82,7 @@ class AuthenticationInterceptor(
         when (response.code) {
             HttpURLConnection.HTTP_OK -> {
                 // Everything is fine
-                response.headers[HeaderHelper.COOKIE_HEADER_KEY]?.let { sharedPreferencesHolder.cookie = it }
+                response.headers[HeaderHelper.COOKIE_HEADER_KEY]?.let { sharedPreferencesHolder.cookies = it }
             }
             HttpURLConnection.HTTP_UNAUTHORIZED -> {
                 if (hasAuthBeenRefreshed.get() && loginApiService != null) {
