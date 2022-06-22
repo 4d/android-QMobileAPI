@@ -20,12 +20,6 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    const val AUTHORIZATION_HEADER_KEY = "Authorization"
-    const val AUTHORIZATION_HEADER_VALUE_PREFIX = "Bearer"
-    const val CONTENT_TYPE_HEADER_KEY = "Content-Type"
-    const val CONTENT_TYPE_HEADER_VALUE = "application/json"
-    const val X_QMOBILE_HEADER_KEY = "X-QMobile"
-    const val X_QMOBILE_HEADER_VALUE = "1"
     private const val HTTP_PREFIX = "http://"
     private const val HTTPS_PREFIX = "https://"
     private const val SERVER_ENDPOINT = "/mobileapp/"

@@ -8,7 +8,11 @@ package com.qmobile.qmobileapi.auth
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.qmobile.qmobileapi.model.error.ErrorResponse
-import com.qmobile.qmobileapi.network.ApiClient
+import com.qmobile.qmobileapi.network.HeaderHelper
+import com.qmobile.qmobileapi.network.HeaderHelper.addAuthorizationHeader
+import com.qmobile.qmobileapi.network.HeaderHelper.addContentTypeHeader
+import com.qmobile.qmobileapi.network.HeaderHelper.addXQMobileHeader
+import com.qmobile.qmobileapi.network.HeaderHelper.clearAuthorizationHeader
 import com.qmobile.qmobileapi.network.LoginApiService
 import com.qmobile.qmobileapi.repository.AuthRepository
 import com.qmobile.qmobileapi.utils.LoginRequiredCallback
@@ -47,25 +51,13 @@ class AuthenticationInterceptor(
         val originalRequest = chain.request()
 
         // Adding Content-Type and X-QMobile headers
-        val requestBuilder = originalRequest.newBuilder()
-            .addHeader(
-                ApiClient.CONTENT_TYPE_HEADER_KEY,
-                ApiClient.CONTENT_TYPE_HEADER_VALUE
-            )
-            .addHeader(
-                ApiClient.X_QMOBILE_HEADER_KEY,
-                ApiClient.X_QMOBILE_HEADER_VALUE
-            )
+        val requestBuilder = originalRequest.newBuilder().addContentTypeHeader().addXQMobileHeader()
 
         // If a token is stored in sharedPreferences, we add it in header
         if (sharedPreferencesHolder.sessionToken.isNotEmpty()) {
             Timber.d("[SessionToken retrieved in SharedPreferences : ${sharedPreferencesHolder.sessionToken}]")
-            requestBuilder
-                .removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)
-                .addHeader(
-                    ApiClient.AUTHORIZATION_HEADER_KEY,
-                    "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${sharedPreferencesHolder.sessionToken}"
-                )
+            requestBuilder.clearAuthorizationHeader()
+                .addAuthorizationHeader(sharedPreferencesHolder.sessionToken)
         } else {
             Timber.d("[No sessionToken retrieved in SharedPreferences]")
         }
@@ -90,6 +82,7 @@ class AuthenticationInterceptor(
         when (response.code) {
             HttpURLConnection.HTTP_OK -> {
                 // Everything is fine
+                response.headers[HeaderHelper.COOKIE_HEADER_KEY]?.let { sharedPreferencesHolder.cookie = it }
             }
             HttpURLConnection.HTTP_UNAUTHORIZED -> {
                 if (hasAuthBeenRefreshed.get() && loginApiService != null) {
@@ -137,11 +130,8 @@ class AuthenticationInterceptor(
         val authResponse = authRepository.syncAuthenticate(authRequestBody)
         if (authResponse != null) {
             if (sharedPreferencesHolder.handleLoginInfo(authResponse)) {
-                this.removeHeader(ApiClient.AUTHORIZATION_HEADER_KEY)
-                    .addHeader(
-                        ApiClient.AUTHORIZATION_HEADER_KEY,
-                        "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} ${sharedPreferencesHolder.sessionToken}"
-                    )
+                this.clearAuthorizationHeader()
+                    .addAuthorizationHeader(sharedPreferencesHolder.sessionToken)
                 hasAuthBeenRefreshed.set(true)
             } // else : No sessionToken could be retrieved
         } // else : Login request failed
