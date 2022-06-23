@@ -155,11 +155,11 @@ class SharedPreferencesHolderTest {
 
     @Test
     fun cookie() {
-        Assert.assertEquals("", sharedPreferencesHolder.cookie)
-        sharedPreferencesHolder.cookie = "sample cookie"
+        Assert.assertEquals("", sharedPreferencesHolder.cookies)
+        sharedPreferencesHolder.cookies = "sample cookie"
         Assert.assertEquals(
             "sample cookie",
-            SharedPreferencesHolder.getInstance(context).cookie
+            SharedPreferencesHolder.getInstance(context).cookies
         )
     }
 

@@ -14,6 +14,7 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.qmobile.qmobileapi.model.auth.AuthResponse
 import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.ApiService
+import com.qmobile.qmobileapi.network.HeaderHelper
 import com.qmobile.qmobileapi.network.LoginApiService
 import com.qmobile.qmobileapi.utils.LoginRequiredCallback
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
@@ -84,7 +85,12 @@ class AuthenticationInterceptorTest {
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .registerKotlinModule()
         val authenticationInterceptor =
-            AuthenticationInterceptor(sharedPreferencesHolder, loginApiService, loginRequiredCallback, mapper)
+            AuthenticationInterceptor(
+                sharedPreferencesHolder,
+                loginApiService,
+                loginRequiredCallback,
+                mapper
+            )
         okHttpClientBuilder.addInterceptor(authenticationInterceptor)
 
         val newOkHttpClient = okHttpClientBuilder.build()
@@ -133,12 +139,12 @@ class AuthenticationInterceptorTest {
                     "/Event(12)" -> {
 
                         Assert.assertEquals(
-                            ApiClient.CONTENT_TYPE_HEADER_VALUE,
-                            request.headers[ApiClient.CONTENT_TYPE_HEADER_KEY]
+                            HeaderHelper.CONTENT_TYPE_HEADER_VALUE,
+                            request.headers[HeaderHelper.CONTENT_TYPE_HEADER_KEY]
                         )
                         Assert.assertEquals(
-                            ApiClient.X_QMOBILE_HEADER_VALUE,
-                            request.headers[ApiClient.X_QMOBILE_HEADER_KEY]
+                            HeaderHelper.X_QMOBILE_HEADER_VALUE,
+                            request.headers[HeaderHelper.X_QMOBILE_HEADER_KEY]
                         )
 
                         val responseCode =
@@ -146,15 +152,15 @@ class AuthenticationInterceptorTest {
                         if (firstTime) {
                             Assert.assertEquals(
                                 null,
-                                request.headers[ApiClient.AUTHORIZATION_HEADER_KEY]
+                                request.headers[HeaderHelper.AUTHORIZATION_HEADER_KEY]
                             )
                             responseCode.setBody(
                                 "{\"success\": false, \"__ERRORS\": [{\"message\":\"wrong request\", \"componentSignature\":\"\", \"errCode\":1279}]}"
                             )
                         } else {
                             Assert.assertEquals(
-                                "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} $UNIT_TEST_TOKEN",
-                                request.headers[ApiClient.AUTHORIZATION_HEADER_KEY]
+                                "${HeaderHelper.AUTHORIZATION_HEADER_VALUE_PREFIX} $UNIT_TEST_TOKEN",
+                                request.headers[HeaderHelper.AUTHORIZATION_HEADER_KEY]
                             )
                         }
                         firstTime = false
@@ -188,16 +194,16 @@ class AuthenticationInterceptorTest {
                 println("Request = $request")
 
                 Assert.assertEquals(
-                    ApiClient.CONTENT_TYPE_HEADER_VALUE,
-                    request.headers[ApiClient.CONTENT_TYPE_HEADER_KEY]
+                    HeaderHelper.CONTENT_TYPE_HEADER_VALUE,
+                    request.headers[HeaderHelper.CONTENT_TYPE_HEADER_KEY]
                 )
                 Assert.assertEquals(
-                    ApiClient.X_QMOBILE_HEADER_VALUE,
-                    request.headers[ApiClient.X_QMOBILE_HEADER_KEY]
+                    HeaderHelper.X_QMOBILE_HEADER_VALUE,
+                    request.headers[HeaderHelper.X_QMOBILE_HEADER_KEY]
                 )
                 Assert.assertEquals(
-                    "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} $UNIT_TEST_TOKEN",
-                    request.headers[ApiClient.AUTHORIZATION_HEADER_KEY]
+                    "${HeaderHelper.AUTHORIZATION_HEADER_VALUE_PREFIX} $UNIT_TEST_TOKEN",
+                    request.headers[HeaderHelper.AUTHORIZATION_HEADER_KEY]
                 )
 
                 return when (request.path) {
@@ -243,19 +249,19 @@ class AuthenticationInterceptorTest {
                     "/Event(12)" -> {
 
                         Assert.assertEquals(
-                            ApiClient.CONTENT_TYPE_HEADER_VALUE,
-                            request.headers[ApiClient.CONTENT_TYPE_HEADER_KEY]
+                            HeaderHelper.CONTENT_TYPE_HEADER_VALUE,
+                            request.headers[HeaderHelper.CONTENT_TYPE_HEADER_KEY]
                         )
                         Assert.assertEquals(
-                            ApiClient.X_QMOBILE_HEADER_VALUE,
-                            request.headers[ApiClient.X_QMOBILE_HEADER_KEY]
+                            HeaderHelper.X_QMOBILE_HEADER_VALUE,
+                            request.headers[HeaderHelper.X_QMOBILE_HEADER_KEY]
                         )
 
                         val responseCode =
                             MockResponse().setResponseCode(HttpURLConnection.HTTP_UNAUTHORIZED)
                         Assert.assertEquals(
                             null,
-                            request.headers[ApiClient.AUTHORIZATION_HEADER_KEY]
+                            request.headers[HeaderHelper.AUTHORIZATION_HEADER_KEY]
                         )
                         return responseCode
                     }
@@ -307,12 +313,12 @@ class AuthenticationInterceptorTest {
                     "/Event(12)" -> {
 
                         Assert.assertEquals(
-                            ApiClient.CONTENT_TYPE_HEADER_VALUE,
-                            request.headers[ApiClient.CONTENT_TYPE_HEADER_KEY]
+                            HeaderHelper.CONTENT_TYPE_HEADER_VALUE,
+                            request.headers[HeaderHelper.CONTENT_TYPE_HEADER_KEY]
                         )
                         Assert.assertEquals(
-                            ApiClient.X_QMOBILE_HEADER_VALUE,
-                            request.headers[ApiClient.X_QMOBILE_HEADER_KEY]
+                            HeaderHelper.X_QMOBILE_HEADER_VALUE,
+                            request.headers[HeaderHelper.X_QMOBILE_HEADER_KEY]
                         )
 
                         val responseCode: MockResponse
@@ -321,13 +327,13 @@ class AuthenticationInterceptorTest {
                                 MockResponse().setResponseCode(HttpURLConnection.HTTP_UNAUTHORIZED)
                             Assert.assertEquals(
                                 null,
-                                request.headers[ApiClient.AUTHORIZATION_HEADER_KEY]
+                                request.headers[HeaderHelper.AUTHORIZATION_HEADER_KEY]
                             )
                         } else {
                             responseCode = MockResponse().setResponseCode(HttpURLConnection.HTTP_OK)
                             Assert.assertEquals(
-                                "${ApiClient.AUTHORIZATION_HEADER_VALUE_PREFIX} $UNIT_TEST_TOKEN",
-                                request.headers[ApiClient.AUTHORIZATION_HEADER_KEY]
+                                "${HeaderHelper.AUTHORIZATION_HEADER_VALUE_PREFIX} $UNIT_TEST_TOKEN",
+                                request.headers[HeaderHelper.AUTHORIZATION_HEADER_KEY]
                             )
                         }
                         firstTime = false
