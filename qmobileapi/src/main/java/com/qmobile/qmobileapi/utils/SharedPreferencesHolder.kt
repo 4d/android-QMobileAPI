@@ -18,7 +18,7 @@ import java.util.UUID
 /**
  * Helper class to store authentication information into SharedPreferences
  */
-open class SharedPreferencesHolder private constructor(val context: Context) {
+open class SharedPreferencesHolder(val context: Context) {
 
     companion object : SingletonHolder<SharedPreferencesHolder, Context>(::SharedPreferencesHolder) {
         const val AUTH_EMAIL = "email"
