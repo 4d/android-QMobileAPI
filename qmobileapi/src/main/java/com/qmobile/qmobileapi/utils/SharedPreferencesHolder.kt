@@ -7,14 +7,18 @@
 package com.qmobile.qmobileapi.utils
 
 import android.content.Context
+import android.webkit.CookieManager
 import com.qmobile.qmobileapi.model.auth.AuthResponse
+import com.qmobile.qmobileapi.network.HeaderHelper
+import okhttp3.ResponseBody
 import org.json.JSONObject
+import retrofit2.Response
 import java.util.UUID
 
 /**
  * Helper class to store authentication information into SharedPreferences
  */
-open class SharedPreferencesHolder(val context: Context) {
+open class SharedPreferencesHolder private constructor(val context: Context) {
 
     companion object : SingletonHolder<SharedPreferencesHolder, Context>(::SharedPreferencesHolder) {
         const val AUTH_EMAIL = "email"
@@ -49,11 +53,11 @@ open class SharedPreferencesHolder(val context: Context) {
         language = LanguageInfo.build()
     }
 
-    val prefs =
-        defaultPrefs(context)
+    val prefs = defaultPrefs(context)
 
-    val privatePrefs =
-        customPrefs(context, PRIVATE_PREF_NAME)
+    val privatePrefs = customPrefs(context, PRIVATE_PREF_NAME)
+
+    private val cookieManager = CookieManager.getInstance()
 
     // Application Info
     var appInfo: JSONObject
@@ -167,5 +171,22 @@ open class SharedPreferencesHolder(val context: Context) {
             return authResponse.success
         }
         return false
+    }
+
+    fun storeCookies(response: Response<ResponseBody>) {
+        response.headers().get(HeaderHelper.COOKIE_HEADER_KEY)?.let { cookies ->
+            this.cookies = cookies
+        }
+    }
+
+    fun injectCookies(url: String) {
+        cookies.split(";").forEach { cookie ->
+            cookieManager.setCookie(url, cookie)
+        }
+    }
+
+    fun clearCookies() {
+        cookieManager.removeSessionCookies(null)
+        cookies = ""
     }
 }
