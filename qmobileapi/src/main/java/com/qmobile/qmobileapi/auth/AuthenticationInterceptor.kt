@@ -8,9 +8,9 @@ package com.qmobile.qmobileapi.auth
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.qmobile.qmobileapi.model.error.ErrorResponse
-import com.qmobile.qmobileapi.network.HeaderHelper
 import com.qmobile.qmobileapi.network.HeaderHelper.addAuthorizationHeader
 import com.qmobile.qmobileapi.network.HeaderHelper.addContentTypeHeader
+import com.qmobile.qmobileapi.network.HeaderHelper.addCookies
 import com.qmobile.qmobileapi.network.HeaderHelper.addXQMobileHeader
 import com.qmobile.qmobileapi.network.HeaderHelper.clearAuthorizationHeader
 import com.qmobile.qmobileapi.network.LoginApiService
@@ -52,6 +52,7 @@ class AuthenticationInterceptor(
 
         // Adding Content-Type and X-QMobile headers
         val requestBuilder = originalRequest.newBuilder().addContentTypeHeader().addXQMobileHeader()
+            .addCookies(sharedPreferencesHolder.cookies)
 
         // If a token is stored in sharedPreferences, we add it in header
         if (sharedPreferencesHolder.sessionToken.isNotEmpty()) {
@@ -82,7 +83,6 @@ class AuthenticationInterceptor(
         when (response.code) {
             HttpURLConnection.HTTP_OK -> {
                 // Everything is fine
-                response.headers[HeaderHelper.COOKIE_HEADER_KEY]?.let { sharedPreferencesHolder.cookies = it }
             }
             HttpURLConnection.HTTP_UNAUTHORIZED -> {
                 if (hasAuthBeenRefreshed.get() && loginApiService != null) {

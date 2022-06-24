@@ -27,4 +27,9 @@ object HeaderHelper {
     fun Request.Builder.clearAuthorizationHeader() = this.apply {
         removeHeader(AUTHORIZATION_HEADER_KEY)
     }
+
+    fun Request.Builder.addCookies(cookies: String) = this.apply {
+        if (cookies.isNotEmpty())
+            addHeader(COOKIE_HEADER_KEY, cookies)
+    }
 }
