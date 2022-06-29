@@ -21,7 +21,7 @@ class EntityHelper private constructor() {
             val property = instance::class.members.first { it.name == propertyName } as KProperty1<Any, *>
             return try {
                 property.get(instance) as R
-            } catch (e: NullPointerException) {
+            } catch (e: ClassCastException) {
                 Timber.e("EntityHelper :"+e.message.orEmpty())
                 null
             }
