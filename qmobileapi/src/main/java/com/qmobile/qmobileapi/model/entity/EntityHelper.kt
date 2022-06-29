@@ -6,14 +6,25 @@
 
 package com.qmobile.qmobileapi.model.entity
 
+
+import timber.log.Timber
+import java.lang.NullPointerException
 import kotlin.reflect.KProperty1
 
 class EntityHelper private constructor() {
     companion object {
         @Suppress("UNCHECKED_CAST")
-        fun <R> readInstanceProperty(instance: Any, propertyName: String): R {
+        fun <R> readInstanceProperty(instance: Any?, propertyName: String): R? {
+            if(instance == null)
+                return null
+
             val property = instance::class.members.first { it.name == propertyName } as KProperty1<Any, *>
-            return property.get(instance) as R
+            return try {
+                property.get(instance) as R
+            } catch (e: NullPointerException) {
+                Timber.e("EntityHelper :"+e.message.orEmpty())
+                null
+            }
         }
     }
 }
