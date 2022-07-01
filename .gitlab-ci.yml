@@ -44,14 +44,6 @@ lint:
 
 build:
   stage: build
-  cache:
-    key:
-      files:
-        - gradle/wrapper/gradle-wrapper.properties 
-    paths:
-      - cache/caches/ 
-      - cache/notifications/ 
-      - cache/wrapper/ 
   script:
     - *prepare_sdk
 #    - ./gradlew clean --console=rich
