@@ -13,7 +13,7 @@ cache:
       - gradle/wrapper/gradle-wrapper.properties
   paths:
     - .gradle/wrapper
-    - .gradle/cache/notifications/
+    - .gradle/notifications
     - .gradle/caches
 
 .prepare_sdk: &prepare_sdk |
@@ -55,7 +55,7 @@ build:
   script:
     - *prepare_sdk
 #    - ./gradlew clean --console=rich
-    - ./gradlew --build-cache --gradle-user-home cache/ assemble --console=rich
+    - ./gradlew assemble --console=rich
     - ./gradlew artifactoryPublish --console=rich
   tags:
     - osx
