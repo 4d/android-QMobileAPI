@@ -28,7 +28,6 @@ static def getBase64EncodedCredentials() {
 }
 
 static def currentGitBranch() {
-  println("CI_COMMIT_REF_NAME " + System.getenv('CI_COMMIT_REF_NAME'))
   def branch = ""
   branch = System.getenv('CI_COMMIT_REF_NAME')
   if (branch == null) {
