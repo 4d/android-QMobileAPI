@@ -24,6 +24,7 @@ import com.qmobile.qmobileapi.utils.getSafeString
 import com.qmobile.qmobileapi.utils.mockResponse
 import com.qmobile.qmobileapi.utils.parseToType
 import com.qmobile.qmobileapi.utils.retrieveJSONObject
+import com.qmobile.qmobileapi.utils.retrieveResponseObject
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import okhttp3.mockwebserver.Dispatcher
@@ -112,7 +113,10 @@ class ActionTest {
         assertResponseSuccessful(response)
         val actionResponse =
             try {
-                mapper.parseToType<ActionResponse>(json.toString())
+                retrieveResponseObject<ActionResponse>(
+                    mapper,
+                    json.toString()
+                )
             } catch (e: JsonSyntaxException) {
                 Timber.w("Failed to decode auth response ${e.message}: $json")
                 null
@@ -133,7 +137,10 @@ class ActionTest {
         assertResponseSuccessful(response)
         val actionResponse =
             try {
-                mapper.parseToType<ActionResponse>(json.toString())
+                retrieveResponseObject<ActionResponse>(
+                    mapper,
+                    json.toString()
+                )
             } catch (e: JsonSyntaxException) {
                 Timber.w("Failed to decode auth response ${e.message}: $json")
                 null
@@ -155,7 +162,10 @@ class ActionTest {
         assertResponseSuccessful(response)
         val actionResponse =
             try {
-                mapper.parseToType<ActionResponse>(json.toString())
+                retrieveResponseObject<ActionResponse>(
+                    mapper,
+                    json.toString()
+                )
             } catch (e: JsonSyntaxException) {
                 Timber.w("Failed to decode auth response ${e.message}: $json")
                 null
@@ -176,7 +186,10 @@ class ActionTest {
         assertResponseSuccessful(response)
         val actionResponse =
             try {
-                mapper.parseToType<ActionResponse>(json.toString())
+                retrieveResponseObject<ActionResponse>(
+                    mapper,
+                    json.toString()
+                )
             } catch (e: JsonSyntaxException) {
                 Timber.w("Failed to decode auth response ${e.message}: $json")
                 null
