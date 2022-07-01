@@ -15,5 +15,9 @@ data class ActionResponse(
     val errors: List<ActionError>
 )
 
-data class ActionError(val parameter: String, val message: String ): Serializable
+data class ActionError(val parameter: String, val message: String) : Serializable {
+    companion object {
+        const val serialVersionUID = 1L
+    }
+}
 
