@@ -6,4 +6,14 @@
 
 package com.qmobile.qmobileapi.model.action
 
-data class ActionResponse(val success: Boolean, val statusText: String?, val dataSynchro: Boolean?)
+import java.io.Serializable
+
+data class ActionResponse(
+    val success: Boolean,
+    val statusText: String?,
+    val dataSynchro: Boolean?,
+    val errors: List<ActionError>
+)
+
+data class ActionError(val parameter: String, val message: String ): Serializable
+
