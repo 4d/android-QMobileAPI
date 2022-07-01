@@ -1,4 +1,10 @@
 {
   "success": true,
-  "dataSynchro": false
+  "dataSynchro": false,
+  "errors": [
+    {
+      "parameter": "name",
+      "message": "Name"
+    }
+  ]
 }

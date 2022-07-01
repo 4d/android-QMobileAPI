@@ -1,5 +1,11 @@
 {
   "success": false,
-  "statusText": "mon joli status"
+  "statusText": "mon joli status",
+  "errors": [
+    {
+      "parameter": "name",
+      "message": "Name"
+    }
+  ]
 
 }
