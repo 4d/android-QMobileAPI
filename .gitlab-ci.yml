@@ -13,6 +13,7 @@ cache:
       - gradle/wrapper/gradle-wrapper.properties
   paths:
     - .gradle/wrapper
+    - .gradle/cache/notifications/
     - .gradle/caches
 
 .prepare_sdk: &prepare_sdk |
@@ -28,7 +29,7 @@ lint:
   stage: lint
   script:
     - *prepare_sdk
-    - rm -fr .gradle/caches
+#    - rm -fr .gradle/caches
 #    - rm -fr build
     - ./gradlew ktlintFormat --console=rich
     - ./gradlew detekt --console=rich
@@ -43,10 +44,18 @@ lint:
 
 build:
   stage: build
+  cache:
+    key:
+      files:
+        - gradle/wrapper/gradle-wrapper.properties 
+    paths:
+      - cache/caches/ 
+      - cache/notifications/ 
+      - cache/wrapper/ 
   script:
     - *prepare_sdk
 #    - ./gradlew clean --console=rich
-    - ./gradlew assemble --console=rich
+    - ./gradlew --build-cache --gradle-user-home cache/ assemble --console=rich
     - ./gradlew artifactoryPublish --console=rich
   tags:
     - osx
