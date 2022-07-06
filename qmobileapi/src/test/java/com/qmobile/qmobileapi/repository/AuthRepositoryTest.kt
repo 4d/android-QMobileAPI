@@ -52,7 +52,6 @@ class AuthRepositoryTest {
 
     @Test
     fun `authenticate success`() {
-
         val response = buildSampleResponseFromJsonString(employeeEntitiesString)
 
         val jsonRequestBody = JSONObject()
@@ -75,7 +74,6 @@ class AuthRepositoryTest {
 
     @Test
     fun `authenticate fails without retry`() {
-
         val jsonRequestBody = JSONObject()
 
         Mockito.`when`(
@@ -97,7 +95,6 @@ class AuthRepositoryTest {
 
     @Test
     fun `authenticate fails with retry`() {
-
         val jsonRequestBody = JSONObject()
 
         Mockito.`when`(
@@ -119,7 +116,6 @@ class AuthRepositoryTest {
 
     @Test
     fun `logout success`() {
-
         val response = buildSampleResponseFromJsonString(employeeEntitiesString)
 
         Mockito.`when`(

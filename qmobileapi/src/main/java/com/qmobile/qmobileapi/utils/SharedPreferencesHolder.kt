@@ -174,7 +174,7 @@ open class SharedPreferencesHolder(val context: Context) {
     }
 
     fun storeCookies(response: Response<ResponseBody>) {
-        response.headers().get(HeaderHelper.COOKIE_HEADER_KEY)?.let { cookies ->
+        response.headers()[HeaderHelper.COOKIE_HEADER_KEY]?.let { cookies ->
             this.cookies = cookies
         }
     }

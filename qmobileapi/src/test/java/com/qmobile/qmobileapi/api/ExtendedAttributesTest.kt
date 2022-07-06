@@ -86,7 +86,6 @@ class ExtendedAttributesTest {
                 assertRequest(request)
 
                 return when (request.path) {
-
                     // `test extendedAttributes true or false is the same`()
                     "/Service?\$filter=%22name%3DSponsorship%22&\$extendedAttributes=true&\$limit=100000" -> {
                         mockResponse("extendedattributes.json")

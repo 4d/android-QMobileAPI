@@ -29,7 +29,8 @@ object HeaderHelper {
     }
 
     fun Request.Builder.addCookies(cookies: String) = this.apply {
-        if (cookies.isNotEmpty())
+        if (cookies.isNotEmpty()) {
             addHeader(COOKIE_HEADER_KEY, cookies)
+        }
     }
 }

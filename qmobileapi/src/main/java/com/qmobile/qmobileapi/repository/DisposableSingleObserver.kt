@@ -14,7 +14,6 @@ class DisposableSingleObserver(
     private val onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
 ) : DisposableSingleObserver<Response<ResponseBody>>() {
     override fun onSuccess(response: Response<ResponseBody>) {
-
         if (response.isSuccessful) {
             onResult(true, response, null)
         } else {

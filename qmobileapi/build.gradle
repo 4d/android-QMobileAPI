@@ -11,20 +11,11 @@ apply from: "$rootDir/buildscripts/git-hash.gradle"
 
 dependencies {
 
-    // Common
-    implementation Libs.kotlin_reflect
-    implementation Libs.kotlin_stdlib
-
-    // Rx
-    implementation Libs.rxandroid
-    implementation Libs.rxjava
-
     // OkHttp
-    implementation Libs.okhttp
+    implementation Libs.okhttp_jvm
     implementation Libs.okhttp_logging_interceptor
 
     // Retrofit
-    implementation Libs.retrofit
     implementation Libs.retrofit_adapter_rxjava2
     implementation Libs.retrofit_converter_gson
 
@@ -33,12 +24,12 @@ dependencies {
 
     // Utils
     implementation Libs.androidx_preference_ktx
+    implementation Libs.rxandroid
     implementation Libs.timber
 
     // Testing
+    testImplementation Libs.androidx_core
     testImplementation Libs.androidx_core_testing
-    testImplementation Libs.androidx_junit
-    testImplementation Libs.androidx_runner
     testImplementation Libs.junit
     testImplementation Libs.mockito
     testImplementation Libs.okhttp_mockwebserver

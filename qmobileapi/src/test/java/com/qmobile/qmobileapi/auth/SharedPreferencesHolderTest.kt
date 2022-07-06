@@ -184,7 +184,6 @@ class SharedPreferencesHolderTest {
 
     @Test
     fun `handleLoginInfo true`() {
-
         val id = UUID.randomUUID().toString()
         val authResponse = AuthResponse(
             id = id,
@@ -210,7 +209,6 @@ class SharedPreferencesHolderTest {
 
     @Test
     fun `handleLoginInfo false`() {
-
         val authResponse = AuthResponse(
             id = null,
             statusText = "",

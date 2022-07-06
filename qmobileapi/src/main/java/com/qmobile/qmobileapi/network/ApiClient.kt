@@ -126,16 +126,12 @@ object ApiClient {
         logBody: Boolean,
         mapper: ObjectMapper
     ): Retrofit {
-
         retrofit?.let {
             return it
         }
         val newRetrofit = Retrofit.Builder()
             .baseUrl(
-                if (baseUrl.isEmpty())
-                    buildUrl(sharedPreferencesHolder.remoteUrl)
-                else
-                    baseUrl
+                baseUrl.ifEmpty { buildUrl(sharedPreferencesHolder.remoteUrl) }
             )
             .client(
                 okHttpClient ?: initOkHttp(
@@ -163,16 +159,12 @@ object ApiClient {
         logBody: Boolean,
         mapper: ObjectMapper
     ): Retrofit {
-
         retrofitLogin?.let {
             return it
         }
         val newRetrofit = Retrofit.Builder()
             .baseUrl(
-                if (baseUrl.isEmpty())
-                    buildUrl(sharedPreferencesHolder.remoteUrl)
-                else
-                    baseUrl
+                baseUrl.ifEmpty { buildUrl(sharedPreferencesHolder.remoteUrl) }
             )
             .client(
                 okHttpClientLogin ?: initOkHttp(
@@ -197,16 +189,12 @@ object ApiClient {
         logBody: Boolean,
         mapper: ObjectMapper
     ): Retrofit {
-
         retrofitAccessibility?.let {
             return it
         }
         val newRetrofit = Retrofit.Builder()
             .baseUrl(
-                if (baseUrl.isEmpty())
-                    buildUrl(sharedPreferencesHolder.remoteUrl)
-                else
-                    baseUrl
+                baseUrl.ifEmpty { buildUrl(sharedPreferencesHolder.remoteUrl) }
             )
             .client(
                 okHttpClientAccessibility ?: initOkHttp(
@@ -258,10 +246,8 @@ object ApiClient {
         okHttpClientBuilder.addInterceptor(
             HttpLoggingInterceptor()
                 .setLevel(
-                    if (logBody)
-                        HttpLoggingInterceptor.Level.BODY
-                    else
-                        HttpLoggingInterceptor.Level.BASIC
+                    if (logBody) HttpLoggingInterceptor.Level.BODY
+                    else HttpLoggingInterceptor.Level.BASIC
                 )
         )
 
@@ -276,10 +262,11 @@ object ApiClient {
         okHttpClientBuilder.addInterceptor(authenticationInterceptor)
 
         val newOkHttpClient = okHttpClientBuilder.build()
-        if (loginApiService != null)
+        if (loginApiService != null) {
             okHttpClient = newOkHttpClient
-        else
+        } else {
             okHttpClientLogin = newOkHttpClient
+        }
         return newOkHttpClient
     }
 
