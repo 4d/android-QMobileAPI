@@ -12,7 +12,6 @@ import okhttp3.Headers
 import okhttp3.Headers.Companion.toHeaders
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.asResponseBody
-import okhttp3.internal.toHeaderList
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
 import okio.Buffer
@@ -81,7 +80,7 @@ fun mockResponse(filename: String): MockResponse {
  */
 fun assertResponseSuccessful(response: Response<*>) {
     Assert.assertNotNull(response.body())
-    Assert.assertEquals(9, response.headers().toHeaderList().size)
+    Assert.assertEquals(9, response.headers().toMultimap().keys.size)
     Assert.assertEquals(HttpURLConnection.HTTP_OK, response.code())
     Assert.assertEquals(true, response.isSuccessful)
     Assert.assertEquals(null, response.errorBody())

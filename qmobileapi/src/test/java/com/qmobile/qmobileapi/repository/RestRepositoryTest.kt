@@ -55,7 +55,6 @@ class RestRepositoryTest {
 
     @Test
     fun `getEntities success`() {
-
         val response = buildSampleResponseFromJsonString(employeeEntitiesString)
 
         Mockito.`when`(
@@ -77,7 +76,6 @@ class RestRepositoryTest {
 
     @Test
     fun getEntitiesExtendedAttributes() {
-
         val response = buildSampleResponseFromJsonString(employeeEntitiesString)
 
         val jsonRequestBody = JSONObject()
@@ -104,7 +102,6 @@ class RestRepositoryTest {
 
     @Test
     fun `getEntities fail`() {
-
         Mockito.`when`(
             mockedApiService.getEntities(
                 dataClassName = tableName,

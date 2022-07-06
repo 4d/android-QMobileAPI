@@ -20,4 +20,3 @@ data class ActionError(val parameter: String, val message: String) : Serializabl
         const val serialVersionUID = 1L
     }
 }
-

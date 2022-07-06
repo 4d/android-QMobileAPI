@@ -54,7 +54,6 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
         filter: String,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
-
         val body = jsonRequestBody.toString()
             .toRequestBody("$APP_JSON; $UTF8_CHARSET".toMediaTypeOrNull())
 
@@ -82,7 +81,6 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
         limit: Int,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
-
         val body = jsonRequestBody.toString()
             .toRequestBody("$APP_JSON; $UTF8_CHARSET".toMediaTypeOrNull())
 

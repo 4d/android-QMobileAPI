@@ -107,7 +107,6 @@ class AuthenticationInterceptorTest {
 
     @Test
     fun `errorQuery placeholder is missing or null`() {
-
         val authInfoHelper = SharedPreferencesHolder(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
 
@@ -135,9 +134,7 @@ class AuthenticationInterceptorTest {
                 println("Request = $request")
 
                 return when (request.path) {
-
                     "/Event(12)" -> {
-
                         Assert.assertEquals(
                             HeaderHelper.CONTENT_TYPE_HEADER_VALUE,
                             request.headers[HeaderHelper.CONTENT_TYPE_HEADER_KEY]
@@ -184,7 +181,6 @@ class AuthenticationInterceptorTest {
 
     @Test
     fun `header with session token`() {
-
         val authInfoHelper = SharedPreferencesHolder(ApplicationProvider.getApplicationContext())
         authInfoHelper.sessionToken = UNIT_TEST_TOKEN
 
@@ -207,7 +203,6 @@ class AuthenticationInterceptorTest {
                 )
 
                 return when (request.path) {
-
                     "/Event(12)" -> {
                         return MockResponse().setResponseCode(HttpURLConnection.HTTP_OK)
                     }
@@ -228,7 +223,6 @@ class AuthenticationInterceptorTest {
 
     @Test
     fun `http forbidden refreshAuth fails`() {
-
         val authInfoHelper = SharedPreferencesHolder(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
 
@@ -245,9 +239,7 @@ class AuthenticationInterceptorTest {
                 println("Request = $request")
 
                 return when (request.path) {
-
                     "/Event(12)" -> {
-
                         Assert.assertEquals(
                             HeaderHelper.CONTENT_TYPE_HEADER_VALUE,
                             request.headers[HeaderHelper.CONTENT_TYPE_HEADER_KEY]
@@ -281,7 +273,6 @@ class AuthenticationInterceptorTest {
 
     @Test
     fun `http forbidden refreshAuth success`() {
-
         val authInfoHelper = SharedPreferencesHolder(ApplicationProvider.getApplicationContext())
         authInfoHelper.guestLogin = true
 
@@ -309,9 +300,7 @@ class AuthenticationInterceptorTest {
                 println("Request = $request")
 
                 return when (request.path) {
-
                     "/Event(12)" -> {
-
                         Assert.assertEquals(
                             HeaderHelper.CONTENT_TYPE_HEADER_VALUE,
                             request.headers[HeaderHelper.CONTENT_TYPE_HEADER_KEY]

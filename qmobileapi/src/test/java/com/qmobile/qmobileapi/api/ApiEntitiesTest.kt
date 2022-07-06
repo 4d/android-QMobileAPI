@@ -82,7 +82,6 @@ class ApiEntitiesTest {
                 assertRequest(request)
 
                 return when (request.path) {
-
                     // `test get entities`()
                     "/Event?\$limit=100000" -> {
                         mockResponse("restrecords.json")

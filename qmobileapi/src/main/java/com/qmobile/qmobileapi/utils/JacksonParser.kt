@@ -15,8 +15,7 @@ import timber.log.Timber
  * Utility method to parse a Json string to type
  */
 inline fun <reified T : Any> ObjectMapper.parseToType(json: String?): T? {
-    if (json.isNullOrEmpty())
-        return null
+    if (json.isNullOrEmpty()) return null
     return this.readValue<T>(json)
 }
 

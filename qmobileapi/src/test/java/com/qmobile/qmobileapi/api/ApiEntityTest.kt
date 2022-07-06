@@ -81,7 +81,6 @@ class ApiEntityTest {
                 assertRequest(request)
 
                 return when (request.path) {
-
                     // `test get entity`()
                     "/Event(12)" -> {
                         mockResponse("restrecord.json")
