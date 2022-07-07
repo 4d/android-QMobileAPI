@@ -12,7 +12,7 @@ data class ActionResponse(
     val success: Boolean,
     val statusText: String?,
     val dataSynchro: Boolean?,
-    val errors: List<ActionError>
+    val errors: List<ActionError>?
 )
 
 data class ActionError(val parameter: String, val message: String) : Serializable {
