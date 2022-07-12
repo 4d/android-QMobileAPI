@@ -43,6 +43,8 @@ open class SharedPreferencesHolder(val context: Context) {
         const val PRIVATE_PREF_NAME = "4D_QMOBILE_PRIVATE"
 
         const val USER_INFO = "userInfo"
+
+        const val PARAMETERS_TO_SORT_WITH = "parameters_to_sort_with"
     }
 
     fun init() {
@@ -122,6 +124,12 @@ open class SharedPreferencesHolder(val context: Context) {
         get() = privatePrefs[SESSION_TOKEN] ?: ""
         set(value) {
             privatePrefs[SESSION_TOKEN] = value
+        }
+
+    open var parametersToSortWith: String?
+        get() = prefs[PARAMETERS_TO_SORT_WITH]
+        set(value) {
+            prefs[PARAMETERS_TO_SORT_WITH] = value
         }
 
     // open for unit tests
