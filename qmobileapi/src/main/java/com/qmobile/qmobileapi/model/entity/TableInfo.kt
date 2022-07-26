@@ -10,4 +10,6 @@ data class TableInfo(
     val originalName: String,
     val query: String,
     val fields: List<String>
-)
+) {
+    fun hasUserQuery(): Boolean = query.contains(":")
+}
