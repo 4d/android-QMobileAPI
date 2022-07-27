@@ -44,7 +44,7 @@ fun JSONArray?.getJSONObjectList(): List<JSONObject> {
     this?.let {
         for (i in 0 until this.length()) {
             val safeObject = this.getSafeObject(i)
-            safeObject?.let { it1 -> list.add(it1) }
+            safeObject?.let { list.add(it) }
         }
     }
     return list

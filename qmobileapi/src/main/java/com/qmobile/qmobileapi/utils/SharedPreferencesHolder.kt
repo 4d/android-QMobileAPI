@@ -10,6 +10,7 @@ import android.content.Context
 import android.webkit.CookieManager
 import com.qmobile.qmobileapi.model.auth.AuthResponse
 import com.qmobile.qmobileapi.network.HeaderHelper
+import com.qmobile.qmobileapi.utils.FileHelper.readContentFromFile
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
@@ -126,8 +127,8 @@ open class SharedPreferencesHolder(val context: Context) {
             privatePrefs[SESSION_TOKEN] = value
         }
 
-    open var parametersToSortWith: String?
-        get() = prefs[PARAMETERS_TO_SORT_WITH]
+    open var parametersToSortWith: String
+        get() = prefs[PARAMETERS_TO_SORT_WITH] ?: ""
         set(value) {
             prefs[PARAMETERS_TO_SORT_WITH] = value
         }
