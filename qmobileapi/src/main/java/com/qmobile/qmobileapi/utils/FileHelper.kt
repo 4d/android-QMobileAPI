@@ -8,29 +8,42 @@ package com.qmobile.qmobileapi.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import java.io.IOException
 
-@SuppressLint("LogNotTimber")
-fun readContentFromFile(context: Context, fileName: String): String =
-    try {
-        context.assets.open(fileName).bufferedReader().use {
-            it.readText()
+object FileHelper {
+
+    @SuppressLint("LogNotTimber")
+    fun readContentFromFile(context: Context, fileName: String): String =
+        try {
+            context.assets.open(fileName).bufferedReader().use {
+                it.readText()
+            }
+        } catch (e: IOException) {
+            Log.e("FileUtilsUp", "Missing file \"$fileName\" in assets")
+            "{}"
         }
-    } catch (e: IOException) {
-        Log.e("FileUtilsUp", "Missing file \"$fileName\" in assets")
-        "{}"
+
+    fun listAssetFiles(context: Context, path: String): List<String> {
+        val result = ArrayList<String>()
+        context.assets.list(path)?.forEach { file ->
+            val innerFiles = listAssetFiles(context, "$path/$file")
+            if (innerFiles.isNotEmpty()) {
+                result.addAll(innerFiles)
+            } else {
+                result.add("$path/$file")
+            }
+        }
+        return result
     }
 
-fun listAssetFiles(context: Context, path: String): List<String> {
-    val result = ArrayList<String>()
-    context.assets.list(path)?.forEach { file ->
-        val innerFiles = listAssetFiles(context, "$path/$file")
-        if (innerFiles.isNotEmpty()) {
-            result.addAll(innerFiles)
-        } else {
-            result.add("$path/$file")
+    fun repairUri(uriString: String): Uri {
+        val uriBuilder: String = when {
+            uriString.startsWith("/") -> "file://$uriString"
+            !uriString.startsWith("file:///") -> "file:///$uriString"
+            else -> uriString
         }
+        return Uri.parse(uriBuilder)
     }
-    return result
 }
