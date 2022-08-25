@@ -9,7 +9,9 @@ package com.qmobile.qmobileapi.model.entity
 data class TableInfo(
     val originalName: String,
     val query: String,
-    val fields: List<String>
+    val fields: List<String>,
+    val searchFields: List<String>,
+    val defaultSortField: String
 ) {
     fun hasUserQuery(): Boolean = query.contains(":")
 }
