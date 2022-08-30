@@ -246,8 +246,11 @@ object ApiClient {
         okHttpClientBuilder.addInterceptor(
             HttpLoggingInterceptor()
                 .setLevel(
-                    if (logBody) HttpLoggingInterceptor.Level.BODY
-                    else HttpLoggingInterceptor.Level.BASIC
+                    if (logBody) {
+                        HttpLoggingInterceptor.Level.BODY
+                    } else {
+                        HttpLoggingInterceptor.Level.BASIC
+                    }
                 )
         )
 
