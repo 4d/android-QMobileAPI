@@ -12,6 +12,7 @@ import com.qmobile.qmobileapi.utils.LoginRequiredCallback
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.tls.HandshakeCertificates
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -242,6 +243,19 @@ object ApiClient {
             .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .readTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .writeTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
+
+        val hostName =
+            sharedPreferencesHolder.remoteUrl.removePrefix(HTTP_PREFIX).removePrefix(HTTPS_PREFIX).removeSuffix("/")
+
+        val clientCertificates = HandshakeCertificates.Builder()
+            .addPlatformTrustedCertificates()
+            .addInsecureHost(hostName)
+            .build()
+        okHttpClientBuilder.sslSocketFactory(clientCertificates.sslSocketFactory(), clientCertificates.trustManager)
+
+        okHttpClientBuilder.hostnameVerifier { host, _ ->
+            host == hostName
+        }
 
         okHttpClientBuilder.addInterceptor(
             HttpLoggingInterceptor()

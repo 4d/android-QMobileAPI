@@ -14,6 +14,7 @@ dependencies {
     // OkHttp
     implementation Libs.okhttp_jvm
     implementation Libs.okhttp_logging_interceptor
+    implementation Libs.okhttp_tls
 
     // Retrofit
     implementation Libs.retrofit_adapter_rxjava2
