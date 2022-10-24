@@ -14,7 +14,7 @@ import com.qmobile.qmobileapi.utils.FileHelper.readContentFromFile
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
-import java.util.UUID
+import java.util.*
 
 /**
  * Helper class to store authentication information into SharedPreferences
@@ -49,7 +49,7 @@ open class SharedPreferencesHolder(val context: Context) {
     }
 
     fun init() {
-        val appInfoJsonObj = JSONObject(readContentFromFile(context, "app_info.json"))
+        val appInfoJsonObj = JSONObject(readContentFromFile(context, "appInfo.json"))
         appInfo = AuthInfoHolder.buildAppInfo(appInfoJsonObj)
         device = DeviceInfo.build(context)
         team = AuthInfoHolder.buildTeam(appInfoJsonObj)
@@ -127,8 +127,8 @@ open class SharedPreferencesHolder(val context: Context) {
             privatePrefs[SESSION_TOKEN] = value
         }
 
-    open var parametersToSortWith: String
-        get() = prefs[PARAMETERS_TO_SORT_WITH] ?: ""
+    var parametersToSortWith: JSONObject
+        get() = JSONObject(prefs[PARAMETERS_TO_SORT_WITH] ?: "{}")
         set(value) {
             prefs[PARAMETERS_TO_SORT_WITH] = value
         }
