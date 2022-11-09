@@ -18,6 +18,6 @@ object UploadHelper {
     fun HashMap<String, *>.getBodies(activity: FragmentActivity?): Map<String, RequestBody?> = this.mapValues {
         val uri = FileHelper.repairUri(it.value.toString())
         val stream = activity?.contentResolver?.openInputStream(uri)
-        stream?.readBytes()?.toRequestBody(APP_OCTET.toMediaTypeOrNull())
+        stream?.readBytes()?.toRequestBody(APP_OCTET.toMediaTypeOrNull()).also { stream?.close() }
     }
 }
