@@ -11,5 +11,5 @@ data class AuthResponse(
     val statusText: String?,
     val success: Boolean,
     val token: String?,
-    val userInfo: Map<String, Any>?
+    val userInfo: Map<String, Any?>?
 )

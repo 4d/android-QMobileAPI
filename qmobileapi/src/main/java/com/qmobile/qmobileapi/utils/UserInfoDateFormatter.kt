@@ -14,14 +14,14 @@ import java.util.Locale
 object UserInfoDateFormatter {
 
     // Store UserInfo
-    fun storeUserInfo(userInfo: Map<String, Any>, sharedPreferencesHolder: SharedPreferencesHolder) {
+    fun storeUserInfo(userInfo: Map<String, Any?>, sharedPreferencesHolder: SharedPreferencesHolder) {
         val formattedUserInfo = formatDateValues(userInfo)
         Timber.v("Store user info $formattedUserInfo")
         sharedPreferencesHolder.userInfo = ObjectMapper().parseToString(formattedUserInfo)
     }
 
-    private fun formatDateValues(userInfo: Map<String, Any>): Map<String, Any> {
-        val mutableUserInfo = userInfo.toMutableMap()
+    private fun formatDateValues(userInfo: Map<String, Any?>): Map<String, Any?> {
+        val mutableUserInfo = userInfo.filterValues { it != null }.toMutableMap()
         for ((key, value) in mutableUserInfo) {
             formatDate(value.toString().split("\"").getOrNull(1))?.let { formattedDated ->
                 mutableUserInfo[key] = formattedDated
