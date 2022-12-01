@@ -14,7 +14,6 @@ import com.qmobile.qmobileapi.utils.FileHelper.readContentFromFile
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
-import java.util.*
 
 /**
  * Helper class to store authentication information into SharedPreferences
@@ -108,13 +107,6 @@ open class SharedPreferencesHolder(val context: Context) {
         get() = prefs[REMOTE_URL] ?: ""
         set(value) {
             prefs[REMOTE_URL] = value
-        }
-
-    val deviceUUID: String
-        get() = privatePrefs[DEVICE_UUID] ?: kotlin.run {
-            val uuid = UUID.randomUUID().toString()
-            privatePrefs[DEVICE_UUID] = uuid
-            return@run uuid
         }
 
     var sessionId: String

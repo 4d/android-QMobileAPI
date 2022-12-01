@@ -109,11 +109,6 @@ class SharedPreferencesHolderTest {
     }
 
     @Test
-    fun deviceUUID() {
-        Assert.assertNotEquals("", sharedPreferencesHolder.deviceUUID)
-    }
-
-    @Test
     fun sessionId() {
         Assert.assertEquals("", sharedPreferencesHolder.sessionId)
         sharedPreferencesHolder.sessionId = "session id"

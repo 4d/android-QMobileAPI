@@ -8,6 +8,7 @@ package com.qmobile.qmobileapi.utils
 
 import android.content.Context
 import android.os.Build
+import android.provider.Settings
 import org.json.JSONObject
 import timber.log.Timber
 
@@ -21,7 +22,8 @@ object DeviceInfo {
 
     fun build(context: Context) = JSONObject().apply {
         val isEmulator = isEmulator()
-        put(ID, SharedPreferencesHolder.getInstance(context).deviceUUID)
+        val androidId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+        put(ID, androidId)
         put(SIMULATOR, isEmulator) // false
         put(DESCRIPTION, if (isEmulator) "Simulator" else Build.MODEL) // SM-G950F
         put(VERSION, "${Build.VERSION.SDK_INT} (${getVersionName()})") // 28 (Android P)
