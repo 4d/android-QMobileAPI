@@ -23,7 +23,7 @@ object ApiClient {
 
     private const val HTTP_PREFIX = "http://"
     private const val HTTPS_PREFIX = "https://"
-    private const val SERVER_ENDPOINT = "/mobileapp/"
+    const val SERVER_ENDPOINT = "/mobileapp/"
     const val REQUEST_TIMEOUT = 15
 
     private var retrofitLogin: Retrofit? = null
@@ -145,7 +145,6 @@ object ApiClient {
             )
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
         retrofit = newRetrofit
         return newRetrofit
@@ -178,7 +177,6 @@ object ApiClient {
             )
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
         retrofitLogin = newRetrofit
         return newRetrofit
@@ -208,7 +206,6 @@ object ApiClient {
             )
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
         retrofitAccessibility = newRetrofit
         return newRetrofit

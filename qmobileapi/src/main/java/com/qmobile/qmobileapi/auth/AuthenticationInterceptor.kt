@@ -8,6 +8,7 @@ package com.qmobile.qmobileapi.auth
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.qmobile.qmobileapi.model.error.ErrorResponse
+import com.qmobile.qmobileapi.network.ApiClient
 import com.qmobile.qmobileapi.network.HeaderHelper.addAuthorizationHeader
 import com.qmobile.qmobileapi.network.HeaderHelper.addContentTypeHeader
 import com.qmobile.qmobileapi.network.HeaderHelper.addCookies
@@ -68,21 +69,25 @@ class AuthenticationInterceptor(
 
         var response = chain.proceed(request)
 
+        if (request.url.toString().endsWith(ApiClient.SERVER_ENDPOINT)) { // server ping
+            return response
+        }
+
         val parsedError: ErrorResponse? = response.tryToParseError(mapper)
-        parsedError?.__ERRORS?.let { errors ->
-            if (errors.any { errorReason ->
-                errorReason.errCode == RestErrorCode.query_placeholder_is_missing_or_null
-            }
-            ) {
-                refreshAuth(response, chain, requestBuilder)?.let { res ->
-                    response = res
+        parsedError?.__ERRORS?.forEach { error ->
+
+            when (error.errCode) {
+                RestErrorCode.query_placeholder_is_missing_or_null, RestErrorCode.guest_mode_no_license -> {
+                    refreshAuth(response, chain, requestBuilder)?.let { res ->
+                        response = res
+                    }
                 }
             }
         }
 
         when (response.code) {
             HttpURLConnection.HTTP_OK -> {
-                // Everything is fine
+                // Everything is ok
             }
             HttpURLConnection.HTTP_UNAUTHORIZED -> {
                 if (hasAuthBeenRefreshed.get() && loginApiService != null) {
@@ -113,8 +118,7 @@ class AuthenticationInterceptor(
                     return chain.proceed(requestBuilder.build())
                 }
             } else {
-                // We ask to go back to the login page as this is not a guest authenticated session
-                sharedPreferencesHolder.sessionToken = ""
+                // We ask to go back to the login page as this is not a guest session
                 loginRequiredCallback?.invoke()
             }
         }
@@ -130,11 +134,16 @@ class AuthenticationInterceptor(
         val authResponse = authRepository.syncAuthenticate(authRequestBody)
         if (authResponse != null) {
             if (sharedPreferencesHolder.handleLoginInfo(authResponse)) {
+                loginRequiredCallback?.invoke()
                 this.clearAuthorizationHeader()
                     .addAuthorizationHeader(sharedPreferencesHolder.sessionToken)
                 hasAuthBeenRefreshed.set(true)
-            } // else : No sessionToken could be retrieved
-        } // else : Login request failed
+            } else {
+                Timber.e("handleLoginInfo failed")
+            }
+        } else {
+            Timber.e("Failed to refresh authentication")
+        }
         isAuthInProgress.set(false)
     }
 
