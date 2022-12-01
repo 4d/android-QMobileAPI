@@ -54,4 +54,7 @@ object RestErrorCode {
 
     // DB entity model
     const val entity_attribute_not_found = 1_500
+
+    // Licenses
+    const val guest_mode_no_license = 1_913
 }

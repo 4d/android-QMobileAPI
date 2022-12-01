@@ -8,7 +8,7 @@ package com.qmobile.qmobileapi.utils
 
 object HttpCode {
 
-// https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+    // https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 
     // 1xx Informational responses
     private const val continue_key = 100
@@ -149,7 +149,7 @@ object HttpCode {
             tooManyRequests -> "Too many requests send to the application server."
             serviceUnavailable -> "Service is unavailable currently."
             movedPermanently -> "Resource is moved permanently."
-            unauthorized -> "You are no more authenticated. Please login."
+            unauthorized -> "You are no more authenticated. Please log in."
             forbidden -> "You are no more allowed to access the resource or make this action."
             notFound -> "Some information is missing on application server."
             methodNotAllowed -> "You are not a allowed to make this request."

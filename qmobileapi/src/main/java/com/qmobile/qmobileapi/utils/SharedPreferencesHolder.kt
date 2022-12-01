@@ -46,6 +46,8 @@ open class SharedPreferencesHolder(val context: Context) {
         const val USER_INFO = "userInfo"
 
         const val PARAMETERS_TO_SORT_WITH = "parameters_to_sort_with"
+
+        const val LAST_LOGIN_MAIL = "last_login_mail"
     }
 
     fun init() {
@@ -150,6 +152,12 @@ open class SharedPreferencesHolder(val context: Context) {
         get() = prefs[COOKIES] ?: ""
         set(value) {
             prefs[COOKIES] = value
+        }
+
+    var lastLoginMail: String
+        get() = prefs[LAST_LOGIN_MAIL] ?: ""
+        set(value) {
+            prefs[LAST_LOGIN_MAIL] = value
         }
 
     /**
