@@ -33,7 +33,6 @@ open class SharedPreferencesHolder(val context: Context) {
         const val REMOTE_URL = "remote_url"
         const val SESSION_ID = "session_id"
         const val SESSION_TOKEN = "session_token"
-        const val DEVICE_UUID = "device_uuid"
 
         const val GLOBAL_STAMP = "__GlobalStamp"
         const val DELETED_RECORDS_STAMP = "__Stamp"
