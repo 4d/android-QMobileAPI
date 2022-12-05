@@ -154,7 +154,7 @@ open class SharedPreferencesHolder(val context: Context) {
     /**
      * Builds the request body for $authenticate request
      */
-    fun buildAuthRequestBody(email: String, password: String): JSONObject {
+    fun buildAuthRequestBody(email: String, password: String, parameters: JSONObject = JSONObject()): JSONObject {
         return JSONObject().apply {
             put(AUTH_EMAIL, email)
             put(AUTH_PASSWORD, password)
@@ -162,7 +162,7 @@ open class SharedPreferencesHolder(val context: Context) {
             put(AUTH_DEVICE, device)
             put(AUTH_TEAM, team)
             put(AUTH_LANGUAGE, language)
-            put(AUTH_PARAMETERS, JSONObject())
+            put(AUTH_PARAMETERS, parameters)
         }
     }
 
