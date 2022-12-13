@@ -21,7 +21,7 @@ object FileHelper {
                 it.readText()
             }
         } catch (e: IOException) {
-            Log.e("FileUtilsUp", "Missing file \"$fileName\" in assets")
+            Log.e("FileHelper", "Missing file \"$fileName\" in assets")
             "{}"
         }
 
