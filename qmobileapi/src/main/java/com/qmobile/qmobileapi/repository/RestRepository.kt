@@ -9,12 +9,10 @@ package com.qmobile.qmobileapi.repository
 import com.qmobile.qmobileapi.network.ApiService
 import com.qmobile.qmobileapi.utils.APP_JSON
 import com.qmobile.qmobileapi.utils.UTF8_CHARSET
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -96,59 +94,6 @@ class RestRepository(private val tableName: String, private val apiService: ApiS
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(DisposableSingleObserver(onResult))
-        )
-    }
-
-    /**
-     * Performs $action request
-     */
-    fun sendAction(
-        actionName: String,
-        actionContent: MutableMap<String, Any>,
-        onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
-    ) {
-        disposable.add(
-            apiService.sendAction(
-                actionName,
-                actionContent
-            ).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(DisposableSingleObserver(onResult))
-        )
-    }
-
-    /**
-     * Performs $upload request
-     */
-    fun uploadImage(
-        imagesToUpload: Map<String, RequestBody?>,
-        onImageUploaded:
-            (isSuccess: Boolean, parameterName: String, response: Response<ResponseBody>?, error: Any?) -> Unit,
-        onAllUploadFinished: () -> Unit
-    ) {
-        disposable.add(
-            Observable.just(imagesToUpload.entries)
-                .flatMapIterable { entries ->
-                    entries
-                }
-                .concatMapSingle {
-                    val parameterName = it.key
-                    it.value?.let { requestBody ->
-                        apiService.uploadImage(body = requestBody)
-                            .map { response ->
-                                parameterName to response
-                            }
-                    }
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete {
-                    onAllUploadFinished()
-                }
-                .subscribe(
-                    { onImageUploaded(it.second.isSuccessful, it.first, it.second, null) },
-                    { onImageUploaded(false, "", null, it) }
-                )
         )
     }
 }

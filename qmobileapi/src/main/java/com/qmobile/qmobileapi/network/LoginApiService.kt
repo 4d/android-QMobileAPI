@@ -14,6 +14,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface LoginApiService {
@@ -46,4 +47,10 @@ interface LoginApiService {
      */
     @POST("\$logout")
     fun syncLogout(): Call<LogoutResponse>
+
+    /**
+     * Returns true if enough licenses, else returns an error code
+     */
+    @GET("licensecheck")
+    fun licenseCheck(): Single<Response<ResponseBody>>
 }

@@ -87,4 +87,16 @@ open class AuthRepository(private val loginApiService: LoginApiService) {
                 .subscribeWith(DisposableSingleObserver(onResult))
         )
     }
+
+    /**
+     * Performs licensecheck request
+     */
+    fun licenseCheck(onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit) {
+        disposable.add(
+            loginApiService.licenseCheck()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(DisposableSingleObserver(onResult))
+        )
+    }
 }

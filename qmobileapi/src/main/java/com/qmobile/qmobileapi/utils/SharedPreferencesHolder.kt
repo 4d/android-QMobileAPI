@@ -46,6 +46,8 @@ open class SharedPreferencesHolder(val context: Context) {
         const val PARAMETERS_TO_SORT_WITH = "parameters_to_sort_with"
 
         const val LAST_LOGIN_MAIL = "last_login_mail"
+
+        const val DISPLAY_CRASH_DIALOG = "display_crash_dialog"
     }
 
     fun init() {
@@ -149,6 +151,12 @@ open class SharedPreferencesHolder(val context: Context) {
         get() = prefs[LAST_LOGIN_MAIL] ?: ""
         set(value) {
             prefs[LAST_LOGIN_MAIL] = value
+        }
+
+    var displayCrashDialog: Boolean
+        get() = prefs[DISPLAY_CRASH_DIALOG] ?: false
+        set(value) {
+            prefs.editImmediately { it.putBoolean(DISPLAY_CRASH_DIALOG, value) }
         }
 
     /**

@@ -6,6 +6,7 @@
 
 package com.qmobile.qmobileapi.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
@@ -21,6 +22,13 @@ private inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) 
     val editor = this.edit()
     operation(editor)
     editor.apply()
+}
+
+@SuppressLint("ApplySharedPref")
+inline fun SharedPreferences.editImmediately(operation: (SharedPreferences.Editor) -> Unit) {
+    val editor = this.edit()
+    operation(editor)
+    editor.commit()
 }
 
 /**
