@@ -23,6 +23,17 @@ class FeedbackRepository(private val feedbackApiService: FeedbackApiService) {
 
     var disposable: CompositeDisposable = CompositeDisposable()
 
+    fun checkAccessibility(
+        onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
+    ) {
+        disposable.add(
+            feedbackApiService.checkAccessibility()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(DisposableSingleObserver(onResult))
+        )
+    }
+
     fun sendCrashLogs(
         zip: RequestBody,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit

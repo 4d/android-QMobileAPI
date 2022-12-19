@@ -51,6 +51,6 @@ interface LoginApiService {
     /**
      * Returns true if enough licenses, else returns an error code
      */
-    @GET("licensecheck")
+    @GET("\$licensecheck")
     fun licenseCheck(): Single<Response<ResponseBody>>
 }
