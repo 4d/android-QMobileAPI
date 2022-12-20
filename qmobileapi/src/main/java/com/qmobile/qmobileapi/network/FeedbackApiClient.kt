@@ -8,6 +8,7 @@ package com.qmobile.qmobileapi.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.tls.HandshakeCertificates
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,24 +25,24 @@ object FeedbackApiClient {
     @Volatile
     var INSTANCE: FeedbackApiService? = null
 
-    fun getApiService(logBody: Boolean = false): FeedbackApiService {
+    fun getApiService(): FeedbackApiService {
         INSTANCE?.let {
             return it
         } ?: kotlin.run {
-            val service = getClient(logBody).create(FeedbackApiService::class.java)
+            val service = getClient().create(FeedbackApiService::class.java)
             INSTANCE = service
             Timber.v("FeedbackApiService created")
             return service
         }
     }
 
-    private fun getClient(logBody: Boolean): Retrofit {
+    private fun getClient(): Retrofit {
         retrofit?.let {
             return it
         }
         val newRetrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(okHttpClient ?: initOkHttp(logBody))
+            .client(okHttpClient ?: initOkHttp())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
@@ -49,16 +50,28 @@ object FeedbackApiClient {
         return newRetrofit
     }
 
-    private fun initOkHttp(logBody: Boolean): OkHttpClient {
+    private fun initOkHttp(): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient().newBuilder()
             .connectTimeout(ApiClient.REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .readTimeout(ApiClient.REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .writeTimeout(ApiClient.REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
 
+        val hostName = BASE_URL.removePrefix(ApiClient.HTTPS_PREFIX)
+
+        val clientCertificates = HandshakeCertificates.Builder()
+            .addPlatformTrustedCertificates()
+            .addInsecureHost(hostName)
+            .build()
+        okHttpClientBuilder.sslSocketFactory(clientCertificates.sslSocketFactory(), clientCertificates.trustManager)
+
+        okHttpClientBuilder.hostnameVerifier { host, _ ->
+            host == hostName
+        }
+
         okHttpClientBuilder.addInterceptor(
             HttpLoggingInterceptor()
                 .setLevel(
-                    if (logBody) {
+                    if (ApiClient.logBody) {
                         HttpLoggingInterceptor.Level.BODY
                     } else {
                         HttpLoggingInterceptor.Level.BASIC

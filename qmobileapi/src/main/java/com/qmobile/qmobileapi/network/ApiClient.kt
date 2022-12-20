@@ -22,9 +22,10 @@ import java.util.concurrent.TimeUnit
 object ApiClient {
 
     private const val HTTP_PREFIX = "http://"
-    private const val HTTPS_PREFIX = "https://"
+    internal const val HTTPS_PREFIX = "https://"
     const val SERVER_ENDPOINT = "/mobileapp/"
     const val REQUEST_TIMEOUT = 15
+    internal var logBody = false
 
     private var retrofitLogin: Retrofit? = null
     var retrofit: Retrofit? = null
@@ -53,7 +54,6 @@ object ApiClient {
         loginApiService: LoginApiService,
         loginRequiredCallback: LoginRequiredCallback,
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean = false,
         mapper: ObjectMapper
     ): ApiService {
         INSTANCE?.let {
@@ -65,7 +65,6 @@ object ApiClient {
                     loginApiService,
                     loginRequiredCallback,
                     sharedPreferencesHolder,
-                    logBody,
                     mapper
                 ).create(
                     ApiService::class.java
@@ -82,13 +81,12 @@ object ApiClient {
     fun getLoginApiService(
         baseUrl: String = "",
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean = false,
         mapper: ObjectMapper
     ): LoginApiService {
         LOGIN_INSTANCE?.let {
             return it
         } ?: kotlin.run {
-            val service = getClientLogin(baseUrl, sharedPreferencesHolder, logBody, mapper).create(
+            val service = getClientLogin(baseUrl, sharedPreferencesHolder, mapper).create(
                 LoginApiService::class.java
             )
             LOGIN_INSTANCE = service
@@ -100,14 +98,13 @@ object ApiClient {
     fun getAccessibilityApiService(
         baseUrl: String = "",
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean = false,
         mapper: ObjectMapper
     ): AccessibilityApiService {
         ACCESSIBILITY_INSTANCE?.let {
             return it
         } ?: kotlin.run {
             val service =
-                getClientAccessibility(baseUrl, sharedPreferencesHolder, logBody, mapper).create(
+                getClientAccessibility(baseUrl, sharedPreferencesHolder, mapper).create(
                     AccessibilityApiService::class.java
                 )
             ACCESSIBILITY_INSTANCE = service
@@ -124,7 +121,6 @@ object ApiClient {
         loginApiService: LoginApiService,
         loginRequiredCallback: LoginRequiredCallback,
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean,
         mapper: ObjectMapper
     ): Retrofit {
         retrofit?.let {
@@ -139,7 +135,6 @@ object ApiClient {
                     loginApiService,
                     loginRequiredCallback,
                     sharedPreferencesHolder,
-                    logBody,
                     mapper
                 )
             )
@@ -156,7 +151,6 @@ object ApiClient {
     private fun getClientLogin(
         baseUrl: String,
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean,
         mapper: ObjectMapper
     ): Retrofit {
         retrofitLogin?.let {
@@ -171,7 +165,6 @@ object ApiClient {
                     null,
                     null,
                     sharedPreferencesHolder,
-                    logBody,
                     mapper
                 )
             )
@@ -185,7 +178,6 @@ object ApiClient {
     private fun getClientAccessibility(
         baseUrl: String,
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean,
         mapper: ObjectMapper
     ): Retrofit {
         retrofitAccessibility?.let {
@@ -200,7 +192,6 @@ object ApiClient {
                     null,
                     null,
                     sharedPreferencesHolder,
-                    logBody,
                     mapper
                 )
             )
@@ -233,7 +224,6 @@ object ApiClient {
         loginApiService: LoginApiService?,
         loginRequiredCallback: LoginRequiredCallback?,
         sharedPreferencesHolder: SharedPreferencesHolder,
-        logBody: Boolean,
         mapper: ObjectMapper
     ): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient().newBuilder()
@@ -302,5 +292,9 @@ object ApiClient {
      */
     fun dataSyncFinished() {
         authenticationInterceptor.reinitializeInterceptorRetryState()
+    }
+
+    fun setLogBody(logBody: Boolean) {
+        this.logBody = logBody
     }
 }
