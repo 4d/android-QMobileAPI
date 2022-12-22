@@ -7,6 +7,7 @@
 package com.qmobile.qmobileapi.network
 
 import io.reactivex.Single
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -32,7 +33,8 @@ interface FeedbackApiService {
     @POST("/")
     fun sendFile(
         @Header("Content-Type") mime: String = "application/zip",
-        @Part zip: RequestBody
+        @Part body: RequestBody,
+        @Part file: MultipartBody.Part
     ): Single<Response<ResponseBody>>
 
     /**

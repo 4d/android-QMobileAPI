@@ -47,7 +47,7 @@ open class SharedPreferencesHolder(val context: Context) {
 
         const val LAST_LOGIN_MAIL = "last_login_mail"
 
-        const val DISPLAY_CRASH_DIALOG = "display_crash_dialog"
+        const val CRASH_LOG_SAVED_FOR_LATER = "crash_log_saved_for_later"
     }
 
     fun init() {
@@ -153,10 +153,10 @@ open class SharedPreferencesHolder(val context: Context) {
             prefs[LAST_LOGIN_MAIL] = value
         }
 
-    var displayCrashDialog: Boolean
-        get() = prefs[DISPLAY_CRASH_DIALOG] ?: false
+    var crashLogSavedForLater: String
+        get() = prefs[CRASH_LOG_SAVED_FOR_LATER] ?: ""
         set(value) {
-            prefs.editImmediately { it.putBoolean(DISPLAY_CRASH_DIALOG, value) }
+            prefs[CRASH_LOG_SAVED_FOR_LATER] = value
         }
 
     /**

@@ -13,6 +13,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
@@ -35,12 +36,14 @@ class FeedbackRepository(private val feedbackApiService: FeedbackApiService) {
     }
 
     fun sendCrashLogs(
-        zip: RequestBody,
+        body: RequestBody,
+        filePart: MultipartBody.Part,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
         disposable.add(
             feedbackApiService.sendFile(
-                zip = zip
+                body = body,
+                file = filePart
             ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(DisposableSingleObserver(onResult))
