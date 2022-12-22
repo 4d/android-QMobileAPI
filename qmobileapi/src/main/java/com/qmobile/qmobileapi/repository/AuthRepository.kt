@@ -89,7 +89,7 @@ open class AuthRepository(private val loginApiService: LoginApiService) {
     }
 
     /**
-     * Performs licensecheck request
+     * Performs $licensecheck request
      */
     fun licenseCheck(onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit) {
         disposable.add(
