@@ -11,7 +11,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -27,19 +26,13 @@ interface FeedbackApiService {
     fun checkAccessibility(): Single<Response<ResponseBody>>
 
     /**
-     * Send a crash log zip file
+     * Send feedback and crash logs
      */
     @Multipart
     @POST("/")
-    fun sendFile(
+    fun sendFeedbackAndLogs(
         @Header("Content-Type") mime: String = "application/zip",
         @Part body: RequestBody,
-        @Part file: MultipartBody.Part
+        @Part file: MultipartBody.Part?
     ): Single<Response<ResponseBody>>
-
-    /**
-     * Send feedback
-     */
-    @POST("/")
-    fun sendFeedback(@Body body: RequestBody): Single<Response<ResponseBody>>
 }
