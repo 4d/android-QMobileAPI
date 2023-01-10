@@ -32,7 +32,7 @@ class FeedbackRepository(private val feedbackApiService: FeedbackApiService) {
 
     fun sendFeedbackAndLogs(
         body: RequestBody,
-        filePart: MultipartBody.Part?,
+        filePart: MultipartBody.Part,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
         disposable.add(

@@ -17,7 +17,8 @@ import java.util.concurrent.TimeUnit
 
 object FeedbackApiClient {
 
-    private const val BASE_URL = "https://bugs.4d.com"
+//    private const val BASE_URL = "https://bugs.4d.com"
+    private const val BASE_URL = "https://testbugs.4d.com"
 
     var retrofit: Retrofit? = null
     private var okHttpClient: OkHttpClient? = null

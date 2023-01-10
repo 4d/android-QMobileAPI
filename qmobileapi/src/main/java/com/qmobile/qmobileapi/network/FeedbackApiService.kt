@@ -32,7 +32,7 @@ interface FeedbackApiService {
     @POST("/")
     fun sendFeedbackAndLogs(
         @Header("Content-Type") mime: String = "application/zip",
-        @Part body: RequestBody,
-        @Part file: MultipartBody.Part?
+        @Part("body") body: RequestBody,
+        @Part file: MultipartBody.Part
     ): Single<Response<ResponseBody>>
 }
