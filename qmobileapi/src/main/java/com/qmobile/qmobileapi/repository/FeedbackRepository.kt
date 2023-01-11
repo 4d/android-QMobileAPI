@@ -30,14 +30,14 @@ class FeedbackRepository(private val feedbackApiService: FeedbackApiService) {
         )
     }
 
-    fun sendFeedbackAndLogs(
-        body: RequestBody,
-        filePart: MultipartBody.Part,
+    fun send(
+        partMap: MutableMap<String, RequestBody>,
+        filePart: MultipartBody.Part?,
         onResult: (isSuccess: Boolean, response: Response<ResponseBody>?, error: Any?) -> Unit
     ) {
         disposable.add(
-            feedbackApiService.sendFeedbackAndLogs(
-                body = body,
+            feedbackApiService.send(
+                partMap = partMap,
                 file = filePart
             ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
