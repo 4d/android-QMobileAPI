@@ -48,6 +48,7 @@ open class SharedPreferencesHolder(val context: Context) {
         const val LAST_LOGIN_MAIL = "last_login_mail"
 
         const val CRASH_LOG_SAVED_FOR_LATER = "crash_log_saved_for_later"
+        const val BUILD_INFO = "buildInfo"
     }
 
     fun init() {
@@ -56,6 +57,7 @@ open class SharedPreferencesHolder(val context: Context) {
         device = DeviceInfo.build(context)
         team = AuthInfoHolder.buildTeam(appInfoJsonObj)
         language = LanguageInfo.build()
+        buildInfo = BuildInfoHelper.build(appInfo)
     }
 
     val prefs = defaultPrefs(context)
@@ -69,6 +71,13 @@ open class SharedPreferencesHolder(val context: Context) {
         get() = JSONObject(prefs[AUTH_APPLICATION] ?: "{}")
         set(value) {
             prefs[AUTH_APPLICATION] = value
+        }
+
+    // Application Info
+    var buildInfo: JSONObject
+        get() = JSONObject(prefs[BUILD_INFO] ?: "{}")
+        set(value) {
+            prefs[BUILD_INFO] = value
         }
 
     // Device Info
