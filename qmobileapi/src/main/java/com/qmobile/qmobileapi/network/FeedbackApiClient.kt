@@ -17,33 +17,30 @@ import java.util.concurrent.TimeUnit
 
 object FeedbackApiClient {
 
-//    private const val BASE_URL = "https://bugs.4d.com"
-    private const val BASE_URL = "https://testbugs.4d.com"
-
     var retrofit: Retrofit? = null
     private var okHttpClient: OkHttpClient? = null
 
     @Volatile
     var INSTANCE: FeedbackApiService? = null
 
-    fun getApiService(): FeedbackApiService {
+    fun getApiService(baseUrl: String): FeedbackApiService {
         INSTANCE?.let {
             return it
         } ?: kotlin.run {
-            val service = getClient().create(FeedbackApiService::class.java)
+            val service = getClient(baseUrl).create(FeedbackApiService::class.java)
             INSTANCE = service
             Timber.v("FeedbackApiService created")
             return service
         }
     }
 
-    private fun getClient(): Retrofit {
+    private fun getClient(baseUrl: String): Retrofit {
         retrofit?.let {
             return it
         }
         val newRetrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient ?: initOkHttp())
+            .baseUrl(baseUrl)
+            .client(okHttpClient ?: initOkHttp(baseUrl))
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
@@ -51,13 +48,13 @@ object FeedbackApiClient {
         return newRetrofit
     }
 
-    private fun initOkHttp(): OkHttpClient {
+    private fun initOkHttp(baseUrl: String): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient().newBuilder()
             .connectTimeout(ApiClient.REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .readTimeout(ApiClient.REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .writeTimeout(ApiClient.REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
 
-        val hostName = BASE_URL.removePrefix(ApiClient.HTTPS_PREFIX)
+        val hostName = baseUrl.removePrefix(ApiClient.HTTPS_PREFIX)
 
         val clientCertificates = HandshakeCertificates.Builder()
             .addPlatformTrustedCertificates()
