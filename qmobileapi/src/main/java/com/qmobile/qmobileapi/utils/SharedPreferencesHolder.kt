@@ -57,7 +57,7 @@ open class SharedPreferencesHolder(val context: Context) {
         device = DeviceInfo.build(context)
         team = AuthInfoHolder.buildTeam(appInfoJsonObj)
         language = LanguageInfo.build()
-        buildInfo = BuildInfoHelper.build(appInfo)
+        buildInfo = BuildInfoHelper.build(appInfoJsonObj)
     }
 
     val prefs = defaultPrefs(context)
