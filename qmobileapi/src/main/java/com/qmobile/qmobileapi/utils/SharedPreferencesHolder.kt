@@ -177,7 +177,6 @@ open class SharedPreferencesHolder(val context: Context) {
             put(AUTH_PASSWORD, password)
             put(AUTH_APPLICATION, appInfo)
             put(AUTH_DEVICE, device)
-            put(AUTH_TEAM, team)
             put(AUTH_LANGUAGE, language)
             put(AUTH_PARAMETERS, parameters)
         }
