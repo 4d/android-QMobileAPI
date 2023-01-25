@@ -18,7 +18,6 @@ import com.qmobile.qmobileapi.utils.SharedPreferencesHolder.Companion.AUTH_EMAIL
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder.Companion.AUTH_LANGUAGE
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder.Companion.AUTH_PARAMETERS
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder.Companion.AUTH_PASSWORD
-import com.qmobile.qmobileapi.utils.SharedPreferencesHolder.Companion.AUTH_TEAM
 import org.json.JSONObject
 import org.junit.Assert
 import org.junit.Before
@@ -169,8 +168,6 @@ class SharedPreferencesHolderTest {
         Assert.assertTrue(authRequestBody[AUTH_APPLICATION] is JSONObject)
         Assert.assertNotNull(authRequestBody[AUTH_DEVICE])
         Assert.assertTrue(authRequestBody[AUTH_DEVICE] is JSONObject)
-        Assert.assertNotNull(authRequestBody[AUTH_TEAM])
-        Assert.assertTrue(authRequestBody[AUTH_TEAM] is JSONObject)
         Assert.assertNotNull(authRequestBody[AUTH_LANGUAGE])
         Assert.assertTrue(authRequestBody[AUTH_LANGUAGE] is JSONObject)
         Assert.assertNotNull(authRequestBody[AUTH_PARAMETERS])
