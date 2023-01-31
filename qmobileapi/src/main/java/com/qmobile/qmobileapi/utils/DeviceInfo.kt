@@ -15,7 +15,7 @@ import timber.log.Timber
 object DeviceInfo {
 
     private const val ID = "id"
-    private const val SIMULATOR = "simulator"
+    const val SIMULATOR = "simulator"
     private const val DESCRIPTION = "description"
     private const val VERSION = "version"
     private const val OS = "os"
