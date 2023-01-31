@@ -12,8 +12,11 @@ data class ActionResponse(
     val success: Boolean,
     val statusText: String?,
     val dataSynchro: Boolean?,
-    val errors: List<ActionError>?
+    val errors: List<ActionError>?,
+    val share: List<ShareInfo>? = null
 )
+
+data class ShareInfo(val value: String, val type: String)
 
 data class ActionError(val parameter: String, val message: String) : Serializable {
     companion object {
