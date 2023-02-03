@@ -7,6 +7,7 @@
 package com.qmobile.qmobileapi.utils
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.JsonSyntaxException
 import timber.log.Timber
@@ -32,6 +33,9 @@ inline fun <reified T : Any> retrieveResponseObject(mapper: ObjectMapper, jsonSt
     jsonString.extractJSON()?.let {
         return try {
             mapper.parseToType(it)
+        } catch (e: MismatchedInputException) {
+            Timber.w("MismatchedInputException: Failed to decode action response ${e.message}: $jsonString")
+            null
         } catch (e: JsonSyntaxException) {
             Timber.w("Failed to decode action response ${e.message}: $jsonString")
             null
