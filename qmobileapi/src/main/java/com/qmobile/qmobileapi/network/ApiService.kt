@@ -17,6 +17,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+@Suppress("TooManyFunctions")
 interface ApiService {
 
     /*
@@ -142,5 +143,13 @@ interface ApiService {
         @Header("Content-Type") mime: String = "image/png",
         @Query("\$rawPict", encoded = true) rawPict: Boolean = true,
         @Body body: RequestBody
+    ): Single<Response<ResponseBody>>
+
+    /**
+     * Sends userInfo with device token for push notifications
+     */
+    @POST("\$userInfo")
+    fun sendUserInfo(
+        @Body body: MutableMap<String, Any>
     ): Single<Response<ResponseBody>>
 }

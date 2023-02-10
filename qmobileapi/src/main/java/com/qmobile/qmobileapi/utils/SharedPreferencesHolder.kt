@@ -6,6 +6,7 @@
 
 package com.qmobile.qmobileapi.utils
 
+import android.app.NotificationManager
 import android.content.Context
 import android.webkit.CookieManager
 import com.qmobile.qmobileapi.model.auth.AuthResponse
@@ -20,7 +21,8 @@ import retrofit2.Response
  */
 open class SharedPreferencesHolder(val context: Context) {
 
-    companion object : SingletonHolder<SharedPreferencesHolder, Context>(::SharedPreferencesHolder) {
+    companion object :
+        SingletonHolder<SharedPreferencesHolder, Context>(::SharedPreferencesHolder) {
         const val AUTH_EMAIL = "email"
         const val AUTH_PASSWORD = "password"
         const val AUTH_APPLICATION = "application"
@@ -49,6 +51,8 @@ open class SharedPreferencesHolder(val context: Context) {
 
         const val CRASH_LOG_SAVED_FOR_LATER = "crash_log_saved_for_later"
         const val BUILD_INFO = "buildInfo"
+        const val FCM_TOKEN = "fcm_token"
+        const val NOTIFICATIONS_IDS = "notifications_ids"
     }
 
     fun init() {
@@ -168,10 +172,26 @@ open class SharedPreferencesHolder(val context: Context) {
             prefs[CRASH_LOG_SAVED_FOR_LATER] = value
         }
 
+    var fcmToken: String
+        get() = privatePrefs[FCM_TOKEN] ?: ""
+        set(value) {
+            privatePrefs[FCM_TOKEN] = value
+        }
+
+    var notificationsIds: String
+        get() = privatePrefs[NOTIFICATIONS_IDS] ?: ""
+        set(value) {
+            privatePrefs[NOTIFICATIONS_IDS] = value
+        }
+
     /**
      * Builds the request body for $authenticate request
      */
-    fun buildAuthRequestBody(email: String, password: String, parameters: JSONObject = JSONObject()): JSONObject {
+    fun buildAuthRequestBody(
+        email: String,
+        password: String,
+        parameters: JSONObject = JSONObject()
+    ): JSONObject {
         return JSONObject().apply {
             put(AUTH_EMAIL, email)
             put(AUTH_PASSWORD, password)
@@ -212,5 +232,22 @@ open class SharedPreferencesHolder(val context: Context) {
     fun clearCookies() {
         cookieManager.removeSessionCookies(null)
         cookies = ""
+    }
+
+    fun addNotificationId(newId: Int) {
+        notificationsIds =
+            notificationsIds.split(",").toMutableList().apply { add(newId.toString()) }.toString()
+    }
+
+    fun removeNotificationId(currentId: Int) {
+        if (currentId == -1) return
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(currentId)
+        notificationsIds = getNotificationsIds().apply { remove(currentId.toString()) }.toString()
+    }
+
+    private fun getNotificationsIds(): MutableList<String> {
+        return notificationsIds.split(",").toMutableList()
     }
 }
