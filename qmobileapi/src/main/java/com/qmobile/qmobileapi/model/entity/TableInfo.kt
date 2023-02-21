@@ -8,6 +8,7 @@ package com.qmobile.qmobileapi.model.entity
 
 data class TableInfo(
     val originalName: String,
+    val label: String,
     val query: String,
     val fields: Map<String, String>, // <field.name.fieldAdjustment(), field.name>
     val searchFields: List<String>,
