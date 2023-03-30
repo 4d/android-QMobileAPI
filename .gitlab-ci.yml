@@ -18,8 +18,10 @@ cache:
 
 .prepare_sdk: &prepare_sdk |
   export ANDROID_HOME=$HOME/Library/Android/sdk
-  export ANDROID_SDK_HOME=$ANDROID_HOME
   export ANDROID_SDK_ROOT=$ANDROID_HOME
+  export ANDROID_PREFS_ROOT=$HOME
+  export ANDROID_SDK_HOME=$ANDROID_PREFS_ROOT
+  export ANDROID_USER_HOME=$ANDROID_PREFS_ROOT/.android
   export PATH=$PATH:$ANDROID_HOME/platform-tools/
   export PATH=$PATH:$ANDROID_HOME/tools/
   export PATH=$PATH:$ANDROID_HOME/tools/bin/
