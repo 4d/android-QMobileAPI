@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-cd .
+cd "$SCRIPT_DIR"
 
 SOURCE_DIR=$(find . -maxdepth 1 -type d -name 'qmobile*' -print -quit)
 
