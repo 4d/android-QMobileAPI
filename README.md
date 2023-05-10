@@ -17,21 +17,29 @@ To check also your development environment you can run instead [`build.sh`](buil
 
 ### Requirements
 
+By installing [Android Studio](https://developer.android.com/) you could fulfill all requirements, but you could also download them separately.
+
 #### Java 11
 
-💡 Java 11 is embedded in recent Android Studio versions.
+You could download it [here](https://www.oracle.com/java/technologies/downloads/)
+
+💡 Java 11 is embedded in recent Android Studio versions. For instance on macOS you could do 
+
+```bash
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+```
 
 #### Android SDK
 
-To build you should download Android SDK or Android Studio.
+To build you should download Android SDK or use one provided by Android Studio.
 
-Then set `ANDROID_HOME` environnement variable.
+Then `ANDROID_HOME` environnement variable must defined the SDK path.
 
 ```bash
 export ANDROID_HOME=<path to sdk>
 ```
 
-Default path when using Android Studio for Android SDK on macOS is `$HOME/Library/Android/sdk` and linux `$HOME/Android/Sdk `
+Default path when using Android Studio for Android SDK on macOS is `$HOME/Library/Android/sdk` and on linux `$HOME/Android/Sdk`
 
 ## Dependencies
 
