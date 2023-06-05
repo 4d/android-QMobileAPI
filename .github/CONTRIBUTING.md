@@ -24,6 +24,7 @@ _Of course you could propose a fix using pull request._
 * Prefer to develop in a topic branch, not in `main` (`feature/name`, `fix/name`).
 * Update documentation where applicable.
 * If any bug related, add `#<id>` in commit message or pull request.
+* ⚠️ You need to sign the [Contribution Licence Agreement](cla/4DCLA.md) for the first pull request
 
 ### Only touch relevant files
 
