@@ -232,7 +232,7 @@ object ApiClient {
             .writeTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
 
         val hostName =
-            sharedPreferencesHolder.remoteUrl.removePrefix(HTTP_PREFIX).removePrefix(HTTPS_PREFIX).removeSuffix("/")
+            sharedPreferencesHolder.remoteUrl.removePrefix(HTTP_PREFIX).removePrefix(HTTPS_PREFIX).removeSuffix("/").substringBefore(":")
 
         val clientCertificates = HandshakeCertificates.Builder()
             .addPlatformTrustedCertificates()
