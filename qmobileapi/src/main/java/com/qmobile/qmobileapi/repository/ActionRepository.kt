@@ -41,9 +41,9 @@ class ActionRepository(private val apiService: ApiService) {
      * Performs $upload request
      */
     fun uploadImage(
-        imagesToUpload: Map<String, RequestBody?>,
+        imagesToUpload: Map<String, Result<RequestBody>>,
         onImageUploaded:
-            (isSuccess: Boolean, parameterName: String, response: Response<ResponseBody>?, error: Any?) -> Unit,
+            (isSuccess: Boolean, parameterName: String, response: Response<ResponseBody>?, error: Throwable?) -> Unit,
         onAllUploadFinished: () -> Unit
     ) {
         disposable.add(
@@ -53,12 +53,12 @@ class ActionRepository(private val apiService: ApiService) {
                 }
                 .concatMapSingle {
                     val parameterName = it.key
-                    it.value?.let { requestBody ->
-                        apiService.uploadImage(body = requestBody)
-                            .map { response ->
-                                parameterName to response
-                            }
-                    }
+                    val result = it.value
+                    val requestBody = result.getOrThrow() // we have postponed error here to be managed by listeners
+                    apiService.uploadImage(body = requestBody)
+                        .map { response ->
+                            parameterName to response
+                        }
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

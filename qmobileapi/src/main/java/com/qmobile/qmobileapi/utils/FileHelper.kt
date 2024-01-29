@@ -38,7 +38,15 @@ object FileHelper {
         return result
     }
 
-    fun repairUri(uriString: String): Uri {
+    fun repairUri(uriData: Any): Uri {
+        return when (uriData) {
+            is Uri -> uriData as Uri // do not transform uri
+            is String -> repairUriString(uriData as String)
+           else -> repairUriString(uriData.toString())
+        }
+    }
+
+    private fun repairUriString(uriString: String): Uri {
         val uriBuilder: String = when {
             uriString.startsWith("/") -> "file://$uriString"
             uriString.startsWith("content://") -> uriString
