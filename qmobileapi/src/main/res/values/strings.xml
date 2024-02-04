@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    HTTP code messages -->
+    <string name="continue_key">Continue</string>
+    <string name="switching_protocols">Switching Protocols</string>
+    <string name="processing">Processing</string>
+
+    <string name="ok">OK</string>
+    <string name="created">Created</string>
+    <string name="accepted">Accepted</string>
+    <string name="non_authoritative_information">Non Authoritative Information</string>
+    <string name="no_content">No Content</string>
+    <string name="reset_content">Reset Content</string>
+    <string name="partial_content">Partial Content</string>
+
+    <string name="multiple_choices">Multiple Choices</string>
+    <string name="moved_permanently">Moved Permanently</string>
+    <string name="found">Found</string>
+    <string name="see_other">See Other</string>
+    <string name="not_modified">Not Modified</string>
+    <string name="use_proxy">Use Proxy</string>
+    <string name="switch_proxy">Switch Proxy</string>
+    <string name="temporary_redirect">Temporary Redirect</string>
+    <string name="permanent_redirect">Permanent Redirect</string>
+
+    <string name="bad_request">Bad Request</string>
+    <string name="unauthorized">Unauthorized</string>
+    <string name="payment_required">Payment Required</string>
+    <string name="forbidden">Forbidden</string>
+    <string name="not_found">Not Found</string>
+    <string name="method_not_allowed">Method Not Allowed</string>
+    <string name="not_acceptable">Not Acceptable</string>
+    <string name="proxy_authentication_required">Proxy Authentication Required</string>
+    <string name="request_timeout">Request Timeout</string>
+    <string name="conflict">Conflict</string>
+    <string name="gone">Gone</string>
+    <string name="length_required">Length Required</string>
+    <string name="precondition_failed">Precondition Failed</string>
+    <string name="request_entity_too_large">Request Entity Too Large</string>
+    <string name="request_uri_too_long">Request URI Too Long</string>
+    <string name="unsupported_media_type">Unsupported Media Type</string>
+    <string name="requested_range_not_satisfiable">Requested Range Not Satisfiable</string>
+    <string name="expectation_failed">Expectation Failed</string>
+    <string name="im_a_teapot">I\'m A Teapot</string>
+    <string name="authentication_timeout">Authentication Timeout</string>
+    <string name="enhance_your_calm">Enhance Your Calm</string>
+    <string name="unprocessable_entity">Unprocessable Entity</string>
+    <string name="locked">Locked</string>
+    <string name="failed_dependency">Failed Dependency</string>
+    <string name="precondition_required">Precondition Required</string>
+    <string name="too_many_requests">Too Many Requests</string>
+    <string name="request_header_fields_too_large">Request Header Fields Too Large</string>
+
+    <string name="internal_server_error">Internal Server Error</string>
+    <string name="not_implemented">Not Implemented</string>
+    <string name="bad_gateway">Bad Gateway</string>
+    <string name="service_unavailable">Service Unavailable</string>
+    <string name="gateway_timeout">Gateway Timeout</string>
+    <string name="http_version_not_supported">HTTP Version Not Supported</string>
+    <string name="variant_also_negotiates">Variant Also Negotiates</string>
+    <string name="insufficient_storage">Insufficient Storage</string>
+    <string name="loop_detected">Loop Detected</string>
+    <string name="not_extended">Not Extended</string>
+    <string name="network_authentication_required">Network Authentication Required</string>
+
+    <!--    HTTP code reasons -->
+    <string name="reason_too_many_requests">Too many requests send to the application server.</string>
+    <string name="reason_service_unavailable">Service is unavailable currently.</string>
+    <string name="reason_moved_permanently">Resource is moved permanently.</string>
+    <string name="reason_unauthorized">You are no more authenticated. Please log in.</string>
+    <string name="reason_forbidden">You are no more allowed to access the resource or make this action.</string>
+    <string name="reason_not_found">Some information is missing on application server.</string>
+    <string name="reason_method_not_allowed">You are not a allowed to make this request.</string>
+    <string name="reason_not_acceptable">The request is not acceptable.</string>
+    <string name="reason_request_timeout">The server make too much time to respond.</string>
+    <string name="reason_authentication_timeout">Your session has expired, please re-login.</string>
+    <string name="reason_locked">The resource is locked.</string>
+    <string name="reason_not_implemented">Request are not available.</string>
+    <string name="reason_gateway_timeout">Gateway timeout.</string>
+    <string name="reason_internal_error">"The server encountered an error and was unable to complete your request. Please contact the server administrator</string>
+</resources>

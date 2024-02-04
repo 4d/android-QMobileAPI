@@ -6,6 +6,8 @@
 
 package com.qmobile.qmobileapi.utils
 
+import com.qmobile.qmobileapi.R
+
 object HttpCode {
 
     // https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
@@ -78,90 +80,88 @@ object HttpCode {
     private const val networkAuthenticationRequired = 511
 
     @Suppress("LongMethod")
-    fun message(code: Int): String =
+    fun message(code: Int): Int? =
         when (code) {
-            continue_key -> "Continue"
-            switchingProtocols -> "Switching Protocols"
-            processing -> "Processing"
+            continue_key -> R.string.continue_key
+            switchingProtocols -> R.string.switching_protocols
+            processing -> R.string.processing
 
-            ok -> "OK"
-            created -> "Created"
-            accepted -> "Accepted"
-            nonAuthoritativeInformation -> "Non Authoritative Information"
-            noContent -> "No Content"
-            resetContent -> "Reset Content"
-            partialContent -> "Partial Content"
+            ok -> R.string.ok
+            created -> R.string.created
+            accepted -> R.string.accepted
+            nonAuthoritativeInformation -> R.string.non_authoritative_information
+            noContent -> R.string.no_content
+            resetContent -> R.string.reset_content
+            partialContent -> R.string.partial_content
 
-            multipleChoices -> "Multiple Choices"
-            movedPermanently -> "Moved Permanently"
-            found -> "Found"
-            seeOther -> "See Other"
-            notModified -> "Not Modified"
-            useProxy -> "Use Proxy"
-            switchProxy -> "Switch Proxy"
-            temporaryRedirect -> "Temporary Redirect"
-            permanentRedirect -> "Permanent Redirect"
+            multipleChoices -> R.string.multiple_choices
+            movedPermanently -> R.string.moved_permanently
+            found -> R.string.found
+            seeOther -> R.string.see_other
+            notModified -> R.string.not_modified
+            useProxy -> R.string.use_proxy
+            switchProxy -> R.string.switch_proxy
+            temporaryRedirect -> R.string.temporary_redirect
+            permanentRedirect -> R.string.permanent_redirect
 
-            badRequest -> "Bad Request"
-            unauthorized -> "Unauthorized"
-            paymentRequired -> "Payment Required"
-            forbidden -> "Forbidden"
-            notFound -> "Not Found"
-            methodNotAllowed -> "Method Not Allowed"
-            notAcceptable -> "Not Acceptable"
-            proxyAuthenticationRequired -> "Proxy Authentication Required"
-            requestTimeout -> "Request Timeout"
-            conflict -> "Conflict"
-            gone -> "Gone"
-            lengthRequired -> "Length Required"
-            preconditionFailed -> "Precondition Failed"
-            requestEntityTooLarge -> "Request Entity Too Large"
-            requestURITooLong -> "Request URI Too Long"
-            unsupportedMediaType -> "Unsupported Media Type"
-            requestedRangeNotSatisfiable -> "Requested Range Not Satisfiable"
-            expectationFailed -> "Expectation Failed"
-            imATeapot -> "I'm A Teapot"
-            authenticationTimeout -> "Authentication Timeout"
-            enhanceYourCalm -> "Enhance Your Calm"
-            unprocessableEntity -> "Unprocessable Entity"
-            locked -> "Locked"
-            failedDependency -> "Failed Dependency"
-            preconditionRequired -> "Precondition Required"
-            tooManyRequests -> "Too Many Requests"
-            requestHeaderFieldsTooLarge -> "Request Header Fields Too Large"
+            badRequest -> R.string.bad_request
+            unauthorized -> R.string.unauthorized
+            paymentRequired -> R.string.payment_required
+            forbidden -> R.string.forbidden
+            notFound -> R.string.not_found
+            methodNotAllowed -> R.string.method_not_allowed
+            notAcceptable -> R.string.not_acceptable
+            proxyAuthenticationRequired -> R.string.proxy_authentication_required
+            requestTimeout -> R.string.request_timeout
+            conflict -> R.string.conflict
+            gone -> R.string.gone
+            lengthRequired -> R.string.length_required
+            preconditionFailed -> R.string.precondition_failed
+            requestEntityTooLarge -> R.string.request_entity_too_large
+            requestURITooLong -> R.string.request_uri_too_long
+            unsupportedMediaType -> R.string.unsupported_media_type
+            requestedRangeNotSatisfiable -> R.string.requested_range_not_satisfiable
+            expectationFailed -> R.string.expectation_failed
+            imATeapot -> R.string.im_a_teapot
+            authenticationTimeout -> R.string.authentication_timeout
+            enhanceYourCalm -> R.string.enhance_your_calm
+            unprocessableEntity -> R.string.unprocessable_entity
+            locked -> R.string.locked
+            failedDependency -> R.string.failed_dependency
+            preconditionRequired -> R.string.precondition_required
+            tooManyRequests -> R.string.too_many_requests
+            requestHeaderFieldsTooLarge -> R.string.request_header_fields_too_large
 
-            internalServerError -> "Internal Server Error"
-            notImplemented -> "Not Implemented"
-            badGateway -> "Bad Gateway"
-            serviceUnavailable -> "Service Unavailable"
-            gatewayTimeout -> "Gateway Timeout"
-            httpVersionNotSupported -> "HTTP Version Not Supported"
-            variantAlsoNegotiates -> "Variant Also Negotiates"
-            insufficientStorage -> "Insufficient Storage"
-            loopDetected -> "Loop Detected"
-            notExtended -> "Not Extended"
-            networkAuthenticationRequired -> "Network Authentication Required"
-            else -> ""
+            internalServerError -> R.string.internal_server_error
+            notImplemented -> R.string.not_implemented
+            badGateway -> R.string.bad_gateway
+            serviceUnavailable -> R.string.service_unavailable
+            gatewayTimeout -> R.string.gateway_timeout
+            httpVersionNotSupported -> R.string.http_version_not_supported
+            variantAlsoNegotiates -> R.string.variant_also_negotiates
+            insufficientStorage -> R.string.insufficient_storage
+            loopDetected -> R.string.loop_detected
+            notExtended -> R.string.not_extended
+            networkAuthenticationRequired -> R.string.network_authentication_required
+            else -> null
         }
 
-    fun reason(code: Int): String? =
+    fun reason(code: Int): Int? =
         when (code) {
-            tooManyRequests -> "Too many requests send to the application server."
-            serviceUnavailable -> "Service is unavailable currently."
-            movedPermanently -> "Resource is moved permanently."
-            unauthorized -> "You are no more authenticated. Please log in."
-            forbidden -> "You are no more allowed to access the resource or make this action."
-            notFound -> "Some information is missing on application server."
-            methodNotAllowed -> "You are not a allowed to make this request."
-            notAcceptable -> "The request is not acceptable."
-            requestTimeout -> "The server make too much time to respond."
-            authenticationTimeout -> "Your session has expired, please re-login."
-            locked -> "The resource is locked."
-            notImplemented -> "Request are not available."
-            gatewayTimeout -> "Gateway timeout."
-            in 500..600 ->
-                "The server encountered an error and was unable to complete your " +
-                    "request. Please contact the server administrator."
+            tooManyRequests -> R.string.reason_too_many_requests
+            serviceUnavailable -> R.string.reason_service_unavailable
+            movedPermanently -> R.string.reason_moved_permanently
+            unauthorized -> R.string.reason_unauthorized
+            forbidden -> R.string.reason_forbidden
+            notFound -> R.string.reason_not_found
+            methodNotAllowed -> R.string.reason_method_not_allowed
+            notAcceptable -> R.string.reason_not_acceptable
+            requestTimeout -> R.string.reason_request_timeout
+            authenticationTimeout -> R.string.reason_authentication_timeout
+            locked -> R.string.reason_locked
+            notImplemented -> R.string.reason_not_implemented
+            gatewayTimeout -> R.string.reason_gateway_timeout
+            in 500..600 -> R.string.reason_internal_error
             else -> null
         }
 }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    HTTP code messages -->
+    <string name="continue_key">Continuer</string>
+    <string name="switching_protocols">Changement de protocole</string>
+    <string name="processing">Traitement en cours</string>
+
+    <string name="ok">OK</string>
+    <string name="created">Créé</string>
+    <string name="accepted">Accepté</string>
+    <string name="non_authoritative_information">Information non autorisée</string>
+    <string name="no_content">Pas de contenu</string>
+    <string name="reset_content">Réinitialiser le contenu</string>
+    <string name="partial_content">Contenu partiel</string>
+
+    <string name="multiple_choices">Choix multiples</string>
+    <string name="moved_permanently">Déplacé définitivement</string>
+    <string name="found">Trouvé</string>
+    <string name="see_other">Voir autre</string>
+    <string name="not_modified">Non modifié</string>
+    <string name="use_proxy">Utiliser un proxy</string>
+    <string name="switch_proxy">Changer de proxy</string>
+    <string name="temporary_redirect">Redirection temporaire</string>
+    <string name="permanent_redirect">Redirection permanente</string>
+
+    <string name="bad_request">Requête incorrecte</string>
+    <string name="unauthorized">Non autorisé</string>
+    <string name="payment_required">Paiement requis</string>
+    <string name="forbidden">Interdit</string>
+    <string name="not_found">Non trouvé</string>
+    <string name="method_not_allowed">Méthode non autorisée</string>
+    <string name="not_acceptable">Non acceptable</string>
+    <string name="proxy_authentication_required">Authentification proxy requise</string>
+    <string name="request_timeout">Délai de la requête dépassé</string>
+    <string name="conflict">Conflit</string>
+    <string name="gone">Parti</string>
+    <string name="length_required">Longueur requise</string>
+    <string name="precondition_failed">Échec de la précondition</string>
+    <string name="request_entity_too_large">Entité de la requête trop grande</string>
+    <string name="request_uri_too_long">URI de la requête trop long</string>
+    <string name="unsupported_media_type">Type de média non pris en charge</string>
+    <string name="requested_range_not_satisfiable">Plage demandée non satisfaisable</string>
+    <string name="expectation_failed">Échec de l\'attente</string>
+    <string name="im_a_teapot">Je suis une théière</string>
+    <string name="authentication_timeout">Délai d\'authentification dépassé</string>
+    <string name="enhance_your_calm">Améliorez votre calme</string>
+    <string name="unprocessable_entity">Entité non traitable</string>
+    <string name="locked">Verrouillé</string>
+    <string name="failed_dependency">Échec de la dépendance</string>
+    <string name="precondition_required">Précondition requise</string>
+    <string name="too_many_requests">Trop de requêtes</string>
+    <string name="request_header_fields_too_large">Champs d\'en-tête de requête trop grands</string>
+
+    <string name="internal_server_error">Erreur interne du serveur</string>
+    <string name="not_implemented">Non implémenté</string>
+    <string name="bad_gateway">Passerelle incorrecte</string>
+    <string name="service_unavailable">Service indisponible</string>
+    <string name="gateway_timeout">Délai de la passerelle dépassé</string>
+    <string name="http_version_not_supported">Version HTTP non prise en charge</string>
+    <string name="variant_also_negotiates">Variante négocie également</string>
+    <string name="insufficient_storage">Stockage insuffisant</string>
+    <string name="loop_detected">Détection de boucle</string>
+    <string name="not_extended">Non étendu</string>
+    <string name="network_authentication_required">Authentification réseau requise</string>
+
+    <!--    HTTP code reasons -->
+    <string name="reason_too_many_requests">Trop de requêtes envoyées au serveur d\'application.</string>
+    <string name="reason_service_unavailable">Le service est actuellement indisponible.</string>
+    <string name="reason_moved_permanently">La ressource a été déplacée de manière permanente.</string>
+    <string name="reason_unauthorized">Vous n\'êtes plus authentifié. Veuillez vous connecter.</string>
+    <string name="reason_forbidden">Vous n\'êtes plus autorisé à accéder à la ressource ou à effectuer cette action.</string>
+    <string name="reason_not_found">Certaines informations manquent sur le serveur d\'application.</string>
+    <string name="reason_method_not_allowed">Vous n\'êtes pas autorisé à effectuer cette requête.</string>
+    <string name="reason_not_acceptable">La requête n\'est pas acceptable.</string>
+    <string name="reason_request_timeout">Le serveur met trop de temps à répondre.</string>
+    <string name="reason_authentication_timeout">Votre session a expiré, veuillez vous reconnecter.</string>
+    <string name="reason_locked">La ressource est verrouillée.</string>
+    <string name="reason_not_implemented">Les requêtes ne sont pas disponibles.</string>
+    <string name="reason_gateway_timeout">Délai de la passerelle dépassé.</string>
+    <string name="reason_internal_error">Le serveur a rencontré une erreur et n\'a pas pu terminer votre demande. Veuillez contacter l'administrateur du serveur.</string>
+</resources>
