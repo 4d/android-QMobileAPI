@@ -77,5 +77,5 @@
     <string name="reason_locked">La ressource est verrouillée.</string>
     <string name="reason_not_implemented">Les requêtes ne sont pas disponibles.</string>
     <string name="reason_gateway_timeout">Délai de la passerelle dépassé.</string>
-    <string name="reason_internal_error">Le serveur a rencontré une erreur et n\'a pas pu terminer votre demande. Veuillez contacter l'administrateur du serveur.</string>
+    <string name="reason_internal_error">Le serveur a rencontré une erreur et n\'a pas pu terminer votre demande. Veuillez contacter l\'administrateur du serveur.</string>
 </resources>
