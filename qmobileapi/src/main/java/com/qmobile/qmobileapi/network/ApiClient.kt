@@ -7,6 +7,7 @@
 package com.qmobile.qmobileapi.network
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.gson.GsonBuilder
 import com.qmobile.qmobileapi.auth.AuthenticationInterceptor
 import com.qmobile.qmobileapi.utils.LoginRequiredCallback
 import com.qmobile.qmobileapi.utils.SharedPreferencesHolder
@@ -138,7 +139,7 @@ object ApiClient {
                     mapper
                 )
             )
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().serializeNulls().create()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
         retrofit = newRetrofit
